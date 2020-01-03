@@ -1,29 +1,25 @@
-import { getRepository } from "typeorm";
 import { Request, Response } from "express";
-import { User } from "../entity/User";
+import UserRepository from "../app/Repositories/UserRepository";
 
 class UserController {
   async all(request: Request, response: Response) {
-    const userRepository = getRepository(User);
-
-    const users = await userRepository.find();
-    response.json(users);
+    const result = await new UserRepository().getAll();
+    response.json(result);
   }
 
   async one(request: Request, response: Response) {
-    const userRepository = getRepository(User);
-    return userRepository.findOne(request.params.id);
+    const result = await new UserRepository().getById(request.params.id);
+    response.json(result);
   }
 
   async save(request: Request, response: Response) {
-    const userRepository = getRepository(User);
-    return userRepository.save(request.body);
+    const result = await new UserRepository().create(request.body);
+    response.json(result);
   }
 
   async remove(request: Request, response: Response) {
-    const userRepository = getRepository(User);
-    let userToRemove = await userRepository.findOne(request.params.id);
-    await userRepository.remove(userToRemove);
+    const result = await new UserRepository().deleteById(request.params.id);
+    response.json(result);
   }
 }
 export default UserController;
