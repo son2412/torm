@@ -4,7 +4,7 @@ import { User } from "../../entity/User";
 export default class UserRepository {
   async getAll() {
     const userRepository = getRepository(User);
-    const users = await userRepository.find();
+    const users = await userRepository.find({ relations: ["roles", "images"] });
     return users;
   }
 

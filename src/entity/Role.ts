@@ -2,15 +2,13 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  ManyToMany,
   JoinTable,
-  OneToMany
+  ManyToMany
 } from "typeorm";
-import { Role } from "./Role";
-import { Image } from "./Image";
+import { User } from "./User";
 
-@Entity("users")
-export class User {
+@Entity("roles")
+export class Role {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -18,22 +16,19 @@ export class User {
   name: string;
 
   @Column()
-  age: number;
+  slug: string;
 
-  @ManyToMany(() => Role)
+  @ManyToMany(() => User)
   @JoinTable({
     name: "user_role",
     joinColumn: {
-      name: "user_id",
+      name: "role_id",
       referencedColumnName: "id"
     },
     inverseJoinColumn: {
-      name: "role_id",
+      name: "user_id",
       referencedColumnName: "id"
     }
   })
-  roles: Role[];
-
-  @OneToMany(() => Image, image => console.log(image))
-  images: Image[]
+  users: User[];
 }
