@@ -34,6 +34,6 @@ export class User {
   })
   roles: Role[];
 
-  @OneToMany(() => Image, image => console.log(image))
+  @OneToMany(() => Image, image => image.user)
   images: Image[]
 }
