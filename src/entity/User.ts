@@ -8,6 +8,8 @@ import {
 } from "typeorm";
 import { Role } from "./Role";
 import { Image } from "./Image";
+import jwt from 'jsonwebtoken';
+import * as _ from 'lodash';
 
 @Entity("users")
 export class User {
@@ -15,10 +17,13 @@ export class User {
   id: number;
 
   @Column()
-  name: string;
+  email: string;
 
   @Column()
-  age: number;
+  password: string;
+
+  @Column()
+  status: number;
 
   @ManyToMany(() => Role)
   @JoinTable({
@@ -36,4 +41,9 @@ export class User {
 
   @OneToMany(() => Image, image => image.user)
   images: Image[]
+
+  generateToken() {
+    const data = _.pick(this, ['id', 'email', 'status']);
+    return jwt.sign({ data }, process.env.JWT_SECRET, { expiresIn: 20160000 });
+  }
 }
