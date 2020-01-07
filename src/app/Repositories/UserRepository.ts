@@ -1,6 +1,6 @@
 import { getRepository } from "typeorm";
 import { User } from "../../entity/User";
-import Hash from "../Services/Hash";
+import Auth from "../Services/Auth";
 
 export default class UserRepository {
   userRepository: any;
@@ -18,7 +18,7 @@ export default class UserRepository {
   }
 
   async create(user) {
-    const data = { ...user, ...{ password: new Hash().hash(user.password) } };
+    const data = { ...user, ...{ password: new Auth().hash(user.password) } };
     const newUser = await this.userRepository.save(data);
     return newUser;
   }
