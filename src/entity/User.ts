@@ -41,9 +41,4 @@ export class User {
 
   @OneToMany(() => Image, image => image.user)
   images: Image[]
-
-  generateToken() {
-    const data = _.pick(this, ['id', 'email', 'status']);
-    return jwt.sign({ data }, process.env.JWT_SECRET, { expiresIn: 20160000 });
-  }
 }

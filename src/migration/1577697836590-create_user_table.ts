@@ -9,7 +9,9 @@ export class createUserTable1577697836590 implements MigrationInterface {
           {
             name: "id",
             type: "int",
-            isPrimary: true
+            isPrimary: true,
+            isGenerated: true,
+            generationStrategy: 'increment',
           },
           {
             name: "email",
