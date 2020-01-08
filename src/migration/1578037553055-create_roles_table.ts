@@ -11,7 +11,7 @@ export class createRolesTable1578037553055 implements MigrationInterface {
             type: "int",
             isPrimary: true,
             isGenerated: true,
-            generationStrategy: 'increment',
+            generationStrategy: "increment"
           },
           {
             name: "name",

@@ -8,8 +8,8 @@ import {
 } from "typeorm";
 import { Role } from "./Role";
 import { Image } from "./Image";
-import jwt from 'jsonwebtoken';
-import * as _ from 'lodash';
+import jwt from "jsonwebtoken";
+import * as _ from "lodash";
 
 @Entity("users")
 export class User {
@@ -39,6 +39,9 @@ export class User {
   })
   roles: Role[];
 
-  @OneToMany(() => Image, image => image.user)
-  images: Image[]
+  @OneToMany(
+    () => Image,
+    image => image.user
+  )
+  images: Image[];
 }

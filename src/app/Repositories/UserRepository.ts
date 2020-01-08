@@ -8,12 +8,14 @@ export default class UserRepository {
     this.userRepository = getRepository(User);
   }
   async getAll() {
-    const users = await this.userRepository.find({ relations: ["roles", "images"] });
+    const users = await this.userRepository.find({
+      relations: ["roles", "images"]
+    });
     return users;
   }
 
   async getByEmail(email: string) {
-    const user = await this.userRepository.findOne({where: {email: email}});
+    const user = await this.userRepository.findOne({ where: { email: email } });
     return user;
   }
 

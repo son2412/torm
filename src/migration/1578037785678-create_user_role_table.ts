@@ -1,4 +1,9 @@
-import { MigrationInterface, QueryRunner, Table, TableForeignKey } from "typeorm";
+import {
+  MigrationInterface,
+  QueryRunner,
+  Table,
+  TableForeignKey
+} from "typeorm";
 
 export class createUserRoleTable1578037785678 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<any> {
@@ -11,7 +16,7 @@ export class createUserRoleTable1578037785678 implements MigrationInterface {
             type: "int",
             isPrimary: true,
             isGenerated: true,
-            generationStrategy: 'increment',
+            generationStrategy: "increment"
           },
           {
             name: "user_id",

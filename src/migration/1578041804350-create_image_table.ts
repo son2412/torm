@@ -11,7 +11,7 @@ export class createImageTable1578041804350 implements MigrationInterface {
             type: "int",
             isPrimary: true,
             isGenerated: true,
-            generationStrategy: 'increment',
+            generationStrategy: "increment"
           },
           {
             name: "url",

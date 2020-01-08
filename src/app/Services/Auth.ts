@@ -1,6 +1,6 @@
-import * as bcrypt from 'bcryptjs';
-import * as _ from 'lodash';
-import * as jwt from 'jsonwebtoken';
+import * as bcrypt from "bcryptjs";
+import * as _ from "lodash";
+import * as jwt from "jsonwebtoken";
 export default class Auth {
   hash(password) {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
@@ -10,7 +10,7 @@ export default class Auth {
   }
 
   generateToken(user) {
-    const data = _.pick(user, ['id', 'email', 'status']);
+    const data = _.pick(user, ["id", "email", "status"]);
     return jwt.sign({ data }, process.env.JWT_SECRET, { expiresIn: 20160000 });
   }
 }
