@@ -20,7 +20,8 @@
       "typeorm": "0.2.22"
    },
    "scripts": {
-      "start": "nodemon src/index.ts",
+      "dev": "nodemon ./src/index.ts",
+      "prod": "tsc && nodemon ./build/index.js",
       "migrate": "ts-node ./node_modules/typeorm/cli.js migration:run",
       "make:migration": "ts-node ./node_modules/typeorm/cli.js migration:create -n"
    }
