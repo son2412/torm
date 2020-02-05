@@ -1,0 +1,28 @@
+<!-- ./client/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button onClick="sendMsg()">Send Me</button>
+    <button onClick="joinRoom()">Join Room</button>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+    <script>
+      const socket = io('http://localhost:3000/chat');
+
+      function sendMsg() {
+        socket.emit('client-send-message', 'Hello');
+      }
+
+      function joinRoom() {
+        socket.emit('JoinRoom', 1);
+      }
+      socket.on('server-send-message', data => console.log(data));
+    </script>
+  </body>
+</html>

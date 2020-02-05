@@ -1,21 +1,22 @@
-import jwt from "jsonwebtoken";
-export const AuthMiddleware = (req, res, next) => {
-  const token = req.headers.authorization || "";
+import { Request, Response, NextFunction } from 'express';
+import { verify } from 'jsonwebtoken';
+
+export function AuthMiddleware(req: Request, res: Response, next: NextFunction) {
+  let token = req.headers['authorization'] || '';
+  if (token.startsWith('Bearer ')) {
+    token = token.slice(7, token.length);
+  }
+
   if (!token) {
-    throw new Error("Token not found");
+    throw new Error('Token not found');
   }
-  const access_token = token.split(" ")[1];
-  console.log(access_token);
-  req.token = token;
-  let decoded;
-  try {
-    decoded = jwt.verify(token, process.env.JWT_SECRET);
-  } catch (error) {
-    throw new Error("Token not found");
-  }
-  if (!decoded) {
-    throw new Error("Token invalid");
-  }
-  req.member = decoded;
-  next();
-};
+
+  verify(token, process.env.JWT_SECRET, async (err, decode) => {
+    if (err) {
+      throw new Error('Token invalid!');
+    }
+    const memberID = Number(decode.user_id);
+    req.user_id = memberID;
+    next();
+  });
+}

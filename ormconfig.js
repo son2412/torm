@@ -1,3 +1,4 @@
+const rootDir = process.env.APP_ENV === 'local' ? 'src' : 'build';
 module.exports = {
   "type": process.env.DB_CONNECTION,
   "host": process.env.DB_HOST,
@@ -7,9 +8,9 @@ module.exports = {
   "database": process.env.DB_NAME,
   "synchronize": false,
   "logging": ["query", "error"],
-  "entities": ["src/entity/**/*.ts"],
-  "migrations": ["src/migration/**/*.ts"],
-  "subscribers": ["src/subscriber/**/*.ts"],
+  entities: [rootDir + '/entity/**/*.{js,ts}'],
+  migrations: [rootDir + '/migration/**/*.{js,ts}'],
+  subscribers: [rootDir + '/subscriber/**/*.{js,ts}'],
   "cli": {
     "entitiesDir": "src/entity",
     "migrationsDir": "src/migration",
