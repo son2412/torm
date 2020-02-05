@@ -15,7 +15,7 @@ export function AuthMiddleware(req: Request, res: Response, next: NextFunction) 
     if (err) {
       throw new Error('Token invalid!');
     }
-    const memberID = Number(decode.user_id);
+    const memberID = Number(decode.id);
     req.user_id = memberID;
     next();
   });
