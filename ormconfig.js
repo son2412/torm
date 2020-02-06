@@ -8,11 +8,11 @@ module.exports = {
   "database": process.env.DB_NAME,
   "synchronize": false,
   "logging": ["query", "error"],
-  entities: [rootDir + '/entity/**/*.{js,ts}'],
+  entities: [rootDir + '/app/Entity/**/*.{js,ts}'],
   migrations: [rootDir + '/migration/**/*.{js,ts}'],
   subscribers: [rootDir + '/subscriber/**/*.{js,ts}'],
   "cli": {
-    "entitiesDir": "src/entity",
+    "entitiesDir": "src/app/Entity",
     "migrationsDir": "src/migration",
     "subscribersDir": "src/subscriber"
   }
