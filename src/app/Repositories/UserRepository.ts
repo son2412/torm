@@ -1,8 +1,8 @@
 import { getRepository } from "typeorm";
-import { User } from "../../entity/User";
+import { User } from "../../entity";
 import Auth from "../Services/Auth";
 
-export default class UserRepository {
+export class UserRepository {
   userRepository: any;
   constructor() {
     this.userRepository = getRepository(User);
