@@ -1,10 +1,11 @@
 import { Request, Response } from "express";
 import { UserRepository } from "../app/Repositories";
+import { SendWelcomeEmailNotification } from "../app/Notifications/SendWelcomeEmailNotification";
 
 export class UserController {
   async all(request: Request, response: Response) {
-    console.log(request.user_id);
     const result = await new UserRepository().getAll();
+    new SendWelcomeEmailNotification(result[0]).sendMail();
     response.json(result);
   }
 }

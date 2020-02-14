@@ -1,4 +1,4 @@
-import nodemailer from "nodemailer";
+import * as nodemailer from "nodemailer";
 import Style from "./Style";
 import * as _ from "lodash";
 
@@ -37,15 +37,15 @@ export default class CustomEmail {
     return this;
   }
 
-  subject(subject: string = "", customStyle: any = null) {
+  subject(subject_email: string = "", customStyle: any = null) {
     this.customSubjectStyle = customStyle;
-    this.subject_email = subject;
+    this.subject_email = subject_email;
     return this;
   }
 
-  greeting(greeting = "", customStyle = null) {
+  greeting(greeting_email = "", customStyle = null) {
     this.customGreetingStyle = customStyle;
-    this.greeting_email = greeting;
+    this.greeting_email = greeting_email;
     return this;
   }
 
@@ -78,7 +78,7 @@ export default class CustomEmail {
                 <div style="${Style.avt}">
                 </div>
                 <div style="${Style.logo}">
-                  <img style="${Style.logo_img}" src="">
+                  <img style="${Style.logo_img}" src="https://v2projectelearningdev.s3.ap-southeast-1.amazonaws.com/4/logo-1570181790575.png">
                 </div>
               </div>`;
     html += _.isNil(this.customSubjectStyle)
