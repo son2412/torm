@@ -20,7 +20,7 @@ export class FileStorage {
     if (process.env.APP_ENV === "local") {
       this.folder = "src/uploads";
     } else {
-      this.folder = "dist/uploads";
+      this.folder = "build/uploads";
     }
     this.type = [];
     this.limit = 10;
