@@ -8,6 +8,7 @@
       "@types/node": "^8.0.29",
       "nodemon": "^1.18.10",
       "ts-node": "3.3.0",
+      "tsconfig-paths": "^3.9.0",
       "typescript": "3.3.3333"
    },
    "dependencies": {
@@ -21,6 +22,7 @@
       "is-svg": "^4.2.1",
       "jsonwebtoken": "^8.5.1",
       "lodash": "^4.17.15",
+      "module-alias": "^2.2.2",
       "multer": "^1.4.2",
       "multer-s3": "^2.9.0",
       "mysql": "^2.14.1",
@@ -32,10 +34,15 @@
       "socket.io": "^2.3.0",
       "typeorm": "0.2.22"
    },
+   "_moduleAliases": {
+      "@entity": "build/app/Entity",
+      "@repository": "build/app/Repositories",
+      "@controller": "build/controller"
+   },
    "scripts": {
-      "dev": "nodemon ./src/index.ts",
+      "dev": "ts-node -r tsconfig-paths/register ./src/index.ts",
+      "prod": "rm -rf build && tsc && nodemon build/index.js",
       "build": "tsc",
-      "prod": "tsc && node ./build/index.js",
       "migrate": "ts-node ./node_modules/typeorm/cli.js migration:run",
       "make:migration": "ts-node ./node_modules/typeorm/cli.js migration:create -n",
       "recreatedb": "ts-node ./node_modules/typeorm/cli.js schema:drop && npm run migrate",

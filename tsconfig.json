@@ -8,10 +8,21 @@
       "module": "commonjs",
       "moduleResolution": "node",
       "outDir": "./build",
+      "resolveJsonModule": true,
+      "allowSyntheticDefaultImports": true,
       "emitDecoratorMetadata": true,
       "experimentalDecorators": true,
       "sourceMap": true,
       "types": [ "node" ],
-      "typeRoots": ["./src/types"]
-   }
+      "typeRoots": ["./src/types"],
+      "baseUrl": "./src",
+      "paths": {
+         "@controller/*": ["controller/*"],
+         "@entity/*": ["app/Entity/*"],
+         "@repository/*": ["app/Repositories/*"]
+      }
+   },
+   "include": ["src/**/*"],
+   "exclude": ["node_modules", "**/*.test.ts"]
+
 }

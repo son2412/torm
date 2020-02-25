@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { UserRepository } from "../app/Repositories";
+import { UserRepository } from "@repository/index";
 import { Auth } from "../app/Services/Auth";
 
 export class UserController {
