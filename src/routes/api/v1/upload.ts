@@ -1,6 +1,6 @@
 import { Request, Response, Router } from "express";
-import { FileStorage } from "../../../app/Services/FileStorage";
-import { AuthMiddleware } from "../../../app/Middleware/AuthMiddleware";
+import { FileStorage } from "@service/FileStorage";
+import { AuthMiddleware } from "@middleware/AuthMiddleware";
 const router = Router();
 
 router.all("*", AuthMiddleware);

@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { UserRepository } from "@repository/index";
-import { Auth } from "../app/Services/Auth";
+import { Auth } from "@service/Auth";
 export class AuthController {
   async login(req: Request, res: Response) {
     const data = req.body;

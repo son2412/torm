@@ -37,7 +37,9 @@
    "_moduleAliases": {
       "@entity": "build/app/Entity",
       "@repository": "build/app/Repositories",
-      "@controller": "build/controller"
+      "@controller": "build/controller",
+      "@service": "build/app/Services",
+      "@middleware": "build/app/Middleware"
    },
    "scripts": {
       "dev": "ts-node -r tsconfig-paths/register ./src/index.ts",

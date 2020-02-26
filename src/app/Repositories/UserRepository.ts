@@ -1,6 +1,6 @@
 import { getRepository } from "typeorm";
 import { User } from "@entity/index";
-import { Auth } from "../Services/Auth";
+import { Auth } from "@service/Auth";
 
 export class UserRepository {
   userRepository: any;

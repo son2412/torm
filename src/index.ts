@@ -5,7 +5,7 @@ import * as express from "express";
 import * as path from "path";
 import * as bodyParser from "body-parser";
 import routes from "./routes";
-import { socket } from "./app/Services/Socket";
+import { socket } from "@service/Socket";
 
 const app = express();
 const http = require("http").Server(app);

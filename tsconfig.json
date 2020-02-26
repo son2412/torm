@@ -19,7 +19,9 @@
       "paths": {
          "@controller/*": ["controller/*"],
          "@entity/*": ["app/Entity/*"],
-         "@repository/*": ["app/Repositories/*"]
+         "@repository/*": ["app/Repositories/*"],
+         "@service/*": ["app/Services/*"],
+         "@middleware/*": ["app/Middleware/*"]
       }
    },
    "include": ["src/**/*"],
