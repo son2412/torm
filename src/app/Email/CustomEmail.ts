@@ -1,7 +1,7 @@
-import * as nodemailer from "nodemailer";
-import Style from "./Style";
-import * as _ from "lodash";
-import { Exception } from "@service/Exception";
+import * as nodemailer from 'nodemailer';
+import Style from './Style';
+import * as _ from 'lodash';
+import { Exception } from '@service/Exception';
 
 export default class CustomEmail {
   private content: string;
@@ -13,14 +13,14 @@ export default class CustomEmail {
   public greeting_email: string;
   to_name: string;
   constructor() {
-    this.content = "";
+    this.content = '';
     this.customGreetingStyle = null;
     this.customSubjectStyle = null;
     this.from_where = process.env.DEFAULT_SENDER_EMAIL;
     this.from_name = process.env.DEFAULT_SENDER;
   }
 
-  to(to, name = "") {
+  to(to, name = '') {
     if (_.isNil(to)) {
       throw new Exception("receiver's email is required");
     }
@@ -29,7 +29,7 @@ export default class CustomEmail {
     return this;
   }
 
-  from(from, name = "") {
+  from(from, name = '') {
     if (_.isNil(from)) {
       throw new Exception("sender's email is required");
     }
@@ -38,33 +38,29 @@ export default class CustomEmail {
     return this;
   }
 
-  subject(subject_email: string = "", customStyle: any = null) {
+  subject(subject_email: string = '', customStyle: any = null) {
     this.customSubjectStyle = customStyle;
     this.subject_email = subject_email;
     return this;
   }
 
-  greeting(greeting_email = "", customStyle = null) {
+  greeting(greeting_email = '', customStyle = null) {
     this.customGreetingStyle = customStyle;
     this.greeting_email = greeting_email;
     return this;
   }
 
-  line(text = "", customStyle = null) {
-    this.content += _.isNil(customStyle)
-      ? `<p style="${Style.paragraph}">${text}</p>`
-      : `<p style="${Style.paragraph} ${customStyle}">${text}</p>`;
+  line(text = '', customStyle = null) {
+    this.content += _.isNil(customStyle) ? `<p style="${Style.paragraph}">${text}</p>` : `<p style="${Style.paragraph} ${customStyle}">${text}</p>`;
     return this;
   }
 
-  section(data = "", customStyle = null) {
-    this.content += _.isNil(customStyle)
-      ? `<div>${data}</div>`
-      : `<div style="${customStyle}">${data}</div>`;
+  section(data = '', customStyle = null) {
+    this.content += _.isNil(customStyle) ? `<div>${data}</div>` : `<div style="${customStyle}">${data}</div>`;
     return this;
   }
 
-  action(text = "", link = "#", type = "default") {
+  action(text = '', link = '#', type = 'default') {
     this.content += `<div style="text-align:center">
             <a href="${link}">
                 <button style="${Style.button} ${Style.button_default}" class="${type}">${text}</button>
@@ -82,15 +78,13 @@ export default class CustomEmail {
                   <img style="${Style.logo_img}" src="https://v2projectelearningdev.s3.ap-southeast-1.amazonaws.com/4/logo-1570181790575.png">
                 </div>
               </div>`;
-    html += _.isNil(this.customSubjectStyle)
-      ? `<h1 style="${Style.subject}">${this.subject}</h1>`
-      : `<h1 style="${Style.subject} ${this.customSubjectStyle}">${this.subject}</h1>`;
+    html += _.isNil(this.customSubjectStyle) ? `<h1 style="${Style.subject}">${this.subject}</h1>` : `<h1 style="${Style.subject} ${this.customSubjectStyle}">${this.subject}</h1>`;
     html += _.isNil(this.customGreetingStyle)
       ? `<div style="${Style.greeting}">${this.greeting}</div>`
       : `<div style="${Style.greeting} ${this.customGreetingStyle}">${this.greeting}</div>`;
     html += `<div style="${Style.content}">${this.content}</div>`;
     html += `<p style="${Style.footer}">&copy; Copyright by Grass</p>`;
-    html += "</body></html>";
+    html += '</body></html>';
     return html;
   }
 
@@ -98,7 +92,7 @@ export default class CustomEmail {
     const transporter = nodemailer.createTransport({
       host: process.env.EMAIL_HOST,
       port: process.env.EMAIL_PORT,
-      secure: process.env.EMAIL_SECURE === "ssl",
+      secure: process.env.EMAIL_SECURE === 'ssl',
       // ignoreTLS: true,
       auth: {
         user: process.env.EMAIL_USER, // generated ethereal user
@@ -120,7 +114,7 @@ export default class CustomEmail {
         if (err) {
           console.log(err);
         } else {
-          console.log("Message sent: " + info.messageId);
+          console.log('Message sent: ' + info.messageId);
           transporter.close();
         }
       }

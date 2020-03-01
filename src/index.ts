@@ -1,21 +1,21 @@
 import 'module-alias/register';
-import "reflect-metadata";
-import { createConnection } from "typeorm";
-import * as express from "express";
-import * as path from "path";
-import * as bodyParser from "body-parser";
-import routes from "./routes";
-import { socket } from "@service/Socket";
+import 'reflect-metadata';
+import { createConnection } from 'typeorm';
+import * as express from 'express';
+import * as path from 'path';
+import * as bodyParser from 'body-parser';
+import routes from './routes';
+import { socket } from '@service/Socket';
 
 const app = express();
-const http = require("http").Server(app);
+const http = require('http').Server(app);
 createConnection()
   .then(async () => {
     app.use(bodyParser.json());
 
-    app.use("/", routes);
-    app.get("/chat", (req: any, res: any) => {
-      res.sendFile(path.resolve("./src/index.html"));
+    app.use('/', routes);
+    app.get('/chat', (req: any, res: any) => {
+      res.sendFile(path.resolve('./src/index.html'));
     });
     socket(http);
 

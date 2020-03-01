@@ -1,6 +1,6 @@
-import { Request, Response } from "express";
-import { UserRepository } from "@repository/index";
-import { ApiRespone } from "@service/ApiRespone";
+import { Request, Response } from 'express';
+import { UserRepository } from '@repository/index';
+import { ApiRespone } from '@service/ApiRespone';
 
 export class UserController {
   async all(req: Request, res: Response) {

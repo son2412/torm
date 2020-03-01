@@ -1,7 +1,7 @@
-import * as _ from "lodash";
+import * as _ from 'lodash';
 
-export const MAIL = "mail";
-export const SMS = "sms";
+export const MAIL = 'mail';
+export const SMS = 'sms';
 
 export class Notification {
   private notifiable: any;
@@ -16,7 +16,7 @@ export class Notification {
   }
 
   async executeEmailTask() {
-    if (process.env.QUEUE_DRIVER === "sync") {
+    if (process.env.QUEUE_DRIVER === 'sync') {
       await this.toMail(this.notifiable).send();
     } else {
       this.toMail(this.notifiable).send();

@@ -1,10 +1,10 @@
 export class Command {
   signature() {
-    throw new Error("Method not implemented");
+    throw new Error('Method not implemented');
   }
 
   description() {
-    return "";
+    return '';
   }
 
   options() {
@@ -12,6 +12,6 @@ export class Command {
   }
 
   handle() {
-    throw new Error("Method not implemented");
+    throw new Error('Method not implemented');
   }
 }

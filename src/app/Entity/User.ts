@@ -1,17 +1,10 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  ManyToMany,
-  JoinTable,
-  OneToMany
-} from "typeorm";
-import { Role } from "./Role";
-import { Image } from "./Image";
-import jwt from "jsonwebtoken";
-import * as _ from "lodash";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, OneToMany } from 'typeorm';
+import { Role } from './Role';
+import { Image } from './Image';
+import jwt from 'jsonwebtoken';
+import * as _ from 'lodash';
 
-@Entity("users")
+@Entity('users')
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
@@ -27,14 +20,14 @@ export class User {
 
   @ManyToMany(() => Role)
   @JoinTable({
-    name: "user_role",
+    name: 'user_role',
     joinColumn: {
-      name: "user_id",
-      referencedColumnName: "id"
+      name: 'user_id',
+      referencedColumnName: 'id'
     },
     inverseJoinColumn: {
-      name: "role_id",
-      referencedColumnName: "id"
+      name: 'role_id',
+      referencedColumnName: 'id'
     }
   })
   roles: Role[];

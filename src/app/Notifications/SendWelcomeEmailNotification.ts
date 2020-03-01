@@ -1,5 +1,5 @@
-import { Notification, MAIL } from "./Notification";
-import CustomEmail from "../Email/CustomEmail";
+import { Notification, MAIL } from './Notification';
+import CustomEmail from '../Email/CustomEmail';
 
 export class SendWelcomeEmailNotification {
   notifiable: any;
@@ -15,11 +15,11 @@ export class SendWelcomeEmailNotification {
   toMail() {
     return new CustomEmail()
       .to(this.notifiable.email)
-      .subject("wellcome")
+      .subject('wellcome')
       .greeting(`Hi ${this.notifiable.email}`)
-      .line("hello !")
-      .action("Button", "https://google.com")
-      .line("At the end is a line of text");
+      .line('hello !')
+      .action('Button', 'https://google.com')
+      .line('At the end is a line of text');
   }
 
   sendMail() {

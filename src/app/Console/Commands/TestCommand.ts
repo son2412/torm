@@ -1,12 +1,12 @@
-import { Command } from "./Command";
+import { Command } from './Command';
 
 export default class TestCommand extends Command {
   signature() {
-    return "test";
+    return 'test';
   }
 
   description() {
-    return "Test command";
+    return 'Test command';
   }
 
   options() {
@@ -14,7 +14,7 @@ export default class TestCommand extends Command {
   }
 
   async handle() {
-    console.log("Hello Son handsome !");
+    console.log('Hello Son handsome !');
     process.exit();
   }
 }

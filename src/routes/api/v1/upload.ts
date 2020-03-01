@@ -1,20 +1,20 @@
-import { Request, Response, Router } from "express";
-import { FileStorage } from "@service/FileStorage";
-import { AuthMiddleware } from "@middleware/AuthMiddleware";
+import { Request, Response, Router } from 'express';
+import { FileStorage } from '@service/FileStorage';
+import { AuthMiddleware } from '@middleware/AuthMiddleware';
 const router = Router();
 
-router.all("*", AuthMiddleware);
-router.post("/s3", uploadS3);
-router.post("/server", upload);
+router.all('*', AuthMiddleware);
+router.post('/s3', uploadS3);
+router.post('/server', upload);
 async function uploadS3(req: Request, res: Response) {
   const service = new FileStorage();
 
   const upload: any = await service
-    .typeFile("image")
-    .typeFile("video")
-    .typeFile("application")
+    .typeFile('image')
+    .typeFile('video')
+    .typeFile('application')
     .limitFileUpload(5)
-    .uploadMultiFile("files");
+    .uploadMultiFile('files');
 
   upload(req, res, function(error) {
     if (error) {
@@ -30,10 +30,10 @@ async function upload(req: Request, res: Response) {
   const service = new FileStorage();
 
   const upload: any = await service
-    .typeFile("image")
-    .setStorageDriver("local")
+    .typeFile('image')
+    .setStorageDriver('local')
     .limitFileUpload(5)
-    .uploadSingleFile("file");
+    .uploadSingleFile('file');
 
   upload(req, res, function(error) {
     if (error) {

@@ -1,7 +1,7 @@
-import { Request, Response } from "express";
-import { AuthRepository } from "@repository/index";
-import { Auth } from "@service/Auth";
-import { ApiRespone } from "@service/ApiRespone";
+import { Request, Response } from 'express';
+import { AuthRepository } from '@repository/index';
+import { Auth } from '@service/Auth';
+import { ApiRespone } from '@service/ApiRespone';
 export class AuthController {
   async signIn(req: Request, res: Response) {
     const data = req.body;

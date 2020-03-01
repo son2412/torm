@@ -1,6 +1,6 @@
-import { getRepository } from "typeorm";
-import { User } from "@entity/index";
-import { Auth } from "@service/Auth";
+import { getRepository } from 'typeorm';
+import { User } from '@entity/index';
+import { Auth } from '@service/Auth';
 
 export class UserRepository {
   userRepository: any;
@@ -9,7 +9,7 @@ export class UserRepository {
   }
   async getAll() {
     const users = await this.userRepository.find({
-      relations: ["roles", "images"]
+      relations: ['roles', 'images']
     });
     return users;
   }
