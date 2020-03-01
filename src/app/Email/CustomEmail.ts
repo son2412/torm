@@ -1,6 +1,7 @@
 import * as nodemailer from "nodemailer";
 import Style from "./Style";
 import * as _ from "lodash";
+import { Exception } from "@service/Exception";
 
 export default class CustomEmail {
   private content: string;
@@ -21,7 +22,7 @@ export default class CustomEmail {
 
   to(to, name = "") {
     if (_.isNil(to)) {
-      throw new Error("receiver's email is required");
+      throw new Exception("receiver's email is required");
     }
     this.to = to;
     this.to_name = name;
@@ -30,7 +31,7 @@ export default class CustomEmail {
 
   from(from, name = "") {
     if (_.isNil(from)) {
-      throw new Error("sender's email is required");
+      throw new Exception("sender's email is required");
     }
     this.from = from;
     this.from_name = name;

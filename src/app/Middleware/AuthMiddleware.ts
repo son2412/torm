@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { verify } from 'jsonwebtoken';
+import { Exception } from '@service/Exception';
 
 export function AuthMiddleware(req: Request, res: Response, next: NextFunction) {
   let token = req.headers['authorization'] || '';
@@ -8,12 +9,12 @@ export function AuthMiddleware(req: Request, res: Response, next: NextFunction) 
   }
 
   if (!token) {
-    throw new Error('Token not found');
+    throw new Exception('Token not found');
   }
 
   verify(token, process.env.JWT_SECRET, async (err, decode) => {
     if (err) {
-      throw new Error('Token invalid!');
+      throw new Exception('Token invalid!');
     }
     const memberID = Number(decode.data.id);
     req.user_id = memberID;

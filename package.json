@@ -42,7 +42,7 @@
       "@middleware": "build/app/Middleware"
    },
    "scripts": {
-      "dev": "ts-node -r tsconfig-paths/register ./src/index.ts",
+      "dev": "yarn build && nodemon --watch ./src --exec ts-node -r tsconfig-paths/register ./src/index.ts",
       "prod": "rm -rf build && tsc && nodemon build/index.js",
       "build": "tsc",
       "migrate": "ts-node ./node_modules/typeorm/cli.js migration:run",
