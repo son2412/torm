@@ -1,33 +1,32 @@
-import { getRepository } from 'typeorm';
 import { User } from '@entity/index';
 import { Auth } from '@service/Auth';
+import { Repository } from './Repository';
+import { getRepository } from 'typeorm';
 
-export class UserRepository {
-  userRepository: any;
+export class UserRepository extends Repository {
+  repository: any;
   constructor() {
-    this.userRepository = getRepository(User);
+    super();
+    this.repository = getRepository(User);
   }
   async getAll() {
-    const users = await this.userRepository.find({
-      relations: ['roles', 'images']
-    });
+    const users = await this.relation(['roles', 'images']).get();
+    return users;
+  }
+
+  async getById(id: number) {
+    const users = await this.relation(['roles', 'images']).findById(id);
     return users;
   }
 
   async getByEmail(email: string) {
-    const user = await this.userRepository.findOne({ where: { email: email } });
+    const user = await this.where('email', email).first();
     return user;
   }
 
   async create(user) {
     const data = { ...user, ...{ password: Auth.hash(user.password) } };
-    const newUser = await this.userRepository.save(data);
+    const newUser = await this.repository.save(data);
     return newUser;
-  }
-
-  async deleteById(id) {
-    const user = await this.userRepository.findOne(id);
-    await this.userRepository.remove(user);
-    return true;
   }
 }

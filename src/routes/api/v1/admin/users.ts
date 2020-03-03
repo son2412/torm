@@ -7,5 +7,6 @@ const router = Router();
 
 router.all('*', AuthMiddleware);
 router.get('/', controller.all);
+router.get('/:id', controller.detail);
 
 export default router;

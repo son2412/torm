@@ -19,8 +19,4 @@ export class Image {
   @ManyToOne(() => User)
   @JoinColumn({ name: 'imageable_id', referencedColumnName: 'id' })
   user: User;
-
-  @ManyToOne(() => Role)
-  @JoinColumn({ name: 'imageable_id', referencedColumnName: 'id' })
-  role: Role;
 }

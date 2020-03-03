@@ -11,4 +11,13 @@ export class UserController {
       res.json(ApiRespone.error(err));
     }
   }
+
+  async detail(req: Request, res: Response) {
+    try {
+      const result = await new UserRepository().getById(Number(req.params.id));
+      res.json(ApiRespone.item(result));
+    } catch (err) {
+      res.json(ApiRespone.error(err));
+    }
+  }
 }

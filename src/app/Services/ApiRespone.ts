@@ -8,12 +8,14 @@ export class ApiRespone {
   }
 
   static paginate(data: any, param?: any) {
+    const pageSize = param.pageSize || 10;
+    const pageIndex = param.pageIndex || 1;
     return {
       data: data[0],
       totalRow: data[1],
-      totalPage: Math.ceil(data[1] / param.pageSize),
-      currentPage: param.pageIndex,
-      perPage: param.pageSize
+      totalPage: Math.ceil(data[1] / pageSize),
+      currentPage: pageIndex,
+      perPage: pageSize
     };
   }
 
