@@ -1,16 +1,19 @@
 import * as _ from 'lodash';
 import { Exception } from '@service/Exception';
+import { In, Not } from 'typeorm';
 export abstract class Repository {
   abstract repository: any;
   include: any;
   condition: any;
+  order: any;
   constructor() {
     this.include = [];
     this.condition = [];
+    this.order = {};
   }
 
   async get() {
-    const param = { where: this.condition, relations: this.include };
+    const param = { where: this.condition, relations: this.include, order: this.order };
     const result = await this.repository.find(param);
     return result;
   }
@@ -51,6 +54,47 @@ export abstract class Repository {
     if (!_.isArray(value)) {
       throw new Exception('Value must be array');
     }
+    const query = {};
+    query[column] = In(value);
+    if (_.isEmpty(this.condition)) {
+      this.condition.push(query);
+    } else {
+      _.assign(this.condition[0], query);
+    }
+    return this;
+  }
+
+  orWhereIn(column, value) {
+    if (!_.isArray(value)) {
+      throw new Exception('Value must be array');
+    }
+    const query = {};
+    query[column] = In(value);
+    this.condition.push(query);
+    return this;
+  }
+
+  whereNotIn(column, value) {
+    if (!_.isArray(value)) {
+      throw new Exception('Value must be array');
+    }
+    const query = {};
+    query[column] = Not(In(value));
+    if (_.isEmpty(this.condition)) {
+      this.condition.push(query);
+    } else {
+      _.assign(this.condition[0], query);
+    }
+    return this;
+  }
+
+  orWhereNotIn(column, value) {
+    if (!_.isArray(value)) {
+      throw new Exception('Value must be array');
+    }
+    const query = {};
+    query[column] = Not(In(value));
+    this.condition.push(query);
     return this;
   }
 
@@ -93,8 +137,15 @@ export abstract class Repository {
         per_page = query.pageSize;
       }
     }
-    const param = { where: this.condition, relations: this.include, take: per_page, skip: (page - 1) * per_page };
+    const param = { where: this.condition, relations: this.include, take: per_page, skip: (page - 1) * per_page, order: this.order };
     const result = await this.repository.findAndCount(param);
     return { data: result[0], totalRow: result[1], totalPage: Math.ceil(result[1] / per_page), currentPage: page, perPage: per_page };
+  }
+
+  orderBy(column, direction) {
+    const query = {};
+    query[column] = direction;
+    this.order = query;
+    return this;
   }
 }
