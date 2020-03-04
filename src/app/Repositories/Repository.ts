@@ -20,16 +20,16 @@ export abstract class Repository {
     return this;
   }
 
-  where(key, value) {
+  where(column, value) {
     const query = {};
-    query[key] = value;
+    query[column] = value;
     this.condition.push(query);
     return this;
   }
 
-  andWhere(key, value) {
+  andWhere(column, value) {
     const query = {};
-    query[key] = value;
+    query[column] = value;
     if (_.isEmpty(this.condition)) {
       this.condition.push(query);
     } else {
@@ -38,9 +38,9 @@ export abstract class Repository {
     return this;
   }
 
-  orWhere(key, value) {
+  orWhere(column, value) {
     const query = {};
-    query[key] = value;
+    query[column] = value;
     this.condition.push(query);
     return this;
   }
@@ -82,9 +82,19 @@ export abstract class Repository {
     return result;
   }
 
-  async paginate() {
-    const param = { where: this.condition, relations: this.include };
+  async paginate(query?: any) {
+    let page = 1;
+    let per_page = 20;
+    if (!_.isEmpty(query)) {
+      if (query.pageIndex) {
+        page = query.pageIndex;
+      }
+      if (query.pageSize) {
+        per_page = query.pageSize;
+      }
+    }
+    const param = { where: this.condition, relations: this.include, take: per_page, skip: (page - 1) * per_page };
     const result = await this.repository.findAndCount(param);
-    return result;
+    return { data: result[0], totalRow: result[1], totalPage: Math.ceil(result[1] / per_page), currentPage: page, perPage: per_page };
   }
 }

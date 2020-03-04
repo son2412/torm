@@ -7,15 +7,13 @@ export class ApiRespone {
     return { data };
   }
 
-  static paginate(data: any, param?: any) {
-    const pageSize = param.pageSize || 10;
-    const pageIndex = param.pageIndex || 1;
+  static paginate(data: any) {
     return {
-      data: data[0],
-      totalRow: data[1],
-      totalPage: Math.ceil(data[1] / pageSize),
-      currentPage: pageIndex,
-      perPage: pageSize
+      data: data.data,
+      totalRow: data.totalRow,
+      totalPage: data.totalPage,
+      currentPage: data.currentPage,
+      perPage: data.perPage
     };
   }
 
