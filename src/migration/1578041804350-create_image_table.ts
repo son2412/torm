@@ -24,7 +24,23 @@ export class createImageTable1578041804350 implements MigrationInterface {
           {
             name: 'imageable_type',
             type: 'int'
-          }
+          },
+          {
+            name: 'type',
+            type: 'int'
+          },
+          {
+            name: 'deleted_at',
+            type: 'datetime'
+          },
+          {
+            name: 'created_at',
+            type: 'datetime'
+          },
+          {
+            name: 'updated_at',
+            type: 'datetime'
+          },
         ]
       }),
       true

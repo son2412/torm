@@ -20,6 +20,18 @@ export class createRolesTable1578037553055 implements MigrationInterface {
           {
             name: 'slug',
             type: 'varchar'
+          },
+          {
+            name: 'deleted_at',
+            type: 'datetime'
+          },
+          {
+            name: 'created_at',
+            type: 'datetime'
+          },
+          {
+            name: 'updated_at',
+            type: 'datetime'
           }
         ]
       }),

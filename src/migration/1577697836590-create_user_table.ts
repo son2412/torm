@@ -22,9 +22,41 @@ export class createUserTable1577697836590 implements MigrationInterface {
             type: 'text'
           },
           {
+            name: 'first_name',
+            type: 'varchar'
+          },
+          {
+            name: 'last_name',
+            type: 'varchar'
+          },
+          {
+            name: 'phone',
+            type: 'varchar'
+          },
+          {
+            name: 'birth',
+            type: 'varchar'
+          },
+          {
+            name: 'gender',
+            type: 'varchar'
+          },
+          {
             name: 'status',
             type: 'int'
-          }
+          },
+          {
+            name: 'deleted_at',
+            type: 'datetime'
+          },
+          {
+            name: 'created_at',
+            type: 'datetime'
+          },
+          {
+            name: 'updated_at',
+            type: 'datetime'
+          },
         ]
       }),
       true

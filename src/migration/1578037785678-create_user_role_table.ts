@@ -20,7 +20,19 @@ export class createUserRoleTable1578037785678 implements MigrationInterface {
           {
             name: 'role_id',
             type: 'int'
-          }
+          },
+          {
+            name: 'deleted_at',
+            type: 'datetime'
+          },
+          {
+            name: 'created_at',
+            type: 'datetime'
+          },
+          {
+            name: 'updated_at',
+            type: 'datetime'
+          },
         ]
       }),
       true
