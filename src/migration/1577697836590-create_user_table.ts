@@ -39,15 +39,17 @@ export class createUserTable1577697836590 implements MigrationInterface {
           },
           {
             name: 'gender',
-            type: 'varchar'
-          },
-          {
-            name: 'status',
             type: 'int'
           },
           {
+            name: 'status',
+            type: 'int',
+            default: 0
+          },
+          {
             name: 'deleted_at',
-            type: 'datetime'
+            type: 'datetime',
+            isNullable: true
           },
           {
             name: 'created_at',
@@ -56,7 +58,7 @@ export class createUserTable1577697836590 implements MigrationInterface {
           {
             name: 'updated_at',
             type: 'datetime'
-          },
+          }
         ]
       }),
       true

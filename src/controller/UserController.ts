@@ -20,4 +20,22 @@ export class UserController {
       res.json(ApiRespone.error(err));
     }
   }
+
+  async me(req: Request, res: Response) {
+    try {
+      const result = await new UserRepository().getById(req.user_id);
+      res.json(ApiRespone.item(result));
+    } catch (err) {
+      res.json(ApiRespone.error(err));
+    }
+  }
+
+  async updateProfile(req: Request, res: Response) {
+    try {
+      const result = await new UserRepository().updateMe(req.user_id, req.body);
+      res.json(ApiRespone.item(result));
+    } catch (err) {
+      res.json(ApiRespone.error(err));
+    }
+  }
 }

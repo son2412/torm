@@ -10,12 +10,12 @@ export class UserRepository extends Repository {
     this.repository = getRepository(User);
   }
   async getAll() {
-    const users = await this.relation(['roles', 'images']).get();
+    const users = await this.relation(['roles', 'image']).get();
     return users;
   }
 
   async getById(id: number) {
-    const users = await this.relation(['roles', 'images']).findById(id);
+    const users = await this.relation(['roles', 'image']).findById(id);
     return users;
   }
 
@@ -25,8 +25,13 @@ export class UserRepository extends Repository {
   }
 
   async create(user) {
-    const data = { ...user, ...{ password: Auth.hash(user.password) } };
+    const data = { ...user, ...{ password: Auth.hash(user.password), created_at: new Date(), updated_at: new Date() } };
     const newUser = await this.repository.save(data);
+    return newUser;
+  }
+
+  async updateMe(id: number, data) {
+    const newUser = await this.modify(id, data);
     return newUser;
   }
 }

@@ -1,7 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, OneToOne } from 'typeorm';
 import { Role } from './Role';
 import { Image } from './Image';
-import jwt from 'jsonwebtoken';
 import * as _ from 'lodash';
 
 @Entity('users')
@@ -10,13 +9,37 @@ export class User {
   id: number;
 
   @Column()
+  first_name: string;
+
+  @Column()
+  last_name: string;
+
+  @Column()
   email: string;
+
+  @Column()
+  phone: string;
+
+  @Column()
+  birth: string;
+
+  @Column()
+  gender: number;
 
   @Column()
   password: string;
 
   @Column()
   status: number;
+
+  @Column()
+  deleted_at: Date;
+
+  @Column()
+  created_at: Date;
+
+  @Column()
+  updated_at: Date;
 
   @ManyToMany(() => Role)
   @JoinTable({
@@ -32,9 +55,9 @@ export class User {
   })
   roles: Role[];
 
-  @OneToMany(
+  @OneToOne(
     () => Image,
     image => image.user
   )
-  images: Image[];
+  image: Image;
 }

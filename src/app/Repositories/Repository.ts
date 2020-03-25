@@ -148,4 +148,11 @@ export abstract class Repository {
     this.order = query;
     return this;
   }
+
+  async modify(id, data) {
+    await this.findById(id);
+    await this.repository.update(id, data);
+    const result = await this.findById(id);
+    return result;
+  }
 }

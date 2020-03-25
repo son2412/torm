@@ -12,6 +12,15 @@ export class Role {
   @Column()
   slug: string;
 
+  @Column()
+  deleted_at: Date;
+
+  @Column()
+  created_at: Date;
+
+  @Column()
+  updated_at: Date;
+
   @ManyToMany(() => User)
   @JoinTable({
     name: 'user_role',
