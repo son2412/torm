@@ -1,5 +1,6 @@
 import Nexmo from 'nexmo';
 import * as AWS from 'aws-sdk';
+// import { Twilio } from 'twilio';
 import * as _ from 'lodash';
 import { Exception } from './Exception';
 
@@ -29,6 +30,12 @@ export class SendSms {
           region: process.env.SNS_REGION
         };
       }
+      if (process.env.SERVICE_SMS === 'twilio') {
+        this.options = {
+          accountSid: process.env.SMS_ACCESS_KEY,
+          authToken: process.env.SMS_SECRET_KEY
+        };
+      }
     } else {
       this.enabled = false;
     }
@@ -48,6 +55,9 @@ export class SendSms {
           AWS.config.update(this.options);
           this.sms = new AWS.SNS();
         }
+        // if (process.env.SERVICE_SMS === 'twilio') {
+        //   this.sms = new Twilio(this.options.accountSid, this.options.authToken);
+        // }
       }
       return this.sms;
     }
@@ -60,6 +70,9 @@ export class SendSms {
         break;
       case 'sns':
         this.executeSns(receiver, text);
+        break;
+      case 'twilio':
+        this.executeTwilio(receiver, text);
         break;
       default:
         break;
@@ -88,5 +101,15 @@ export class SendSms {
         console.log(result);
       }
     });
+  }
+
+  executeTwilio(receiver: string, text: string) {
+    // this.getInstance()
+    //   .messages.create({
+    //     body: text,
+    //     to: receiver,
+    //     from: process.env.SMS_SENDER
+    //   })
+    //   .then(message => console.log(message));
   }
 }

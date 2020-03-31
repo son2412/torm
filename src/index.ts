@@ -6,12 +6,14 @@ import * as path from 'path';
 import * as bodyParser from 'body-parser';
 import routes from './routes';
 import { socket } from '@service/Socket';
+const cors = require('cors');
 
 const app = express();
 const http = require('http').Server(app);
 createConnection()
   .then(async () => {
     app.use(bodyParser.json());
+    app.use(cors());
 
     app.use('/', routes);
     app.get('/chat', (req: any, res: any) => {

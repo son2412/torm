@@ -16,6 +16,7 @@
       "bcryptjs": "^2.4.3",
       "body-parser": "^1.18.1",
       "commander": "^4.1.1",
+      "cors": "^2.8.5",
       "dotenv": "^8.2.0",
       "express": "^4.15.4",
       "is-pdf": "^1.0.0",
