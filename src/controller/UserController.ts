@@ -6,7 +6,7 @@ export class UserController {
   async all(req: Request, res: Response) {
     try {
       const result = await new UserRepository().getAll();
-      res.json(ApiRespone.collection(result));
+      res.json(ApiRespone.paginate(result));
     } catch (err) {
       res.json(ApiRespone.error(err));
     }
@@ -30,9 +30,36 @@ export class UserController {
     }
   }
 
-  async updateProfile(req: Request, res: Response) {
+  async updateMe(req: Request, res: Response) {
     try {
-      const result = await new UserRepository().updateMe(req.user_id, req.body);
+      const result = await new UserRepository().update(req.user_id, req.body);
+      res.json(ApiRespone.item(result));
+    } catch (err) {
+      res.json(ApiRespone.error(err));
+    }
+  }
+
+  async addUser(req: Request, res: Response) {
+    try {
+      const result = await new UserRepository().create(req.body);
+      res.json(ApiRespone.item(result));
+    } catch (err) {
+      res.json(ApiRespone.error(err));
+    }
+  }
+
+  async remove(req: Request, res: Response) {
+    try {
+      await new UserRepository().delete(req.params.id);
+      res.json(ApiRespone.success());
+    } catch (err) {
+      res.json(ApiRespone.error(err));
+    }
+  }
+
+  async updateUser(req: Request, res: Response) {
+    try {
+      const result = await new UserRepository().update(req.params.id, req.body);
       res.json(ApiRespone.item(result));
     } catch (err) {
       res.json(ApiRespone.error(err));

@@ -155,4 +155,10 @@ export abstract class Repository {
     const result = await this.findById(id);
     return result;
   }
+
+  async remove(id) {
+    await this.findById(id);
+    await this.repository.delete(id);
+    return true;
+  }
 }

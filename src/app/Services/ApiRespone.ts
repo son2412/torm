@@ -1,15 +1,16 @@
 export class ApiRespone {
   static item(data) {
-    return { data };
+    return { data, success: true };
   }
 
   static collection(data) {
-    return { data };
+    return { data, success: true };
   }
 
   static paginate(data: any) {
     return {
       data: data.data,
+      success: true,
       totalRow: data.totalRow,
       totalPage: data.totalPage,
       currentPage: data.currentPage,
