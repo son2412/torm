@@ -11,7 +11,7 @@ export class Command {
     return [];
   }
 
-  handle() {
-    throw new Error('Method not implemented');
-  }
+  // handle() {
+  //   throw new Error('Method not implemented');
+  // }
 }

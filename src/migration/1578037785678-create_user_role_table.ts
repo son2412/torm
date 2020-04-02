@@ -23,7 +23,8 @@ export class createUserRoleTable1578037785678 implements MigrationInterface {
           },
           {
             name: 'deleted_at',
-            type: 'datetime'
+            type: 'datetime',
+            isNullable: true
           },
           {
             name: 'created_at',
@@ -32,7 +33,7 @@ export class createUserRoleTable1578037785678 implements MigrationInterface {
           {
             name: 'updated_at',
             type: 'datetime'
-          },
+          }
         ]
       }),
       true

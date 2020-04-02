@@ -31,7 +31,8 @@ export class createImageTable1578041804350 implements MigrationInterface {
           },
           {
             name: 'deleted_at',
-            type: 'datetime'
+            type: 'datetime',
+            isNullable: true
           },
           {
             name: 'created_at',
@@ -40,7 +41,7 @@ export class createImageTable1578041804350 implements MigrationInterface {
           {
             name: 'updated_at',
             type: 'datetime'
-          },
+          }
         ]
       }),
       true

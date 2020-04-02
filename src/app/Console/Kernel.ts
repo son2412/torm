@@ -1,7 +1,7 @@
-import TestCommand from './Commands/TestCommand';
+import MakeSeederCommand from './Commands/MakeSeederCommand';
 
 export class Kernel {
   commands() {
-    return [TestCommand];
+    return [MakeSeederCommand];
   }
 }

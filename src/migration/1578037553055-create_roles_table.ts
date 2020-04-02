@@ -23,7 +23,8 @@ export class createRolesTable1578037553055 implements MigrationInterface {
           },
           {
             name: 'deleted_at',
-            type: 'datetime'
+            type: 'datetime',
+            isNullable: true
           },
           {
             name: 'created_at',

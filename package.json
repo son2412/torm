@@ -19,6 +19,7 @@
       "cors": "^2.8.5",
       "dotenv": "^8.2.0",
       "express": "^4.15.4",
+      "fs-extra": "^9.0.0",
       "is-pdf": "^1.0.0",
       "is-svg": "^4.2.1",
       "jsonwebtoken": "^8.5.1",
@@ -27,11 +28,14 @@
       "multer": "^1.4.2",
       "multer-s3": "^2.9.0",
       "mysql": "^2.14.1",
+      "mysql2": "^2.1.0",
       "nexmo": "^2.6.0",
       "nodemailer": "^6.4.2",
       "passport": "^0.4.1",
       "passport-facebook": "^3.0.0",
       "reflect-metadata": "^0.1.10",
+      "sequelize": "^5.21.5",
+      "sequelize-cli": "^5.5.1",
       "socket.io": "^2.3.0",
       "typeorm": "0.2.22"
    },
@@ -50,6 +54,7 @@
       "make:migration": "ts-node ./node_modules/typeorm/cli.js migration:create -n",
       "recreatedb": "ts-node ./node_modules/typeorm/cli.js schema:drop && npm run migrate",
       "rollback": "ts-node ./node_modules/typeorm/cli.js migration:revert",
-      "command": "ts-node command"
+      "command": "ts-node command",
+      "seed": "./node_modules/.bin/sequelize db:seed:all"
    }
 }
