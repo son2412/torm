@@ -5,7 +5,7 @@ build/
 tmp/
 temp/
 yarn.lock
-package-lock.json
+#package-lock.json
 yarn-error.log
 .env
 uploads/
