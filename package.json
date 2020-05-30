@@ -8,6 +8,7 @@
       "@types/node": "^8.0.29",
       "nodemon": "^1.18.10",
       "ts-node": "3.3.0",
+      "tsc-watch": "^4.2.8",
       "tsconfig-paths": "^3.9.0",
       "typescript": "3.3.3333"
    },
@@ -47,9 +48,11 @@
       "@middleware": "build/app/Middleware"
    },
    "scripts": {
-      "dev": "tsc && nodemon --watch ./src --exec ts-node -r tsconfig-paths/register ./src/index.ts",
+      "start": "tsc && nodemon --watch ./src --exec ts-node -r tsconfig-paths/register ./src/index.ts",
+      "dev": "tsc-watch  --onSuccess \"nodemon ./build/index.js\"",
       "prod": "rm -rf build && tsc && nodemon build/index.js",
       "build": "tsc",
+      "ts": "nodemon src/index.ts",
       "migrate": "ts-node ./node_modules/typeorm/cli.js migration:run",
       "make:migration": "ts-node ./node_modules/typeorm/cli.js migration:create -n",
       "recreatedb": "ts-node ./node_modules/typeorm/cli.js schema:drop && npm run migrate",
