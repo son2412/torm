@@ -38,7 +38,7 @@ export default class CustomEmail {
     return this;
   }
 
-  subject(subject_email: string = '', customStyle: any = null) {
+  subject(subject_email = '', customStyle = null) {
     this.customSubjectStyle = customStyle;
     this.subject_email = subject_email;
     return this;
@@ -78,10 +78,10 @@ export default class CustomEmail {
                   <img style="${Style.logo_img}" src="https://v2projectelearningdev.s3.ap-southeast-1.amazonaws.com/4/logo-1570181790575.png">
                 </div>
               </div>`;
-    html += _.isNil(this.customSubjectStyle) ? `<h1 style="${Style.subject}">${this.subject}</h1>` : `<h1 style="${Style.subject} ${this.customSubjectStyle}">${this.subject}</h1>`;
+    html += _.isNil(this.customSubjectStyle) ? `<h1 style="${Style.subject}">${this.subject_email}</h1>` : `<h1 style="${Style.subject} ${this.customSubjectStyle}">${this.subject_email}</h1>`;
     html += _.isNil(this.customGreetingStyle)
-      ? `<div style="${Style.greeting}">${this.greeting}</div>`
-      : `<div style="${Style.greeting} ${this.customGreetingStyle}">${this.greeting}</div>`;
+      ? `<div style="${Style.greeting}">${this.greeting_email}</div>`
+      : `<div style="${Style.greeting} ${this.customGreetingStyle}">${this.greeting_email}</div>`;
     html += `<div style="${Style.content}">${this.content}</div>`;
     html += `<p style="${Style.footer}">&copy; Copyright by Grass</p>`;
     html += '</body></html>';
@@ -107,7 +107,7 @@ export default class CustomEmail {
       {
         from: process.env.EMAIL_USER,
         to: this.to,
-        subject: this.subject,
+        subject: this.subject_email,
         html: this.buildContent()
       },
       (err, info) => {

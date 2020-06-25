@@ -3,6 +3,7 @@ import { Auth } from '@service/Auth';
 import { Repository } from './Repository';
 import { getRepository } from 'typeorm';
 import { Exception } from '@service/Exception';
+import { SendWelcomeEmailNotification } from 'app/Notifications/SendWelcomeEmailNotification';
 
 export class UserRepository extends Repository {
   repository: any;
@@ -12,6 +13,7 @@ export class UserRepository extends Repository {
   }
   async getAll() {
     const users = await this.relation(['roles', 'image']).paginate();
+    // new SendWelcomeEmailNotification(users.data[0]).sendMail()
     return users;
   }
 
