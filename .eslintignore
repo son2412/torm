@@ -1,0 +1,11 @@
+build/**
+node_modules/**
+app/Data
+**/*.spec.js
+.circleci
+.ebextensions
+.ebextensions_not_executed
+.elasticbeanstalk
+.server
+.vscode
+test
