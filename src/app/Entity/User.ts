@@ -1,6 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, OneToOne } from 'typeorm';
-import { Role } from './Role';
-import { Image } from './Image';
+import { Role, Image } from '.';
 import * as _ from 'lodash';
 
 @Entity('users')

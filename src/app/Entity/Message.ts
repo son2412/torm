@@ -1,19 +1,19 @@
 import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, OneToOne } from 'typeorm';
-import { User } from '.';
+import { User, Group } from '.';
 
-@Entity('images')
-export class Image {
+@Entity('messages')
+export class Message {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  imageable_id: number;
+  sender_id: number;
 
   @Column()
-  imageable_type: number;
+  group_id: number;
 
   @Column()
-  url: string;
+  message: string;
 
   @Column()
   type: number;
@@ -28,6 +28,10 @@ export class Image {
   updated_at: Date;
 
   @OneToOne(() => User)
-  @JoinColumn({ name: 'imageable_id', referencedColumnName: 'id' })
+  @JoinColumn({ name: 'sender_id', referencedColumnName: 'id' })
   user: User;
+
+  @OneToOne(() => Group)
+  @JoinColumn({ name: 'group_id', referencedColumnName: 'id' })
+  group: Group;
 }
