@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, OneToOne } from 'typeorm';
-import { User, Group } from '.';
+import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, OneToOne, ManyToOne } from 'typeorm';
+import { User } from '.';
+import { Group } from './Group';
 
 @Entity('messages')
 export class Message {
@@ -31,7 +32,7 @@ export class Message {
   @JoinColumn({ name: 'sender_id', referencedColumnName: 'id' })
   user: User;
 
-  @OneToOne(() => Group)
+  @ManyToOne(() => Group)
   @JoinColumn({ name: 'group_id', referencedColumnName: 'id' })
   group: Group;
 }

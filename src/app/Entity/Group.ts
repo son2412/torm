@@ -1,5 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, OneToOne } from 'typeorm';
-import { User } from '.';
+import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, OneToOne, OneToMany } from 'typeorm';
+import { User, Message } from '.';
 
 @Entity('groups')
 export class Group {
@@ -30,4 +30,7 @@ export class Group {
   @OneToOne(() => User)
   @JoinColumn({ name: 'creator_id', referencedColumnName: 'id' })
   user: User;
+
+  @OneToMany(() => Message, (message) => message.group)
+  messages: Message[];
 }
