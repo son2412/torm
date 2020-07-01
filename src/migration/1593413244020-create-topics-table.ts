@@ -1,10 +1,10 @@
 import { MigrationInterface, QueryRunner, Table, TableForeignKey } from 'typeorm';
 
-export class createMessagesTable1593360125826 implements MigrationInterface {
+export class createTopicsTable1593413244020 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<any> {
     await queryRunner.createTable(
       new Table({
-        name: 'messages',
+        name: 'topics',
         columns: [
           {
             name: 'id',
@@ -14,20 +14,16 @@ export class createMessagesTable1593360125826 implements MigrationInterface {
             generationStrategy: 'increment'
           },
           {
-            name: 'sender_id',
+            name: 'user_id',
             type: 'int'
           },
           {
-            name: 'group_id',
-            type: 'int'
-          },
-          {
-            name: 'message',
+            name: 'title',
             type: 'text'
           },
           {
-            name: 'type',
-            type: 'int'
+            name: 'content',
+            type: 'text'
           },
           {
             name: 'deleted_at',
@@ -47,26 +43,17 @@ export class createMessagesTable1593360125826 implements MigrationInterface {
       true
     );
     await queryRunner.createForeignKey(
-      'messages',
+      'topics',
       new TableForeignKey({
-        columnNames: ['sender_id'],
+        columnNames: ['user_id'],
         referencedColumnNames: ['id'],
         referencedTableName: 'users',
-        onDelete: 'CASCADE'
-      })
-    );
-    await queryRunner.createForeignKey(
-      'messages',
-      new TableForeignKey({
-        columnNames: ['group_id'],
-        referencedColumnNames: ['id'],
-        referencedTableName: 'groups',
         onDelete: 'CASCADE'
       })
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<any> {
-    await queryRunner.dropTable('messages');
+    await queryRunner.dropTable('topics');
   }
 }

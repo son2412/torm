@@ -1,10 +1,10 @@
 import { MigrationInterface, QueryRunner, Table, TableForeignKey } from 'typeorm';
 
-export class createMessagesTable1593360125826 implements MigrationInterface {
+export class createBlocksTable1593397997834 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<any> {
     await queryRunner.createTable(
       new Table({
-        name: 'messages',
+        name: 'blocks',
         columns: [
           {
             name: 'id',
@@ -14,19 +14,11 @@ export class createMessagesTable1593360125826 implements MigrationInterface {
             generationStrategy: 'increment'
           },
           {
-            name: 'sender_id',
+            name: 'blocker_id',
             type: 'int'
           },
           {
-            name: 'group_id',
-            type: 'int'
-          },
-          {
-            name: 'message',
-            type: 'text'
-          },
-          {
-            name: 'type',
+            name: 'target_id',
             type: 'int'
           },
           {
@@ -47,26 +39,26 @@ export class createMessagesTable1593360125826 implements MigrationInterface {
       true
     );
     await queryRunner.createForeignKey(
-      'messages',
+      'blocks',
       new TableForeignKey({
-        columnNames: ['sender_id'],
+        columnNames: ['blocker_id'],
         referencedColumnNames: ['id'],
         referencedTableName: 'users',
         onDelete: 'CASCADE'
       })
     );
     await queryRunner.createForeignKey(
-      'messages',
+      'blocks',
       new TableForeignKey({
-        columnNames: ['group_id'],
+        columnNames: ['target_id'],
         referencedColumnNames: ['id'],
-        referencedTableName: 'groups',
+        referencedTableName: 'users',
         onDelete: 'CASCADE'
       })
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<any> {
-    await queryRunner.dropTable('messages');
+    await queryRunner.dropTable('blocks');
   }
 }
