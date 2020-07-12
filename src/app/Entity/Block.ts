@@ -1,8 +1,8 @@
-import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, OneToOne, OneToMany, ManyToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, OneToOne, OneToMany, ManyToOne, BaseEntity } from 'typeorm';
 import { User } from '.';
 
 @Entity('blocks')
-export class Group {
+export class Group extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 

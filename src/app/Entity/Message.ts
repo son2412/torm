@@ -1,9 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, OneToOne, ManyToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, OneToOne, ManyToOne, BaseEntity } from 'typeorm';
 import { User } from '.';
 import { Group } from './Group';
 
 @Entity('messages')
-export class Message {
+export class Message extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 

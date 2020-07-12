@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from 'typeorm';
 
-@Entity('comments')
-export class Comment extends BaseEntity {
+@Entity('user_role')
+export class UserRole extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -9,13 +9,7 @@ export class Comment extends BaseEntity {
   user_id: number;
 
   @Column()
-  commentable_id: number;
-
-  @Column()
-  parent_id: number;
-
-  @Column()
-  content: string;
+  role_id: number;
 
   @Column()
   deleted_at: Date;

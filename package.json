@@ -46,7 +46,8 @@
       "@repository": "build/app/Repositories",
       "@controller": "build/controller",
       "@service": "build/app/Services",
-      "@middleware": "build/app/Middleware"
+      "@middleware": "build/app/Middleware",
+      "@notification": "build/app/Notifications"
    },
    "scripts": {
       "start": "tsc && nodemon --watch ./src --exec ts-node -r tsconfig-paths/register ./src/index.ts",

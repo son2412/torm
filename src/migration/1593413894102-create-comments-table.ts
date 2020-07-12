@@ -37,11 +37,13 @@ export class createCommentsTable1593413894102 implements MigrationInterface {
           },
           {
             name: 'created_at',
-            type: 'datetime'
+            type: 'datetime',
+            default: 'now()'
           },
           {
             name: 'updated_at',
-            type: 'datetime'
+            type: 'datetime',
+            default: 'now()'
           }
         ]
       }),

@@ -9,15 +9,16 @@ export function AuthMiddleware(req: Request, res: Response, next: NextFunction) 
   }
 
   if (!token) {
+    res.status(401).json({ message: 'Token not found !', success: false });
     throw new Exception('Token not found');
   }
 
   verify(token, process.env.JWT_SECRET, async (err, decode) => {
     if (err) {
+      res.status(401).json({ message: 'Token invalid !', success: false });
       throw new Exception('Token invalid!');
     }
-    const memberID = Number(decode.data.id);
-    req.user_id = memberID;
+    req.user_id = Number(decode.data.id);
     next();
   });
 }
