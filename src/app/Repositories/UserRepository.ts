@@ -6,7 +6,11 @@ export class UserRepository {
   async getAll(params) {
     const page_index = params.page_index || 1;
     const page_size = params.page_size || 10;
-    const users = await User.createQueryBuilder('user').leftJoinAndSelect('user.roles', 'roles').getManyAndCount();
+    const users = await User.createQueryBuilder('user')
+      .leftJoinAndSelect('user.roles', 'roles')
+      .take(page_size)
+      .skip((page_index - 1) * page_size)
+      .getManyAndCount();
     return {
       data: users[0],
       totalRow: users[1],
