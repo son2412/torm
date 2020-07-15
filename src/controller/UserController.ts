@@ -5,7 +5,7 @@ import { ApiRespone } from '@service/ApiRespone';
 export class UserController {
   async all(req: Request, res: Response) {
     try {
-      const result = await new UserRepository().getAll();
+      const result = await new UserRepository().getAll(req.query);
       res.json(ApiRespone.paginate(result));
     } catch (err) {
       res.json(ApiRespone.error(err));

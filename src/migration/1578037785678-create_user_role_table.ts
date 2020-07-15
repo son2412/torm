@@ -28,11 +28,13 @@ export class createUserRoleTable1578037785678 implements MigrationInterface {
           },
           {
             name: 'created_at',
-            type: 'datetime'
+            type: 'datetime',
+            default: 'now()'
           },
           {
             name: 'updated_at',
-            type: 'datetime'
+            type: 'datetime',
+            default: 'now()'
           }
         ]
       }),

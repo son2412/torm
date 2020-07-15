@@ -32,11 +32,13 @@ export class createTopicsTable1593413244020 implements MigrationInterface {
           },
           {
             name: 'created_at',
-            type: 'datetime'
+            type: 'datetime',
+            default: 'now()'
           },
           {
             name: 'updated_at',
-            type: 'datetime'
+            type: 'datetime',
+            default: 'now()'
           }
         ]
       }),

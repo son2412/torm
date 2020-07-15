@@ -28,11 +28,13 @@ export class createUserGroupTable1593359369851 implements MigrationInterface {
           },
           {
             name: 'created_at',
-            type: 'datetime'
+            type: 'datetime',
+            default: 'now()'
           },
           {
             name: 'updated_at',
-            type: 'datetime'
+            type: 'datetime',
+            default: 'now()'
           }
         ]
       }),
