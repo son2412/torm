@@ -15,6 +15,7 @@ createConnection()
     app.use(bodyParser.json());
     app.use(cors());
 
+    app.use('/upload', express.static(process.env.PORT === 'local' ? 'src/uploads' : 'build/uploads'));
     app.use('/', routes);
     app.get('/chat', (req: any, res: any) => {
       res.sendFile(path.resolve('./src/index.html'));
