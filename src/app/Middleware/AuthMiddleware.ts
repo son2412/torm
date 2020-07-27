@@ -22,3 +22,15 @@ export function AuthMiddleware(req: Request, res: Response, next: NextFunction) 
     next();
   });
 }
+
+export const decodeToken = (token) => {
+  let err,
+    decodeData = undefined;
+  try {
+    decodeData = verify(token, process.env.JWT_SECRET);
+  } catch (error) {
+    err = { message: 'Token not found !', success: false };
+  }
+
+  return [err, decodeData];
+};

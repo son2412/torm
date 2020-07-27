@@ -17,7 +17,7 @@ createConnection()
 
     app.use('/upload', express.static(process.env.PORT === 'local' ? 'src/uploads' : 'build/uploads'));
     app.use('/', routes);
-    app.get('/chat', (req: any, res: any) => {
+    app.get('/real-time', (req: any, res: any) => {
       res.sendFile(path.resolve('./src/index.html'));
     });
     socket(http);

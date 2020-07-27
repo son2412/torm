@@ -13,7 +13,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
     <script>
-      const socket = io('http://localhost:3000/chat');
+      const socket = io('http://localhost:3001/real-time?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImlkIjoxLCJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsInN0YXR1cyI6MX0sImlhdCI6MTU5MzQ4ODI1MSwiZXhwIjoxNjEzNjQ4MjUxfQ.bvozzCqjypR6rg1MFVYqOM1eycyYJt1FrpRBj645Ze4');
 
       function sendMsg() {
         socket.emit('client-send-message', 'Hello');

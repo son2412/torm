@@ -42,6 +42,11 @@ export class createUserTable1577697836590 implements MigrationInterface {
             type: 'int'
           },
           {
+            name: 'isOnline',
+            type: 'boolean',
+            default: false
+          },
+          {
             name: 'status',
             type: 'int',
             default: 0

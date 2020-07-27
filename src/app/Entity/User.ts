@@ -30,6 +30,9 @@ export class User extends BaseEntity {
   password: string;
 
   @Column()
+  isOnline: boolean;
+
+  @Column()
   status: number;
 
   @Column()
