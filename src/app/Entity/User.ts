@@ -1,6 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, OneToOne, BaseEntity } from 'typeorm';
 import { Role, Image } from '.';
 import * as _ from 'lodash';
+import { Group } from './Group';
 
 @Entity('users')
 export class User extends BaseEntity {
@@ -59,4 +60,18 @@ export class User extends BaseEntity {
     image => image.user
   )
   image: Image;
+
+  @ManyToMany(() => Group)
+  @JoinTable({
+    name: 'user_group',
+    joinColumn: {
+      name: 'user_id',
+      referencedColumnName: 'id'
+    },
+    inverseJoinColumn: {
+      name: 'group_id',
+      referencedColumnName: 'id'
+    }
+  })
+  groups: Group[];
 }

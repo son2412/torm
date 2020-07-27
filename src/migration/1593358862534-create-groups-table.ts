@@ -19,15 +19,18 @@ export class createGroupsTable1593358862534 implements MigrationInterface {
           },
           {
             name: 'name',
-            type: 'text'
+            type: 'text',
+            isNullable: true
           },
           {
             name: 'avatar',
-            type: 'text'
+            type: 'text',
+            isNullable: true
           },
           {
             name: 'type',
-            type: 'int'
+            type: 'int',
+            default: 1
           },
           {
             name: 'deleted_at',

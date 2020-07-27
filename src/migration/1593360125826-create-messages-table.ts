@@ -27,7 +27,8 @@ export class createMessagesTable1593360125826 implements MigrationInterface {
           },
           {
             name: 'type',
-            type: 'int'
+            type: 'int',
+            default: 1
           },
           {
             name: 'deleted_at',

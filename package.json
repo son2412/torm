@@ -57,7 +57,7 @@
       "ts": "nodemon src/index.ts",
       "migrate": "ts-node ./node_modules/typeorm/cli.js migration:run",
       "make:migration": "ts-node ./node_modules/typeorm/cli.js migration:create -n",
-      "recreatedb": "ts-node ./node_modules/typeorm/cli.js schema:drop && npm run migrate",
+      "recreatedb": "ts-node ./node_modules/typeorm/cli.js schema:drop && npm run migrate && npm run seed",
       "rollback": "ts-node ./node_modules/typeorm/cli.js migration:revert",
       "command": "ts-node command",
       "seed": "./node_modules/.bin/sequelize db:seed:all"

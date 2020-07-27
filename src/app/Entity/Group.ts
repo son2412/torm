@@ -1,4 +1,14 @@
-import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, OneToOne, OneToMany, BaseEntity } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  JoinColumn,
+  OneToOne,
+  OneToMany,
+  BaseEntity,
+  ManyToMany,
+  JoinTable
+} from 'typeorm';
 import { User, Message } from '.';
 
 @Entity('groups')
@@ -33,4 +43,18 @@ export class Group extends BaseEntity {
 
   @OneToMany(() => Message, (message) => message.group)
   messages: Message[];
+
+  @ManyToMany(() => User)
+  @JoinTable({
+    name: 'user_group',
+    joinColumn: {
+      name: 'group_id',
+      referencedColumnName: 'id'
+    },
+    inverseJoinColumn: {
+      name: 'user_id',
+      referencedColumnName: 'id'
+    }
+  })
+  users: User[];
 }
