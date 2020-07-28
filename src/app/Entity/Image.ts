@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, OneToOne, BaseEntity } from 'typeorm';
 import { User } from '.';
-
+export const IMAGEABLE_TYPE_USER = 1;
 @Entity('images')
 export class Image extends BaseEntity {
   @PrimaryGeneratedColumn()
