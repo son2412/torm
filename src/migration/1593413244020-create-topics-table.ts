@@ -19,11 +19,13 @@ export class createTopicsTable1593413244020 implements MigrationInterface {
           },
           {
             name: 'title',
-            type: 'text'
+            type: 'text',
+            isNullable: true
           },
           {
             name: 'content',
-            type: 'text'
+            type: 'text',
+            isNullable: true
           },
           {
             name: 'deleted_at',

@@ -5,6 +5,7 @@ import auth from './auth';
 import user from './users';
 import group from './groups';
 import message from './messages';
+import topic from './topics';
 
 const routes = Router();
 
@@ -14,5 +15,6 @@ routes.use('/auth', auth);
 routes.use('/users', user);
 routes.use('/groups', group);
 routes.use('/messages', message);
+routes.use('/topics', topic);
 
 export default routes;

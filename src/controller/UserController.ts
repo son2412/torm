@@ -65,4 +65,13 @@ export class UserController {
       res.json(ApiRespone.error(err));
     }
   }
+
+  async listUserOnline(req: Request, res: Response) {
+    try {
+      const result = await new UserRepository().listUserOnline(req.query);
+      res.json(ApiRespone.paginate(result));
+    } catch (err) {
+      res.json(ApiRespone.error(err));
+    }
+  }
 }
