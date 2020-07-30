@@ -7,7 +7,7 @@ export class AuthController {
     const data = req.body;
     try {
       const result = await new AuthRepository().login(data);
-      res.json(result);
+      res.json(ApiRespone.item(result));
     } catch (err) {
       res.json(ApiRespone.error(err));
     }
@@ -17,7 +17,7 @@ export class AuthController {
     const data = Object.assign(req.body, { status: 1 });
     try {
       const result = await new AuthRepository().register(data);
-      res.json(result);
+      res.json(ApiRespone.item(result));
     } catch (err) {
       res.json(ApiRespone.error(err));
     }
