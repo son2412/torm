@@ -25,7 +25,12 @@ export class UserRepository {
   }
 
   async getById(id: number) {
-    const user = await User.createQueryBuilder('user').where('user.id = :id', { id: id }).getOne();
+    const user = await User.createQueryBuilder('user')
+      .leftJoinAndSelect('user.image', 'image', 'image.imageable_type = :imageable_type', {
+        imageable_type: IMAGEABLE_TYPE_USER
+      })
+      .where('user.id = :id', { id: id })
+      .getOne();
     return user;
   }
 
