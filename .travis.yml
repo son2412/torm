@@ -10,6 +10,6 @@ script:
 deploy:
   provider: gae
   project: teak-truck-264015
-  keyfile: gce.json
+  keyfile: gae.json
   verbosity: debug
   on: dev
