@@ -11,5 +11,5 @@ deploy:
   provider: gae
   project: teak-truck-264015
   keyfile: gae.json
-  verbosity: debug
+  app: torm
   on: dev
