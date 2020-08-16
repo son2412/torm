@@ -49,4 +49,33 @@ export class GroupController {
       res.json(ApiRespone.error(err));
     }
   }
+
+  async createChatWith(req: Request, res: Response) {
+    try {
+      const result = await new GroupRepository().createChatWith(req.user_id, req.body.target_id);
+      res.json(ApiRespone.item(result));
+    } catch (err) {
+      res.json(ApiRespone.error(err));
+    }
+  }
+
+  async deleteGroup(req: Request, res: Response) {
+    try {
+      const result = await new GroupRepository().delete(req.params.id);
+      res.json(ApiRespone.success());
+    } catch (err) {
+      res.json(ApiRespone.error(err));
+    }
+  }
+
+  async addUserToGroup(req: Request, res: Response) {
+    const user_id = req.body.user_id;
+    console.log(user_id)
+    try {
+      await new GroupRepository().addUserToGroup(req.params.id, user_id);
+      res.json(ApiRespone.success());
+    } catch (err) {
+      res.json(ApiRespone.error(err));
+    }
+  }
 }

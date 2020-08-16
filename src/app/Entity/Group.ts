@@ -10,6 +10,8 @@ import {
   JoinTable
 } from 'typeorm';
 import { User, Message } from '.';
+export const TYPE_SINGLE = 1;
+export const TYPE_GROUP = 2;
 
 @Entity('groups')
 export class Group extends BaseEntity {
@@ -39,7 +41,7 @@ export class Group extends BaseEntity {
 
   @OneToOne(() => User)
   @JoinColumn({ name: 'creator_id', referencedColumnName: 'id' })
-  user: User;
+  creator: User;
 
   @OneToMany(() => Message, (message) => message.group)
   messages: Message[];
