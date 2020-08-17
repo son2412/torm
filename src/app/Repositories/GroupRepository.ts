@@ -2,6 +2,7 @@ import { Group, Message, MESSAGE_TYPE_TEXT, TYPE_GROUP, TYPE_SINGLE } from '@ent
 import { Exception } from '@service/Exception';
 import { UserGroup } from '@entity/UserGroup';
 import { In } from 'typeorm';
+import { FirebaseService } from '@service/Firebase';
 
 export class GroupRepository {
   async listGroup(params) {
@@ -20,6 +21,7 @@ export class GroupRepository {
     }
     const groups = await Group.createQueryBuilder('group')
       .leftJoinAndSelect('group.users', 'users')
+      .leftJoinAndSelect('users.image', 'image')
       .where('group.id IN(:...groupIds)', { groupIds: groupIds })
       .take(page_size)
       .skip((page_index - 1) * page_size)
@@ -37,11 +39,12 @@ export class GroupRepository {
     Object.assign(data, { type: TYPE_GROUP });
     const group = await Group.create(data).save();
     await UserGroup.create({ user_id: data.creator_id, group_id: group.id }).save();
+    new FirebaseService().createChildConversation(group.id);
     return group;
   }
 
   async detail(group_id: number) {
-    const group = await Group.findOne({ where: { id: group_id }, relations: ['users'] });
+    const group = await Group.findOne({ where: { id: group_id }, relations: ['users', 'users.image'] });
     if (!group) throw new Exception('Group not found !');
     return group;
   }
@@ -79,6 +82,8 @@ export class GroupRepository {
       UserGroup.create({ user_id: target_id, group_id: group.id }).save(),
       Message.create({ sender_id: user_id, group_id: group.id, message: 'Hello !', type: MESSAGE_TYPE_TEXT }).save()
     ]);
+    new FirebaseService().createChildConversation(group.id);
+    const result = await this.detail(group.id);
     return group;
   }
 

@@ -1,5 +1,6 @@
 import { Message } from '@entity/index';
 import { Exception } from '@service/Exception';
+import { FirebaseService } from '@service/Firebase';
 
 export class MessageRepository {
   async listMessageByGroup(params) {
@@ -22,6 +23,7 @@ export class MessageRepository {
 
   async create(data) {
     const message = await Message.create(data).save();
+    new FirebaseService().createChildMessage(data.group_id, message);
     return message;
   }
 }

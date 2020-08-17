@@ -18,18 +18,13 @@ export class FirebaseService {
     this.dbRef = firebase.database().ref();
   }
 
-  createChildConversation(conversationId: string) {
-    const conversationRef = this.dbRef.child('conversations');
+  createChildConversation(conversationId: number) {
+    const conversationRef = this.dbRef.child('chats');
     conversationRef.child(conversationId).set('');
   }
 
-  createChildMessage(conversationId: string, message: any) {
-    const messageRef = this.dbRef.child('conversations/' + conversationId);
+  createChildMessage(conversationId: number, message: any) {
+    const messageRef = this.dbRef.child('chats/' + conversationId);
     messageRef.push(message);
-  }
-
-  createChildTopic(receiverId: string, data: any) {
-    const topicRef = this.dbRef.child('topics/' + receiverId);
-    topicRef.push(data);
   }
 }
