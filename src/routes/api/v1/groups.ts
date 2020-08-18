@@ -7,6 +7,7 @@ const router = Router();
 
 router.all('*', AuthMiddleware);
 router.get('/', controller.all);
+router.get('/list', controller.listAllGroup);
 router.get('/:id', controller.detail);
 router.post('/', controller.create);
 router.put('/:id', controller.update);

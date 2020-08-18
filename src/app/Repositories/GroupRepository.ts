@@ -102,4 +102,16 @@ export class GroupRepository {
     await UserGroup.create({ user_id: user_id, group_id: group.id }).save();
     return true;
   }
+
+  async listAllGroup(user_id: number) {
+    const user_group = await UserGroup.find({ where: { user_id: user_id }, select: ['group_id'] });
+    const groupIds = user_group.map((x) => x.group_id);
+    if (!groupIds.length) {
+      return [];
+    }
+    const groups = await Group.createQueryBuilder('group')
+      .where('group.id IN(:...groupIds)', { groupIds: groupIds })
+      .getMany();
+    return groups;
+  }
 }

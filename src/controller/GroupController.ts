@@ -70,10 +70,18 @@ export class GroupController {
 
   async addUserToGroup(req: Request, res: Response) {
     const user_id = req.body.user_id;
-    console.log(user_id)
     try {
       await new GroupRepository().addUserToGroup(req.params.id, user_id);
       res.json(ApiRespone.success());
+    } catch (err) {
+      res.json(ApiRespone.error(err));
+    }
+  }
+
+  async listAllGroup(req: Request, res: Response) {
+    try {
+      const result = await new GroupRepository().listAllGroup(req.user_id);
+      res.json(ApiRespone.collection(result));
     } catch (err) {
       res.json(ApiRespone.error(err));
     }
