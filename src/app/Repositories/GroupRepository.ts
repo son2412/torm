@@ -84,7 +84,7 @@ export class GroupRepository {
     ]);
     new FirebaseService().createChildConversation(group.id);
     const result = await this.detail(group.id);
-    return group;
+    return result;
   }
 
   async delete(id: number) {
