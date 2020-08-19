@@ -72,7 +72,7 @@ export class GroupRepository {
     if (groupIds.length > 0) {
       const groups = await Group.find({ where: { type: TYPE_SINGLE, id: In(groupIds) }, relations: ['users'] });
       const find = groups.filter((g) => g.users.find((u) => u.id === target_id));
-      if (find) {
+      if (find.length > 0) {
         return find[0];
       }
     }
