@@ -22,6 +22,7 @@ export class MessageRepository {
   }
 
   async create(data) {
+    Object.assign(data, {created_at: new Date()});
     const message = await Message.create(data).save();
     new FirebaseService().createChildMessage(data.group_id, message);
     return message;
