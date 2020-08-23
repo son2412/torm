@@ -77,12 +77,18 @@ export class GroupRepository {
       }
     }
     const group = await Group.create({ creator_id: user_id }).save();
-    await Promise.all([
+    const [me, target, message] = await Promise.all([
       UserGroup.create({ user_id: user_id, group_id: group.id }).save(),
       UserGroup.create({ user_id: target_id, group_id: group.id }).save(),
-      Message.create({ sender_id: user_id, group_id: group.id, message: 'Hello !', type: MESSAGE_TYPE_TEXT }).save()
+      Message.create({
+        sender_id: user_id,
+        group_id: group.id,
+        message: 'Hello !',
+        type: MESSAGE_TYPE_TEXT,
+        created_at: new Date()
+      }).save()
     ]);
-    new FirebaseService().createChildConversation(group.id);
+    new FirebaseService().createChildMessage(group.id, Object.assign(message, { created_at: `${message.created_at}` }));
     const result = await this.detail(group.id);
     return result;
   }

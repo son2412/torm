@@ -22,9 +22,12 @@ export class MessageRepository {
   }
 
   async create(data) {
-    Object.assign(data, {created_at: new Date()});
+    Object.assign(data, { created_at: new Date() });
     const message = await Message.create(data).save();
-    new FirebaseService().createChildMessage(data.group_id, message);
+    new FirebaseService().createChildMessage(
+      data.group_id,
+      Object.assign(message, { created_at: `${message.created_at}` })
+    );
     return message;
   }
 }
