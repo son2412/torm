@@ -19,7 +19,8 @@
       "@repository/*": ["app/Repositories/*"],
       "@service/*": ["app/Services/*"],
       "@middleware/*": ["app/Middleware/*"],
-      "@notification/*": ["app/Notifications/*"]
+      "@notification/*": ["app/Notifications/*"],
+      "@provider/*": ["app/Providers/*"]
     }
   },
   "include": ["src/**/*"],

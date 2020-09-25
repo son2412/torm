@@ -1,12 +1,12 @@
 import { Request, Response } from 'express';
 import { AuthRepository } from '@repository/index';
-import { Auth } from '@service/Auth';
 import { ApiRespone } from '@service/ApiRespone';
+import { App } from '@provider/index';
 export class AuthController {
   async signIn(req: Request, res: Response) {
     const data = req.body;
     try {
-      const result = await new AuthRepository().login(data);
+      const result = await App.make(AuthRepository).login(data);
       res.json(ApiRespone.item(result));
     } catch (err) {
       res.json(ApiRespone.error(err));
