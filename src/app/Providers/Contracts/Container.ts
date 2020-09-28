@@ -1,4 +1,4 @@
-import { Exception } from '@service/Exception';
+import { Exception } from '../../Services/Exception';
 import * as crypto from 'crypto';
 
 export default class Container {
