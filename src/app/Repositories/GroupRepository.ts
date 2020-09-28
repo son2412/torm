@@ -45,13 +45,13 @@ export class GroupRepository {
 
   async detail(group_id: number) {
     const group = await Group.findOne({ where: { id: group_id }, relations: ['users', 'users.image'] });
-    if (!group) throw new Exception('Group not found !');
+    if (!group) throw new Exception('Group not found !', 404);
     return group;
   }
 
   async update(group_id: number, data) {
     const group = await Group.findOne({ where: { id: group_id } });
-    if (!group) throw new Exception('Group not found !');
+    if (!group) throw new Exception('Group not found !', 404);
     Object.assign(group, data);
     await group.save();
     return group;
@@ -59,9 +59,9 @@ export class GroupRepository {
 
   async leave(group_id: number, user_id: number) {
     const group = await Group.findOne({ where: { id: group_id } });
-    if (!group) throw new Exception('Group not found !');
+    if (!group) throw new Exception('Group not found !', 404);
     const user_group = await UserGroup.findOne({ where: { user_id: user_id, group_id: group_id } });
-    if (!user_group) throw new Exception('User not exist in group !');
+    if (!user_group) throw new Exception('User not exist in group !', 404);
     await user_group.remove();
     return true;
   }
@@ -95,7 +95,7 @@ export class GroupRepository {
 
   async delete(id: number) {
     const group = await Group.findOne({ where: { id: id } });
-    if (!group) throw new Exception('Group Not Found !');
+    if (!group) throw new Exception('Group Not Found !', 404);
     await group.remove();
     return true;
   }

@@ -8,7 +8,7 @@ export class TopicController {
       const result = await new TopicRepository().listTopic(req.query);
       res.json(ApiRespone.paginate(result));
     } catch (err) {
-      res.json(ApiRespone.error(err));
+      res.status(err.errorCode).json(ApiRespone.error(err));
     }
   }
 
@@ -18,7 +18,7 @@ export class TopicController {
       const result = await new TopicRepository().create(req.body);
       res.json(ApiRespone.item(result));
     } catch (err) {
-      res.json(ApiRespone.error(err));
+      res.status(err.errorCode).json(ApiRespone.error(err));
     }
   }
 }

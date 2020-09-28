@@ -12,10 +12,10 @@ export class SendSms {
     if ((process.env.SMS_ENABLED as any) === true || process.env.SMS_ENABLED === 'true') {
       this.enabled = true;
       if (_.isNil(process.env.SMS_ACCESS_KEY)) {
-        throw new Exception('Missing configuration for SMS_ACCESS_KEY');
+        throw new Exception('Missing configuration for SMS_ACCESS_KEY', 500);
       }
       if (_.isNil(process.env.SMS_SECRET_KEY)) {
-        throw new Exception('Missing configuration for SMS_SECRET_KEY');
+        throw new Exception('Missing configuration for SMS_SECRET_KEY', 500);
       }
       if (process.env.SERVICE_SMS === 'nexmo') {
         this.options = {

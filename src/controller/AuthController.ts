@@ -2,14 +2,22 @@ import { Request, Response } from 'express';
 import { AuthRepository } from '@repository/index';
 import { ApiRespone } from '@service/ApiRespone';
 import { App } from '@provider/index';
+import * as Joi from '@hapi/joi';
 export class AuthController {
   async signIn(req: Request, res: Response) {
-    const data = req.body;
+    const valid = Joi.object({
+      email: Joi.string().required(),
+      password: Joi.string().required()
+    });
+    const { error, value } = valid.validate(req.body);
+    if (error) {
+      res.status(400).json(ApiRespone.error({ message: error.details[0].message, errorCode: 400 }));
+    }
     try {
-      const result = await App.make(AuthRepository).login(data);
+      const result = await App.make(AuthRepository).login(value);
       res.json(ApiRespone.item(result));
     } catch (err) {
-      res.json(ApiRespone.error(err));
+      res.status(err.errorCode).json(ApiRespone.error(err));
     }
   }
 
@@ -19,7 +27,7 @@ export class AuthController {
       const result = await new AuthRepository().register(data);
       res.json(ApiRespone.item(result));
     } catch (err) {
-      res.json(ApiRespone.error(err));
+      res.status(err.errorCode).json(ApiRespone.error(err));
     }
   }
 }

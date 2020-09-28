@@ -25,7 +25,7 @@ export class ApiRespone {
   static error(error) {
     return {
       success: false,
-      errorCode: error.errorCode || 0,
+      errorCode: error.errorCode || 500,
       message: error.message
     };
   }

@@ -22,7 +22,7 @@ export default class CustomEmail {
 
   to(to, name = '') {
     if (_.isNil(to)) {
-      throw new Exception("receiver's email is required");
+      throw new Exception("receiver's email is required", 500);
     }
     this.to = to;
     this.to_name = name;
@@ -31,7 +31,7 @@ export default class CustomEmail {
 
   from(from, name = '') {
     if (_.isNil(from)) {
-      throw new Exception("sender's email is required");
+      throw new Exception("sender's email is required", 500);
     }
     this.from = from;
     this.from_name = name;

@@ -6,6 +6,7 @@
    "description": "API nodejs with typescript",
    "devDependencies": {
       "@types/node": "^8.0.29",
+      "eslint": "^7.9.0",
       "nodemon": "^1.18.10",
       "ts-node": "3.3.0",
       "tsc-watch": "^4.2.8",
@@ -13,6 +14,7 @@
       "typescript": "3.3.3333"
    },
    "dependencies": {
+      "@hapi/joi": "^17.1.1",
       "aws-sdk": "^2.613.0",
       "axios": "^0.20.0",
       "bcryptjs": "^2.4.3",
@@ -63,6 +65,7 @@
       "recreatedb": "ts-node ./node_modules/typeorm/cli.js schema:drop && npm run migrate && npm run seed",
       "rollback": "ts-node ./node_modules/typeorm/cli.js migration:revert",
       "command": "ts-node command",
-      "seed": "./node_modules/.bin/sequelize db:seed:all"
+      "seed": "./node_modules/.bin/sequelize db:seed:all",
+      "lint": "eslint ."
    }
 }

@@ -41,7 +41,7 @@ export class UserRepository {
 
   async create(data) {
     if (await this.getByEmail(data.email)) {
-      throw new Exception('Email is existing', 1001);
+      throw new Exception('Email is existing', 404);
     }
     const user = { ...data, ...{ password: Auth.hash(data.password) } };
     const result = await User.create(user).save();
@@ -59,8 +59,8 @@ export class UserRepository {
 
   async update(id: number, data) {
     const user = await this.getById(id);
-    if (!user) throw new Exception('User Not Found !');
-    if (await this.getByEmail(data.email)) throw new Exception('Email is existing', 1001);
+    if (!user) throw new Exception('User Not Found !', 404);
+    if (await this.getByEmail(data.email)) throw new Exception('Email is existing', 404);
     if (data.password) data.password = Auth.hash(data.password);
     Object.assign(user, data);
     await user.save();
@@ -83,7 +83,7 @@ export class UserRepository {
 
   async delete(id: number) {
     const user = await User.findOne({ id });
-    if (!user) throw new Exception('User Not Found !');
+    if (!user) throw new Exception('User Not Found !', 404);
     await user.remove();
     return true;
   }

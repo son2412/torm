@@ -9,7 +9,7 @@ export class GroupController {
       const result = await new GroupRepository().listGroup(req.query);
       res.json(ApiRespone.paginate(result));
     } catch (err) {
-      res.json(ApiRespone.error(err));
+      res.status(err.errorCode).json(ApiRespone.error(err));
     }
   }
 
@@ -18,7 +18,7 @@ export class GroupController {
       const result = await new GroupRepository().detail(Number(req.params.id));
       res.json(ApiRespone.item(result));
     } catch (err) {
-      res.json(ApiRespone.error(err));
+      res.status(err.errorCode).json(ApiRespone.error(err));
     }
   }
 
@@ -28,7 +28,7 @@ export class GroupController {
       const result = await new GroupRepository().create(req.body);
       res.json(ApiRespone.item(result));
     } catch (err) {
-      res.json(ApiRespone.error(err));
+      res.status(err.errorCode).json(ApiRespone.error(err));
     }
   }
 
@@ -37,7 +37,7 @@ export class GroupController {
       const result = await new GroupRepository().update(Number(req.params.id), req.body);
       res.json(ApiRespone.item(result));
     } catch (err) {
-      res.json(ApiRespone.error(err));
+      res.status(err.errorCode).json(ApiRespone.error(err));
     }
   }
 
@@ -46,7 +46,7 @@ export class GroupController {
       await new GroupRepository().leave(Number(req.params.id), req.user_id);
       res.json(ApiRespone.success());
     } catch (err) {
-      res.json(ApiRespone.error(err));
+      res.status(err.errorCode).json(ApiRespone.error(err));
     }
   }
 
@@ -55,7 +55,7 @@ export class GroupController {
       const result = await new GroupRepository().createChatWith(req.user_id, req.body.target_id);
       res.json(ApiRespone.item(result));
     } catch (err) {
-      res.json(ApiRespone.error(err));
+      res.status(err.errorCode).json(ApiRespone.error(err));
     }
   }
 
@@ -64,7 +64,7 @@ export class GroupController {
       const result = await new GroupRepository().delete(req.params.id);
       res.json(ApiRespone.success());
     } catch (err) {
-      res.json(ApiRespone.error(err));
+      res.status(err.errorCode).json(ApiRespone.error(err));
     }
   }
 
@@ -74,7 +74,7 @@ export class GroupController {
       await new GroupRepository().addUserToGroup(req.params.id, user_id);
       res.json(ApiRespone.success());
     } catch (err) {
-      res.json(ApiRespone.error(err));
+      res.status(err.errorCode).json(ApiRespone.error(err));
     }
   }
 
@@ -83,7 +83,7 @@ export class GroupController {
       const result = await new GroupRepository().listAllGroup(req.user_id);
       res.json(ApiRespone.collection(result));
     } catch (err) {
-      res.json(ApiRespone.error(err));
+      res.status(err.errorCode).json(ApiRespone.error(err));
     }
   }
 }

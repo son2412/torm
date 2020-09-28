@@ -9,7 +9,7 @@ export class MessageController {
       const result = await new MessageRepository().listMessageByGroup(req.query);
       res.json(ApiRespone.paginate(result));
     } catch (err) {
-      res.json(ApiRespone.error(err));
+      res.status(err.errorCode).json(ApiRespone.error(err));
     }
   }
 
@@ -19,7 +19,7 @@ export class MessageController {
       const result = await new MessageRepository().create(req.body);
       res.json(ApiRespone.item(result));
     } catch (err) {
-      res.json(ApiRespone.error(err));
+      res.status(err.errorCode).json(ApiRespone.error(err));
     }
   }
 }
