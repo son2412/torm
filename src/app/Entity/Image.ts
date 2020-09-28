@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, OneToOne, BaseEntity } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, OneToOne, BaseEntity, ManyToOne } from 'typeorm';
 import { User } from '.';
+import { Topic } from './Topic';
 export const IMAGEABLE_TYPE_USER = 1;
 export const IMAGEABLE_TYPE_TOPIC = 2;
 @Entity('images')
@@ -31,4 +32,8 @@ export class Image extends BaseEntity {
   @OneToOne(() => User)
   @JoinColumn({ name: 'imageable_id', referencedColumnName: 'id' })
   user: User;
+
+  @ManyToOne(() => Topic)
+  @JoinColumn({ name: 'imageable_id', referencedColumnName: 'id' })
+  topics: Topic;
 }

@@ -1,4 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany, OneToOne, JoinColumn } from 'typeorm';
+import { Image } from './Image';
+import { User } from './User';
 
 @Entity('topics')
 export class Topic extends BaseEntity {
@@ -11,8 +13,8 @@ export class Topic extends BaseEntity {
   @Column()
   title: string;
 
-  @Column()
-  content: string;
+  // @Column()
+  // content: string;
 
   @Column()
   deleted_at: Date;
@@ -22,4 +24,11 @@ export class Topic extends BaseEntity {
 
   @Column()
   updated_at: Date;
+
+  @OneToOne(() => User)
+  @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
+  user: User;
+
+  @OneToMany(() => Image, (image) => image.topics)
+  images: Image[];
 }
