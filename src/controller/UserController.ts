@@ -8,7 +8,7 @@ export class UserController {
       const result = await new UserRepository().getAll(req.query);
       res.json(ApiRespone.paginate(result));
     } catch (err) {
-      res.json(ApiRespone.error(err));
+      res.status(err.errorCode).json(ApiRespone.error(err));
     }
   }
 
@@ -26,7 +26,7 @@ export class UserController {
       const result = await new UserRepository().getById(req.user_id);
       res.json(ApiRespone.item(result));
     } catch (err) {
-      res.json(ApiRespone.error(err));
+      res.status(err.errorCode).json(ApiRespone.error(err));
     }
   }
 
@@ -35,7 +35,7 @@ export class UserController {
       const result = await new UserRepository().update(req.user_id, req.body);
       res.json(ApiRespone.item(result));
     } catch (err) {
-      res.json(ApiRespone.error(err));
+      res.status(err.errorCode).json(ApiRespone.error(err));
     }
   }
 
@@ -44,7 +44,7 @@ export class UserController {
       const result = await new UserRepository().create(req.body);
       res.json(ApiRespone.item(result));
     } catch (err) {
-      res.json(ApiRespone.error(err));
+      res.status(err.errorCode).json(ApiRespone.error(err));
     }
   }
 
@@ -53,7 +53,7 @@ export class UserController {
       await new UserRepository().delete(req.params.id);
       res.json(ApiRespone.success());
     } catch (err) {
-      res.json(ApiRespone.error(err));
+      res.status(err.errorCode).json(ApiRespone.error(err));
     }
   }
 
@@ -62,7 +62,7 @@ export class UserController {
       const result = await new UserRepository().update(req.params.id, req.body);
       res.json(ApiRespone.item(result));
     } catch (err) {
-      res.json(ApiRespone.error(err));
+      res.status(err.errorCode).json(ApiRespone.error(err));
     }
   }
 
@@ -71,7 +71,7 @@ export class UserController {
       const result = await new UserRepository().listUserOnline(req.query);
       res.json(ApiRespone.paginate(result));
     } catch (err) {
-      res.json(ApiRespone.error(err));
+      res.status(err.errorCode).json(ApiRespone.error(err));
     }
   }
 }
