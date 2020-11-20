@@ -7,7 +7,7 @@ module.exports = {
   "password": process.env.DB_PASS,
   "database": process.env.DB_NAME,
   "synchronize": false,
-  "logging": ["query", "error"],
+  "logging": false, // ["query", "error"]
   entities: [rootDir + '/app/Entity/**/*.{js,ts}'],
   migrations: [rootDir + '/migration/**/*.{js,ts}'],
   subscribers: [rootDir + '/subscriber/**/*.{js,ts}'],
