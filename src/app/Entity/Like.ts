@@ -1,16 +1,19 @@
-import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, OneToOne, OneToMany, ManyToOne, BaseEntity } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, ManyToOne, BaseEntity } from 'typeorm';
 import { User } from '.';
 
 @Entity('blocks')
-export class Block extends BaseEntity {
+export class Like extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  blocker_id: number;
+  user_id: number;
 
   @Column()
   target_id: number;
+
+  @Column()
+  type: number;
 
   @Column()
   deleted_at: Date;
@@ -22,8 +25,8 @@ export class Block extends BaseEntity {
   updated_at: Date;
 
   @ManyToOne(() => User)
-  @JoinColumn({ name: 'blocker_id', referencedColumnName: 'id' })
-  blocker: User;
+  @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
+  user: User;
 
   @ManyToOne(() => User)
   @JoinColumn({ name: 'target_id', referencedColumnName: 'id' })

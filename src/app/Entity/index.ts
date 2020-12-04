@@ -6,3 +6,5 @@ export * from './Message';
 export * from './UserRole';
 export * from './Comment';
 export * from './Topic';
+export * from './Block';
+export * from './Like';
