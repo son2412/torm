@@ -5,7 +5,7 @@ export class Listener {
     return path.resolve(__dirname, __filename);
   }
 
-  handle(event: any = null) {
+  handle(event: any) {
     throw new Exception('method is not implemented', event);
   }
 }

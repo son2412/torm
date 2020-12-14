@@ -17,7 +17,7 @@ export class AuthController {
     }
     try {
       const result = await App.make(AuthRepository).login(value);
-      new Emit().fire(new WellcomeEvent(result));
+      App.make('Emit').fire(new WellcomeEvent(result));
       res.json(ApiRespone.item(result));
     } catch (err) {
       res.status(err.errorCode).json(ApiRespone.error(err));

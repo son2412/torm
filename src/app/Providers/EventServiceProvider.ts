@@ -1,5 +1,6 @@
 import { WellcomeEvent } from '@event/WellcomeEvent';
 import { WellcomeListener } from '@listener/WellcomeListener';
+import { Emit } from '@service/Emit';
 import * as _ from 'lodash';
 import { App } from './App';
 import { ServiceProvider } from './ServiceProvider';
@@ -14,11 +15,8 @@ export default class EventServiceProvider extends ServiceProvider {
         listeners: [WellcomeListener]
       }
     ];
-    _.forEach(listen, (item) => {
-      item.listeners.forEach((listener) => {
-        new listener().handle();
-        eventEmitter.on(item.event.getName(), new listener().handle);
-      });
-    });
+    _.forEach(listen, (item) =>
+      item.listeners.forEach((listener) => eventEmitter.on(item.event.getName(), new listener().handle))
+    );
   }
 }

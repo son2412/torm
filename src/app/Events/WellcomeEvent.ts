@@ -2,10 +2,10 @@ import { Event } from './Event';
 import * as path from 'path';
 
 export class WellcomeEvent extends Event {
-  data: any;
-  constructor(data) {
+  result: any;
+  constructor(result) {
     super();
-    this.data = data;
+    this.result = result;
   }
 
   static getName() {
