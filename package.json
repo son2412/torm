@@ -58,7 +58,9 @@
       "@service": "build/app/Services",
       "@middleware": "build/app/Middleware",
       "@notification": "build/app/Notifications",
-      "@provider": "build/app/Providers"
+      "@provider": "build/app/Providers",
+      "@event": "build/app/Events",
+      "@listener": "build/app/Listeners"
    },
    "scripts": {
       "start": "tsc && nodemon --watch ./src --exec ts-node -r tsconfig-paths/register ./src/index.ts",

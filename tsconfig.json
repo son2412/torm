@@ -20,7 +20,10 @@
       "@service/*": ["app/Services/*"],
       "@middleware/*": ["app/Middleware/*"],
       "@notification/*": ["app/Notifications/*"],
-      "@provider/*": ["app/Providers/*"]
+      "@provider/*": ["app/Providers/*"],
+      "@event/*": ["app/Events/*"],
+      "@listener/*": ["app/Listeners/*"],
+
     }
   },
   "include": ["src/**/*"],
