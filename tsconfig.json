@@ -22,8 +22,7 @@
       "@notification/*": ["app/Notifications/*"],
       "@provider/*": ["app/Providers/*"],
       "@event/*": ["app/Events/*"],
-      "@listener/*": ["app/Listeners/*"],
-
+      "@listener/*": ["app/Listeners/*"]
     }
   },
   "include": ["src/**/*"],

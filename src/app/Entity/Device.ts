@@ -1,8 +1,8 @@
 import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, ManyToOne, BaseEntity } from 'typeorm';
 import { User } from '.';
 
-@Entity('likes')
-export class Like extends BaseEntity {
+@Entity('devices')
+export class Device extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -10,10 +10,10 @@ export class Like extends BaseEntity {
   user_id: number;
 
   @Column()
-  target_id: number;
+  token: string;
 
   @Column()
-  type: number;
+  platform: string;
 
   @Column()
   deleted_at: Date;
@@ -27,9 +27,5 @@ export class Like extends BaseEntity {
   @ManyToOne(() => User)
   @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
   user: User;
-
-  @ManyToOne(() => User)
-  @JoinColumn({ name: 'target_id', referencedColumnName: 'id' })
-  target: User;
 
 }

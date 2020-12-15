@@ -70,7 +70,7 @@ export class GroupRepository {
     const user_group = await UserGroup.find({ where: { user_id: user_id }, select: ['group_id'] });
     const groupIds = user_group.map((x) => x.group_id);
     if (groupIds.length > 0) {
-      const groups = await Group.find({ where: { type: TYPE_SINGLE, id: In(groupIds) }, relations: ['users'] });
+      const groups = await Group.find({ where: { type: TYPE_SINGLE, id: In(groupIds) }, relations: ['users', 'users.image'] });
       const find = groups.filter((g) => g.users.find((u) => u.id === target_id));
       if (find.length > 0) {
         return find[0];
@@ -88,7 +88,7 @@ export class GroupRepository {
         created_at: new Date()
       }).save()
     ]);
-    new FirebaseService().createChildMessage(group.id, Object.assign(message, { created_at: `${message.created_at}` }));
+    // new FirebaseService().createChildMessage(group.id, Object.assign(message, { created_at: `${message.created_at}` }));
     const result = await this.detail(group.id);
     return result;
   }
