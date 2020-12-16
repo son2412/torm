@@ -19,6 +19,7 @@ export function AuthMiddleware(req: Request, res: Response, next: NextFunction) 
       throw new Exception('Token invalid!', 401);
     }
     req.user_id = Number(decode.data.id);
+    req.user = decode.data;
     next();
   });
 }
