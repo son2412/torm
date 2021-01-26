@@ -3,8 +3,7 @@ node_js:
   - 12
 deploy:
   provider: script
-  skip_cleanup: true
-  app: torm
+  cleanup: true
   on: dev
 before_script:
   - apk add --update npm lcms2-dev libpng-dev gcc g++ make autoconf automake
