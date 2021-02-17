@@ -28,5 +28,5 @@ function print(item) {
   console.log(item.name + ' | ' + item.email + ' | ' + item.message);
 }
 
-acccessSpearSheet();
+// acccessSpearSheet();
 // 53b3f58e97e3b72b813a70143aba0ab96c24556d

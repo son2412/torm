@@ -7,7 +7,6 @@ import group from './groups';
 import message from './messages';
 import topic from './topics';
 import device from './devices';
-import test from './test';
 
 const routes = Router();
 
@@ -19,6 +18,5 @@ routes.use('/groups', group);
 routes.use('/messages', message);
 routes.use('/topics', topic);
 routes.use('/devices', device);
-routes.use('/test', test);
 
 export default routes;
