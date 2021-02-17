@@ -1,22 +1,19 @@
+#before_install:
+#- openssl aes-256-cbc -K $encrypted_db2095f63ba3_key -iv $encrypted_db2095f63ba3_iv -in deploy_rsa.enc -out deploy_rsa -d
+
 language: node_js
 node_js:
   - 12
+addons:
+  ssh_known_hosts: 13.212.177.234
+before_deploy:
+  - openssl aes-256-cbc -K $encrypted_db2095f63ba3_key -iv $encrypted_db2095f63ba3_iv -in deploy_rsa.enc -out /tmp/deploy_rsa -d
+  - eval "$(ssh-agent -s)"
+  - chmod 600 /tmp/deploy_rsa
+  - ssh-add /tmp/deploy_rsa
 deploy:
   provider: script
   cleanup: true
-  on: dev
-before_script:
-  - apk add --update npm lcms2-dev libpng-dev gcc g++ make autoconf automake
-script:
-  - apk add --no-cache rsync openssh
-  - mkdir -p ~/.ssh
-  - echo "$DEV_ENV" > .env
-  - ssh-keyscan -H '13.212.177.234'  >> ~/.ssh/known_hosts
-  - echo "$DEV_KEY" > ~/.ssh/id_rsa
-  - chmod 600 ~/.ssh/id_rsa
-  - echo '*** Starting build ***'
-  - echo 'install dependencies'
-  - npm install --silent
-  - npm run --silent build
-  - rsync --progress -avzh --exclude 'node_modules' -e "ssh -i ~/.ssh/id_rsa " --rsync-path="sudo rsync" . ubuntu@13.212.177.234:/var/www/html/new_torm-api
-  - ssh -i ~/.ssh/id_rsa ubuntu@13.212.177.234 "cd /var/www/html && sudo mv torm-api tmp_torm-api && sudo mv new_torm-api torm-api && sudo rm -rf tmp_torm-api && sudo chmod -R 777 /var/www/html/torm-api && cd /var/www/html/torm-api"
+  script: ssh ubuntu@13.212.177.234 'bash ./deploy.sh'
+  on:
+    branch: dev
