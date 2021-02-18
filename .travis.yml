@@ -17,9 +17,8 @@ deploy:
   #script: ssh ubuntu@13.212.177.234 'bash ./deploy.sh'
   on:
     branch: dev
-before_script:
-  - ssh ubuntu@13.212.177.234
 script:
+  - ssh ubuntu@13.212.177.234
   - echo "Changing directory to ~/torm"
   - cd torm
   - echo "Pulling from git"
