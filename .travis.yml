@@ -14,18 +14,6 @@ before_deploy:
 deploy:
   provider: script
   cleanup: true
-  #script: ssh ubuntu@13.212.177.234 'bash ./deploy.sh'
+  script: ssh ubuntu@13.212.177.234 'pwd && ls'
   on:
     branch: dev
-script:
-  - ssh ubuntu@13.212.177.234
-  - echo "Changing directory to ~/torm"
-  - cd torm
-  - echo "Pulling from git"
-  - git pull origin dev
-  - echo "Install"
-  - npm install
-  - echo "Build"
-  - npm run build
-  - echo "Restarting pm2 instances"
-  - pm2 restart all
