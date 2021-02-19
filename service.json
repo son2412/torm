@@ -1,0 +1,11 @@
+{
+    "apps": [{
+        "name": "torm api",
+        "script": "./build/index.js",
+        "watch": false,
+         "ignore_watch": [
+            "node_modules",
+            "logs"
+        ]
+    }]
+}
