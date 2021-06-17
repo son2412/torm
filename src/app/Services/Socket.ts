@@ -30,7 +30,6 @@ export function socket(server) {
           socket.disconnect();
           return;
         }
-        user.isOnline = true;
         user.save();
         socket.on(SocketEvent.USER_JOIN_ROOM, function (data: { targetId: number; type: string }) {
           if (!data) {
@@ -73,7 +72,6 @@ export function socket(server) {
         });
         socket.on('disconnect', async () => {
           const user = await User.findOne({ where: { id: decode.data.id } });
-          user.isOnline = false;
           user.save();
           console.log(`${socket.id} disconnected`);
         });

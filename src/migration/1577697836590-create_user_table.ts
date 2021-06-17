@@ -30,6 +30,11 @@ export class createUserTable1577697836590 implements MigrationInterface {
             type: 'varchar'
           },
           {
+            name: 'avatar',
+            type: 'text',
+            isNullable: true
+          },
+          {
             name: 'phone',
             type: 'varchar'
           },
@@ -40,11 +45,6 @@ export class createUserTable1577697836590 implements MigrationInterface {
           {
             name: 'gender',
             type: 'int'
-          },
-          {
-            name: 'isOnline',
-            type: 'boolean',
-            default: false
           },
           {
             name: 'status',

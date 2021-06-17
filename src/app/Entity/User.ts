@@ -18,6 +18,9 @@ export class User extends BaseEntity {
   email: string;
 
   @Column()
+  avatar: string;
+
+  @Column()
   phone: string;
 
   @Column()
@@ -28,9 +31,6 @@ export class User extends BaseEntity {
 
   @Column()
   password: string;
-
-  @Column()
-  isOnline: boolean;
 
   @Column()
   status: number;
