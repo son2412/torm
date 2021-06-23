@@ -6,8 +6,7 @@ const controller = new UserController();
 const router = Router();
 
 router.all('*', AuthMiddleware);
-router.get('/online', controller.listUserOnline);
-router.get('/profile', controller.me);
-router.put('/profile', controller.updateMe);
+router.get('/', controller.me);
+router.put('/', controller.updateMe);
 
 export default router;

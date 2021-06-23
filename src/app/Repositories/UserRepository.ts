@@ -87,25 +87,4 @@ export class UserRepository {
     await user.remove();
     return true;
   }
-
-  async listUserOnline(params) {
-    const page_index = params.page_index || 1;
-    const page_size = params.page_size || 10;
-    const users = await User.createQueryBuilder('user')
-      .leftJoinAndSelect('user.image', 'image', 'image.imageable_type = :imageable_type', {
-        imageable_type: IMAGEABLE_TYPE_USER
-      })
-      .where('user.isOnline = :isOnline', { isOnline: true })
-      .orderBy('user.id', 'DESC')
-      .take(page_size)
-      .skip((page_index - 1) * page_size)
-      .getManyAndCount();
-    return {
-      data: users[0],
-      totalRow: users[1],
-      totalPage: Math.ceil(users[1] / page_size),
-      currentPage: page_index,
-      perPage: page_size
-    };
-  }
 }
