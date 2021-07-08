@@ -10,11 +10,11 @@ import isPdf from 'is-pdf';
 import { Request } from 'express';
 
 export class FileStorage {
-  storage_driver: string;
-  folder: String;
-  type: any;
-  limit: number;
-  header: boolean;
+  private storage_driver: string;
+  private folder: string;
+  private type: string[];
+  private limit: number;
+  private header: boolean;
   constructor() {
     this.storage_driver = process.env.FILE_STORAGE;
     if (process.env.APP_ENV === 'local') {
@@ -27,7 +27,7 @@ export class FileStorage {
     this.header = false;
   }
 
-  destination(folder) {
+  destination(folder: string) {
     this.folder = folder;
     return this;
   }
