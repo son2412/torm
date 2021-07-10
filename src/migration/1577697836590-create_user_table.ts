@@ -19,15 +19,18 @@ export class createUserTable1577697836590 implements MigrationInterface {
           },
           {
             name: 'password',
-            type: 'text'
+            type: 'text',
+            isNullable: true
           },
           {
             name: 'first_name',
-            type: 'varchar'
+            type: 'varchar',
+            isNullable: true
           },
           {
             name: 'last_name',
-            type: 'varchar'
+            type: 'varchar',
+            isNullable: true
           },
           {
             name: 'avatar',
@@ -36,19 +39,33 @@ export class createUserTable1577697836590 implements MigrationInterface {
           },
           {
             name: 'phone',
-            type: 'varchar'
+            type: 'varchar',
+            isNullable: true
           },
           {
-            name: 'birth',
-            type: 'varchar'
+            name: 'birthday',
+            type: 'varchar',
+            isNullable: true
           },
           {
             name: 'gender',
-            type: 'int'
+            type: 'int',
+            isNullable: true
           },
           {
             name: 'status',
             type: 'int',
+            default: 0
+          },
+          {
+            name: 'social_id',
+            type: 'varchar',
+            isNullable: true
+          },
+          {
+            name: 'login_type',
+            type: 'int',
+            isNullable: true,
             default: 0
           },
           {

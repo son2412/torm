@@ -5,6 +5,7 @@ import { App } from '@provider/index';
 import * as Joi from '@hapi/joi';
 import { Emit } from '@service/Emit';
 import { WellcomeEvent } from '@event/WellcomeEvent';
+import { OAuth } from '@service/OAuth';
 export class AuthController {
   async signIn(req: Request, res: Response) {
     const valid = Joi.object({
@@ -28,6 +29,23 @@ export class AuthController {
     const data = Object.assign(req.body, { status: 1 });
     try {
       const result = await new AuthRepository().register(data);
+      res.json(ApiRespone.item(result));
+    } catch (err) {
+      res.status(err.errorCode).json(ApiRespone.error(err));
+    }
+  }
+
+  async signInWithFacebook(req: Request, res: Response) {
+    const valid = Joi.object({
+      id: Joi.string().required(),
+      token: Joi.string().required()
+    });
+    const { error, value } = valid.validate(req.body);
+    if (error) {
+      res.status(400).json(ApiRespone.error({ message: error.details[0].message, errorCode: 400 }));
+    }
+    try {
+      const result = await App.make(AuthRepository).signInFacebook(value);
       res.json(ApiRespone.item(result));
     } catch (err) {
       res.status(err.errorCode).json(ApiRespone.error(err));

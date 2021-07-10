@@ -2,6 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, OneToOne
 import { Role, Image } from '.';
 import * as _ from 'lodash';
 import { Group } from './Group';
+export const LOGIN_TYPE_FACEBOOK = 1
 
 @Entity('users')
 export class User extends BaseEntity {
@@ -24,13 +25,19 @@ export class User extends BaseEntity {
   phone: string;
 
   @Column()
-  birth: string;
+  birthday: string;
 
   @Column()
   gender: number;
 
   @Column()
   password: string;
+
+  @Column()
+  social_id: string;
+
+  @Column()
+  login_type: number;
 
   @Column()
   status: number;

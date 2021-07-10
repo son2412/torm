@@ -24,3 +24,8 @@ export type ImageData = {
   url: string;
   type?: number;
 };
+
+export type LoginFacebook = {
+  id: string;
+  token: string;
+};
