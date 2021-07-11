@@ -21,7 +21,7 @@ export class AuthController {
       // App.make('Emit').fire(new WellcomeEvent(result));
       res.json(ApiRespone.item(result));
     } catch (err) {
-      res.status(err.errorCode).json(ApiRespone.error(err));
+      res.status(err.errorCode || 500).json(ApiRespone.error(err));
     }
   }
 
@@ -31,7 +31,7 @@ export class AuthController {
       const result = await new AuthRepository().register(data);
       res.json(ApiRespone.item(result));
     } catch (err) {
-      res.status(err.errorCode).json(ApiRespone.error(err));
+      res.status(err.errorCode || 500).json(ApiRespone.error(err));
     }
   }
 
@@ -48,7 +48,23 @@ export class AuthController {
       const result = await App.make(AuthRepository).signInFacebook(value);
       res.json(ApiRespone.item(result));
     } catch (err) {
-      res.status(err.errorCode).json(ApiRespone.error(err));
+      res.status(err.errorCode || 500).json(ApiRespone.error(err));
+    }
+  }
+
+  async signInWithGoogle(req: Request, res: Response) {
+    const valid = Joi.object({
+      token: Joi.string().required()
+    });
+    const { error, value } = valid.validate(req.body);
+    if (error) {
+      res.status(400).json(ApiRespone.error({ message: error.details[0].message, errorCode: 400 }));
+    }
+    try {
+      const result = await App.make(AuthRepository).signInGoogle(value.token);
+      res.json(ApiRespone.item(result));
+    } catch (err) {
+      res.status(err.errorCode || 500).json(ApiRespone.error(err));
     }
   }
 }

@@ -1,5 +1,5 @@
 import { getRepository } from 'typeorm';
-import { LOGIN_TYPE_FACEBOOK } from '@entity/index';
+import { LOGIN_TYPE_FACEBOOK, LOGIN_TYPE_GOOGLE } from '@entity/index';
 import { Auth } from '@service/Auth';
 import { Exception } from '@service/Exception';
 import { UserRepository } from './UserRepository';
@@ -37,10 +37,29 @@ export class AuthRepository {
     if (!facebookInfo) {
       throw new Exception('Facebook info not truth!', 400);
     }
-    let user = await repository.getByEmail(facebookInfo.email);
+    let user = await repository.getByEmailSocial(facebookInfo.email, LOGIN_TYPE_FACEBOOK);
     if (!user) {
       user = await repository.create({ ...facebookInfo, ...{ login_type: LOGIN_TYPE_FACEBOOK } });
-      console.log(user);
+    }
+    return { token: Auth.generateToken(user) };
+  }
+
+  async signInGoogle(token: string) {
+    const repository = new UserRepository();
+    const googleInfo = await OAuth.getGoogleUser(token);
+    if (!googleInfo || !googleInfo.email_verified) {
+      throw new Exception('Google info not truth!', 400);
+    }
+    let user = await repository.getByEmailSocial(googleInfo.email, LOGIN_TYPE_GOOGLE);
+    if (!user) {
+      user = await repository.create({
+        email: googleInfo.email,
+        first_name: googleInfo.family_name,
+        last_name: googleInfo.given_name,
+        avatar: googleInfo.picture,
+        social_id: googleInfo.sub,
+        login_type: LOGIN_TYPE_GOOGLE
+      });
     }
     return { token: Auth.generateToken(user) };
   }

@@ -1,4 +1,7 @@
 import * as request from 'request-promise';
+import { OAuth2Client } from 'google-auth-library';
+
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID, process.env.GOOGLE_SECRET_ID);
 export class OAuth {
   static async getFacebookUser(id: string, token: string) {
     return new Promise((resolve, reject) => {
@@ -28,5 +31,19 @@ export class OAuth {
         return resolve(data);
       });
     });
+  }
+
+  static async getGoogleUser(tokenId: string) {
+    // const googleInfo = client
+    //   .verifyIdToken({ idToken: tokenId, audience: process.env.GOOGLE_CLIENT_ID })
+    //   .then((res) => console.log(res.getPayload()))
+    //   .catch((e) => console.log(e));
+    try {
+      const googleInfo = await client.verifyIdToken({ idToken: tokenId, audience: process.env.GOOGLE_CLIENT_ID });
+      console.log(googleInfo);
+      return googleInfo.getPayload();
+    } catch (error) {
+      console.log(error);
+    }
   }
 }

@@ -39,6 +39,13 @@ export class UserRepository {
     return user;
   }
 
+  async getByEmailSocial(email: string, type: number) {
+    const user = await User.createQueryBuilder('user')
+      .where('user.email = :email', { email: email, login_type: type })
+      .getOne();
+    return user;
+  }
+
   async create(data) {
     if (await this.getByEmail(data.email)) {
       throw new Exception('Email is existing', 404);
