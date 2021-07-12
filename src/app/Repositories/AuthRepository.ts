@@ -4,7 +4,9 @@ import { Auth } from '@service/Auth';
 import { Exception } from '@service/Exception';
 import { UserRepository } from './UserRepository';
 import { LoginData, LoginFacebook, SignUpData } from 'types/types';
-import { OAuth } from '@service/OAuth';
+import { OAuthClient, OAuthTwitter } from '@service/OAuthClient';
+import { App } from '@provider/index';
+import { WellcomeEvent } from '@event/WellcomeEvent';
 
 interface OAuthResponse {
   email: string;
@@ -19,7 +21,7 @@ export class AuthRepository {
     if (!user) throw new Exception('User not found', 404);
     const isValidPassword = Auth.check(data.password, user.password);
     if (isValidPassword === false) throw new Exception('Password not match', 400);
-
+    App.make('Emit').fire(new WellcomeEvent(user));
     return { token: Auth.generateToken(user) };
   }
 
@@ -33,7 +35,7 @@ export class AuthRepository {
 
   async signInFacebook(input: LoginFacebook) {
     const repository = new UserRepository();
-    const facebookInfo = (await OAuth.getFacebookUser(input.id, input.token)) as OAuthResponse;
+    const facebookInfo = (await OAuthClient.getFacebookUser(input.id, input.token)) as OAuthResponse;
     if (!facebookInfo) {
       throw new Exception('Facebook info not truth!', 400);
     }
@@ -46,7 +48,7 @@ export class AuthRepository {
 
   async signInGoogle(token: string) {
     const repository = new UserRepository();
-    const googleInfo = await OAuth.getGoogleUser(token);
+    const googleInfo = await OAuthClient.getGoogleUser(token);
     if (!googleInfo || !googleInfo.email_verified) {
       throw new Exception('Google info not truth!', 400);
     }
@@ -62,5 +64,12 @@ export class AuthRepository {
       });
     }
     return { token: Auth.generateToken(user) };
+  }
+
+  async signInTwitter(data: OAuthTwitter) {
+    const repository = new UserRepository();
+    const twitterInfo = await OAuthClient.getTwitterUser(data);
+
+    return twitterInfo;
   }
 }
