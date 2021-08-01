@@ -8,5 +8,6 @@ router.post('/login', controller.signIn);
 router.post('/register', controller.signUp);
 router.post('/signin-facebook', controller.signInWithFacebook);
 router.post('/signin-google', controller.signInWithGoogle);
+router.post('/signin-twitter', controller.signInWithTwitter);
 
 export default router;
