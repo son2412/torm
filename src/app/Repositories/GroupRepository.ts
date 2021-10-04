@@ -1,8 +1,9 @@
-import { Group, Message, MESSAGE_TYPE_TEXT, TYPE_GROUP, TYPE_SINGLE } from '@entity/index';
-import { Exception } from '@service/Exception';
+import { Group, Message } from '@entity/index';
+import { Exception } from '@util/Exception';
 import { UserGroup } from '@entity/UserGroup';
 import { In } from 'typeorm';
-import { FirebaseService } from '@service/Firebase';
+import { FirebaseService } from '@util/Firebase';
+import { GroupType, MessageType } from '@const/enum';
 
 export class GroupRepository {
   async listGroup(params) {
@@ -36,7 +37,7 @@ export class GroupRepository {
   }
 
   async create(data) {
-    Object.assign(data, { type: TYPE_GROUP });
+    Object.assign(data, { type: GroupType.GROUP });
     const group = await Group.create(data).save();
     await UserGroup.create({ user_id: data.creator_id, group_id: group.id }).save();
     new FirebaseService().createChildConversation(group.id);
@@ -70,7 +71,10 @@ export class GroupRepository {
     const user_group = await UserGroup.find({ where: { user_id: user_id }, select: ['group_id'] });
     const groupIds = user_group.map((x) => x.group_id);
     if (groupIds.length > 0) {
-      const groups = await Group.find({ where: { type: TYPE_SINGLE, id: In(groupIds) }, relations: ['users', 'users.image'] });
+      const groups = await Group.find({
+        where: { type: GroupType.SINGLE, id: In(groupIds) },
+        relations: ['users', 'users.image']
+      });
       const find = groups.filter((g) => g.users.find((u) => u.id === target_id));
       if (find.length > 0) {
         return find[0];
@@ -84,7 +88,7 @@ export class GroupRepository {
         sender_id: user_id,
         group_id: group.id,
         message: 'Hello !',
-        type: MESSAGE_TYPE_TEXT,
+        type: MessageType.TEXT,
         created_at: new Date()
       }).save()
     ]);

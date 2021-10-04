@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { MessageRepository } from '@repository/index';
-import { ApiRespone } from '@service/ApiRespone';
+import { ApiRespone } from '@util/ApiRespone';
 
 export class MessageController {
   async all(req: Request, res: Response) {

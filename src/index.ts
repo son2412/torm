@@ -5,9 +5,9 @@ import * as express from 'express';
 import * as path from 'path';
 import * as bodyParser from 'body-parser';
 import routes from './routes';
-import { socket } from '@service/Socket';
+import { socket } from '@util/Socket';
 import config from './app/config/app';
-import RequestLogger from '@service/Logger';
+import RequestLogger from '@util/Logger';
 import * as RateLimit from 'express-rate-limit';
 const cors = require('cors');
 

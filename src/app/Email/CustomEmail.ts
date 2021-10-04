@@ -1,7 +1,7 @@
 import * as nodemailer from 'nodemailer';
 import Style from './Style';
 import * as _ from 'lodash';
-import { Exception } from '@service/Exception';
+import { Exception } from '@util/Exception';
 
 export default class CustomEmail {
   private content: string;

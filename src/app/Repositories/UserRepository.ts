@@ -1,6 +1,6 @@
 import { User, UserRole, IMAGEABLE_TYPE_USER, Image } from '@entity/index';
-import { Auth } from '@service/Auth';
-import { Exception } from '@service/Exception';
+import { Auth } from '@util/Auth';
+import { Exception } from '@util/Exception';
 
 export class UserRepository {
   async getAll(params) {

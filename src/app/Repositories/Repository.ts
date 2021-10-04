@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import { Exception } from '@service/Exception';
+import { Exception } from '@util/Exception';
 import { In, Not } from 'typeorm';
 export abstract class Repository {
   abstract repository: any;

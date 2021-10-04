@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { DeviceRepository } from '@repository/index';
-import { ApiRespone } from '@service/ApiRespone';
+import { ApiRespone } from '@util/ApiRespone';
 import { App } from '@provider/App';
 
 export class DeviceController {

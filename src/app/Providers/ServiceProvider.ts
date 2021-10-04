@@ -1,4 +1,4 @@
-import { Exception } from "@service/Exception";
+import { Exception } from "@util/Exception";
 
 export class ServiceProvider {
   register() {

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { AuthRepository } from '@repository/index';
-import { ApiRespone } from '@service/ApiRespone';
+import { AuthService } from '@service/index';
+import { ApiRespone } from '@util/ApiRespone';
 import { App } from '@provider/index';
 import * as Joi from '@hapi/joi';
 
@@ -15,20 +15,20 @@ export class AuthController {
       res.status(400).json(ApiRespone.error({ message: error.details[0].message, errorCode: 400 }));
     }
     try {
-      const result = await App.make(AuthRepository).login(value);
+      const result = await App.make(AuthService).login(value);
       res.json(ApiRespone.item(result));
     } catch (err) {
-      res.status(err.errorCode || 500).json(ApiRespone.error(err));
+      res.status(err.errorCode).json(ApiRespone.error(err));
     }
   }
 
   async signUp(req: Request, res: Response) {
     const data = Object.assign(req.body, { status: 1 });
     try {
-      const result = await new AuthRepository().register(data);
+      const result = await new AuthService().register(data);
       res.json(ApiRespone.item(result));
     } catch (err) {
-      res.status(err.errorCode || 500).json(ApiRespone.error(err));
+      res.status(err.errorCode).json(ApiRespone.error(err));
     }
   }
 
@@ -42,10 +42,10 @@ export class AuthController {
       res.status(400).json(ApiRespone.error({ message: error.details[0].message, errorCode: 400 }));
     }
     try {
-      const result = await App.make(AuthRepository).signInFacebook(value);
+      const result = await App.make(AuthService).signInFacebook(value);
       res.json(ApiRespone.item(result));
     } catch (err) {
-      res.status(err.errorCode || 500).json(ApiRespone.error(err));
+      res.status(err.errorCode).json(ApiRespone.error(err));
     }
   }
 
@@ -58,10 +58,10 @@ export class AuthController {
       res.status(400).json(ApiRespone.error({ message: error.details[0].message, errorCode: 400 }));
     }
     try {
-      const result = await App.make(AuthRepository).signInGoogle(value.token);
+      const result = await App.make(AuthService).signInGoogle(value.token);
       res.json(ApiRespone.item(result));
     } catch (err) {
-      res.status(err.errorCode || 500).json(ApiRespone.error(err));
+      res.status(err.errorCode).json(ApiRespone.error(err));
     }
   }
 
@@ -76,10 +76,10 @@ export class AuthController {
       res.status(400).json(ApiRespone.error({ message: error.details[0].message, errorCode: 400 }));
     }
     try {
-      const result = await App.make(AuthRepository).signInTwitter(value);
+      const result = await App.make(AuthService).signInTwitter(value);
       res.json(ApiRespone.item(result));
     } catch (err) {
-      res.status(err.errorCode || 500).json(ApiRespone.error(err));
+      res.status(err.errorCode).json(ApiRespone.error(err));
     }
   }
 }

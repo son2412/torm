@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { TopicRepository } from '@repository/index';
-import { ApiRespone } from '@service/ApiRespone';
+import { ApiRespone } from '@util/ApiRespone';
 
 export class TopicController {
   async all(req: Request, res: Response) {

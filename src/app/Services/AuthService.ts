@@ -1,12 +1,13 @@
 import { getRepository } from 'typeorm';
-import { LOGIN_TYPE_FACEBOOK, LOGIN_TYPE_GOOGLE } from '@entity/index';
-import { Auth } from '@service/Auth';
-import { Exception } from '@service/Exception';
-import { UserRepository } from './UserRepository';
+import { Auth } from '@util/Auth';
+import { Exception } from '@util/Exception';
+import { UserRepository } from '@repository/index';
 import { LoginData, LoginFacebook, SignUpData } from 'types/types';
-import { OAuthClient, OAuthTwitter } from '@service/OAuthClient';
+import { OAuthClient, OAuthTwitter } from '@util/OAuthClient';
 import { App } from '@provider/index';
 import { WellcomeEvent } from '@event/WellcomeEvent';
+import { LoginType } from '@const/enum';
+import { EmailExited, PasswordNotMatch, UserNotFound } from '@const/error';
 
 interface OAuthResponse {
   email: string;
@@ -14,20 +15,22 @@ interface OAuthResponse {
   avatar: string;
   first_name: string;
 }
-export class AuthRepository {
+export class AuthService {
   async login(data: LoginData) {
     const repository = new UserRepository();
     const user = await repository.getByEmail(data.email);
-    if (!user) throw new Exception('User not found', 404);
+    if (!user) throw new Exception(UserNotFound.message, UserNotFound.errorCode, UserNotFound.errorText);
     const isValidPassword = Auth.check(data.password, user.password);
-    if (isValidPassword === false) throw new Exception('Password not match', 400);
+    if (isValidPassword === false)
+      throw new Exception(PasswordNotMatch.message, PasswordNotMatch.errorCode, PasswordNotMatch.errorText);
     App.make('Emit').fire(new WellcomeEvent(user));
     return { token: Auth.generateToken(user) };
   }
 
   async register(data: SignUpData) {
     const repository = new UserRepository();
-    if (await repository.getByEmail(data.email)) throw new Exception('Email is existing', 404);
+    if (await repository.getByEmail(data.email))
+      throw new Exception(EmailExited.message, EmailExited.errorCode, EmailExited.errorText);
 
     const user = await repository.create(data);
     return { token: Auth.generateToken(user) };
@@ -39,9 +42,9 @@ export class AuthRepository {
     if (!facebookInfo) {
       throw new Exception('Facebook info not truth!', 400);
     }
-    let user = await repository.getByEmailSocial(facebookInfo.email, LOGIN_TYPE_FACEBOOK);
+    let user = await repository.getByEmailSocial(facebookInfo.email, LoginType.FACEBOOK);
     if (!user) {
-      user = await repository.create({ ...facebookInfo, ...{ login_type: LOGIN_TYPE_FACEBOOK } });
+      user = await repository.create({ ...facebookInfo, ...{ login_type: LoginType.FACEBOOK } });
     }
     return { token: Auth.generateToken(user) };
   }
@@ -52,7 +55,7 @@ export class AuthRepository {
     if (!googleInfo || !googleInfo.email_verified) {
       throw new Exception('Google info not truth!', 400);
     }
-    let user = await repository.getByEmailSocial(googleInfo.email, LOGIN_TYPE_GOOGLE);
+    let user = await repository.getByEmailSocial(googleInfo.email, LoginType.GOOGLE);
     if (!user) {
       user = await repository.create({
         email: googleInfo.email,
@@ -60,7 +63,7 @@ export class AuthRepository {
         last_name: googleInfo.given_name,
         avatar: googleInfo.picture,
         social_id: googleInfo.sub,
-        login_type: LOGIN_TYPE_GOOGLE
+        login_type: LoginType.GOOGLE
       });
     }
     return { token: Auth.generateToken(user) };

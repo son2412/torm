@@ -10,8 +10,6 @@ import {
   JoinTable
 } from 'typeorm';
 import { User, Message } from '.';
-export const TYPE_SINGLE = 1;
-export const TYPE_GROUP = 2;
 
 @Entity('groups')
 export class Group extends BaseEntity {

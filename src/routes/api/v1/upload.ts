@@ -1,5 +1,5 @@
 import { Request, Response, Router } from 'express';
-import { FileStorage } from '@service/FileStorage';
+import { FileStorage } from '@util/FileStorage';
 import { AuthMiddleware } from '@middleware/AuthMiddleware';
 const router = Router();
 

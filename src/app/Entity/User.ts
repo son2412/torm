@@ -2,8 +2,6 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, OneToOne
 import { Role, Image } from '.';
 import * as _ from 'lodash';
 import { Group } from './Group';
-export const LOGIN_TYPE_FACEBOOK = 1;
-export const LOGIN_TYPE_GOOGLE = 2;
 
 @Entity('users')
 export class User extends BaseEntity {

@@ -1,6 +1,6 @@
 import { Message } from '@entity/index';
-import { Exception } from '@service/Exception';
-import { FirebaseService } from '@service/Firebase';
+import { Exception } from '@util/Exception';
+import { FirebaseService } from '@util/Firebase';
 
 export class MessageRepository {
   async listMessageByGroup(params) {

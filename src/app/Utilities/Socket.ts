@@ -1,5 +1,5 @@
 const socketio = require('socket.io');
-import * as auth from '../../app/Middleware/AuthMiddleware';
+import * as auth from '../Middleware/AuthMiddleware';
 import { User } from '@entity/index';
 export enum chanelName {
   REALTIME = '/realtime'

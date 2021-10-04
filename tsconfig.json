@@ -22,7 +22,9 @@
       "@notification/*": ["app/Notifications/*"],
       "@provider/*": ["app/Providers/*"],
       "@event/*": ["app/Events/*"],
-      "@listener/*": ["app/Listeners/*"]
+      "@listener/*": ["app/Listeners/*"],
+      "@const/*": ["app/Constant/*"],
+      "@util/*": ["app/Utilities/*"],
     }
   },
   "include": ["src/**/*"],

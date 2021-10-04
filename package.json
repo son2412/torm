@@ -66,7 +66,9 @@
       "@provider": "build/app/Providers",
       "@event": "build/app/Events",
       "@listener": "build/app/Listeners",
-      "@schema": "build/app/Schema"
+      "@schema": "build/app/Schema",
+      "@const": "build/app/Constant",
+      "@util": "build/app/Utilities"
    },
    "scripts": {
       "start": "tsc && nodemon --watch ./src --exec ts-node -r tsconfig-paths/register ./src/index.ts",

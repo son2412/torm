@@ -1,5 +1,5 @@
 import { Device } from '@entity/index';
-import { Exception } from '@service/Exception';
+import { Exception } from '@util/Exception';
 
 export class DeviceRepository {
   async deleteDevice(id: number) {

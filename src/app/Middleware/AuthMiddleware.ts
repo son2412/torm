@@ -1,6 +1,6 @@
+import { TokenInvalid, TokenNotFound } from '@const/error';
 import { Request, Response, NextFunction } from 'express';
 import { verify } from 'jsonwebtoken';
-import { Exception } from '@service/Exception';
 
 export function AuthMiddleware(req: Request, res: Response, next: NextFunction) {
   let token = req.headers['authorization'] || '';
@@ -9,14 +9,12 @@ export function AuthMiddleware(req: Request, res: Response, next: NextFunction) 
   }
 
   if (!token) {
-    res.status(401).json({ message: 'Token not found !', success: false });
-    throw new Exception('Token not found', 401);
+    return res.status(401).json(TokenNotFound);
   }
 
   verify(token, process.env.JWT_SECRET, async (err, decode) => {
     if (err) {
-      res.status(401).json({ message: 'Token invalid !', success: false });
-      throw new Exception('Token invalid!', 401);
+      return res.status(401).json(TokenInvalid);
     }
     req.user_id = Number(decode.data.id);
     req.user = decode.data;

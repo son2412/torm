@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { GroupRepository } from '@repository/index';
-import { ApiRespone } from '@service/ApiRespone';
+import { ApiRespone } from '@util/ApiRespone';
 
 export class GroupController {
   async all(req: Request, res: Response) {
