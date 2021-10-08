@@ -9,6 +9,7 @@ import { socket } from '@util/Socket';
 import config from './app/config/app';
 import RequestLogger from '@util/Logger';
 import * as RateLimit from 'express-rate-limit';
+import * as methodOverride from 'method-override';
 const cors = require('cors');
 
 const app = express();
@@ -26,7 +27,13 @@ createConnection()
     });
     app.use(bodyParser.json());
     app.use(cors());
-    app.use((req: Request, res: Response, next) => RequestLogger(req, res, next));
+    app.use(methodOverride('_method'));
+    app.use((req: Request, res: Response, next) => {
+      if (req.body && typeof req.body === 'object' && '_method' in req.body) {
+        delete req.body['_method'];
+      }
+      return RequestLogger(req, res, next);
+    });
     app.use(limiter);
     /**
      * Register all service that declared in /app/Configs/Providers

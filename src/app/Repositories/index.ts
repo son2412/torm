@@ -4,3 +4,4 @@ export * from './GroupRepository';
 export * from './MessageRepository';
 export * from './TopicRepository';
 export * from './DeviceRepository';
+export * from './UserGroupRepository'

@@ -29,3 +29,22 @@ export type LoginFacebook = {
   id: string;
   token: string;
 };
+
+export type paramDevice = {
+  user_id?: number;
+  token?: string;
+  platform?: string;
+};
+
+export declare type paramGroup = {
+  user_id?: number;
+  groupIds?: number[];
+  page_index?: number;
+  page_size?: number;
+};
+
+export declare type GroupData = {
+  creator_id?: number;
+  name?: string;
+  avatar?: string;
+};

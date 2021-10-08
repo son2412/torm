@@ -16,7 +16,8 @@ export class ApiRespone {
   }
 
   static paginate(data: any) {
-    if (!_.isArray(data) || !data.totalRow) {
+    console.log(data)
+    if (!_.isArray(data.data) || data.totalRow === undefined) {
       throw new Exception('Select Api Response Invalid!');
     }
     return {

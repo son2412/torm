@@ -1,11 +1,11 @@
 import { Router } from 'express';
 import { UserController } from '@controller/index';
-import { AuthMiddleware } from '@middleware/AuthMiddleware';
+import { AuthMiddleware, CheckRoleAdmin } from '@middleware/AuthMiddleware';
 
 const controller = new UserController();
 const router = Router();
 
-router.all('*', AuthMiddleware);
+router.all('*', [AuthMiddleware, CheckRoleAdmin]);
 router.get('/', controller.all);
 router.get('/:id', controller.detail);
 router.post('/', controller.addUser);

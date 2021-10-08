@@ -1,8 +1,9 @@
 import { Device } from '@entity/index';
 import { Exception } from '@util/Exception';
+import { paramDevice } from 'types/types';
 
 export class DeviceRepository {
-  async deleteDevice(id: number) {
+  async destroy(id: number) {
     const device = await Device.findOne({ id });
     await device.remove();
     return true;
@@ -17,9 +18,3 @@ export class DeviceRepository {
     return device;
   }
 }
-
-type paramDevice = {
-  user_id?: number;
-  token?: string;
-  platform?: string;
-};

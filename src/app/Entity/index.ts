@@ -9,3 +9,4 @@ export * from './Topic';
 export * from './Block';
 export * from './Like';
 export * from './Device';
+export * from './UserGroup'
