@@ -1,33 +1,29 @@
 import { Message } from '@entity/index';
 import { Exception } from '@util/Exception';
-import { FirebaseService } from '@util/Firebase';
+import { MessageData, messageGroup } from 'types/types';
 
 export class MessageRepository {
-  async listMessageByGroup(params) {
-    const page_index = params.page_index || 1;
-    const page_size = params.page_size || 10;
+  async getMessageByGroup(params: messageGroup) {
+    const { group_id, page_index, page_size } = params;
+    const pageIndex = page_index || 1;
+    const pageSize = page_size || 10;
     const groups = await Message.createQueryBuilder('message')
-      .where('message.group_id = :group_id', { group_id: params.group_id })
+      .where('message.group_id = :group_id', { group_id: group_id })
       .orderBy('id', 'DESC')
-      .take(page_size)
-      .skip((page_index - 1) * page_size)
+      .take(pageSize)
+      .skip((pageIndex - 1) * pageSize)
       .getManyAndCount();
     return {
       data: groups[0],
       totalRow: groups[1],
-      totalPage: Math.ceil(groups[1] / page_size),
-      currentPage: page_index,
-      perPage: page_size
+      totalPage: Math.ceil(groups[1] / pageSize),
+      currentPage: pageIndex,
+      perPage: pageSize
     };
   }
 
-  async create(data) {
-    Object.assign(data, { created_at: new Date() });
-    const message = await Message.create(data).save();
-    new FirebaseService().createChildMessage(
-      data.group_id,
-      Object.assign(message, { created_at: `${message.created_at}` })
-    );
+  async create(data: MessageData) {
+    const message = await Message.create({ ...data, ...{ created_at: new Date() } }).save();
     return message;
   }
 }

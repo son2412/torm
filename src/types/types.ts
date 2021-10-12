@@ -48,3 +48,16 @@ export declare type GroupData = {
   name?: string;
   avatar?: string;
 };
+
+export declare type messageGroup = {
+  user_id?: number;
+  group_id?: number;
+  page_index?: number;
+  page_size?: number;
+};
+
+export declare type MessageData = {
+  sender_id?: number;
+  group_id?: number;
+  messgae?: string;
+};

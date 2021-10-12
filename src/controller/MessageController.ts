@@ -1,22 +1,22 @@
 import { Request, Response } from 'express';
-import { MessageRepository } from '@repository/index';
+import { MessageService } from '@service/index';
 import { ApiRespone } from '@util/ApiRespone';
+import { App } from '@provider/App';
+import * as Joi from '@hapi/joi';
 
 export class MessageController {
-  async all(req: Request, res: Response) {
-    Object.assign(req.query, { group_id: req.params.group_id });
-    try {
-      const result = await new MessageRepository().listMessageByGroup(req.query);
-      res.json(ApiRespone.paginate(result));
-    } catch (err) {
-      res.status(err.errorCode).json(ApiRespone.error(err));
-    }
-  }
-
   async create(req: Request, res: Response) {
-    Object.assign(req.body, { sender_id: req.user_id });
+    const { body, user_id } = req;
+    const valid = Joi.object({
+      group_id: Joi.number().required(),
+      message: Joi.string().required()
+    });
+    const { error, value } = valid.validate(body);
+    if (error) {
+      res.status(400).json(ApiRespone.error({ message: error.details[0].message, errorCode: 400 }));
+    }
     try {
-      const result = await new MessageRepository().create(req.body);
+      const result = await App.make(MessageService).store({ ...value, ...{ sender_id: user_id } });
       res.json(ApiRespone.item(result));
     } catch (err) {
       res.status(err.errorCode).json(ApiRespone.error(err));

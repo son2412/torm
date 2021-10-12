@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { GroupService } from '@service/index';
+import { GroupService, MessageService } from '@service/index';
 import { ApiRespone } from '@util/ApiRespone';
 import { App } from '@provider/App';
 import * as Joi from '@hapi/joi';
@@ -84,6 +84,24 @@ export class GroupController {
     try {
       const result = await App.make(GroupService).list(user_id);
       res.json(ApiRespone.collection(result));
+    } catch (err) {
+      res.status(err.errorCode).json(ApiRespone.error(err));
+    }
+  }
+
+  async messages(req: Request, res: Response) {
+    const { query, params, user_id } = req;
+    const valid = Joi.object({
+      page_index: Joi.string(),
+      page_size: Joi.string()
+    });
+    const { error, value } = valid.validate(query);
+    if (error) {
+      res.status(400).json(ApiRespone.error({ message: error.details[0].message, errorCode: 400 }));
+    }
+    try {
+      const result = await App.make(MessageService).index({ ...value, ...{ user_id, group_id: params.id } });
+      res.json(ApiRespone.paginate(result));
     } catch (err) {
       res.status(err.errorCode).json(ApiRespone.error(err));
     }

@@ -6,7 +6,6 @@ const controller = new MessageController();
 const router = Router();
 
 router.all('*', AuthMiddleware);
-router.get('/group/:group_id', controller.all);
 router.post('/', controller.create);
 
 export default router;

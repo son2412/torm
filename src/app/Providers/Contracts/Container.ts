@@ -1,4 +1,4 @@
-import { Exception } from '@util/Exception';
+import { Exception } from '../../Utilities/Exception';
 import * as crypto from 'crypto';
 
 export default class Container {

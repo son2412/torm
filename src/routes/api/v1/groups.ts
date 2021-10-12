@@ -12,5 +12,6 @@ router.get('/:id', controller.show);
 router.post('/', controller.store);
 router.put('/:id', controller.update);
 router.delete('/:id', controller.destroy);
+router.get('/:id/messages', controller.messages);
 
 export default router;
