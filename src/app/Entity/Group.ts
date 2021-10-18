@@ -26,6 +26,9 @@ export class Group extends BaseEntity {
   avatar: string;
 
   @Column()
+  token: string;
+
+  @Column()
   type: number;
 
   @Column()

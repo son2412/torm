@@ -33,6 +33,11 @@ export class createGroupsTable1593358862534 implements MigrationInterface {
             default: 1
           },
           {
+            name: 'token',
+            type: 'text',
+            isNullable: true
+          },
+          {
             name: 'deleted_at',
             type: 'datetime',
             isNullable: true
