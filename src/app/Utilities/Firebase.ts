@@ -1,4 +1,4 @@
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 export class FirebaseService {
   dbRef: any;
   options: any;
@@ -12,7 +12,7 @@ export class FirebaseService {
       messagingSenderId: process.env.MESSAGE_SENDER_ID,
       appId: process.env.APP_ID
     };
-    if (!firebase.apps.length) {
+    if (!firebase.getApps().length) {
       firebase.initializeApp(this.options);
     }
     this.dbRef = firebase.database().ref();

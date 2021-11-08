@@ -2,7 +2,9 @@ import { Request, Response } from 'express';
 import { AuthService } from '@service/index';
 import { ApiRespone } from '@util/ApiRespone';
 import { App } from '@provider/index';
-import * as Joi from '@hapi/joi';
+import * as Joi from 'joi';
+import { StatusCodes } from 'http-status-codes';
+import { InvalidInput } from '@const/error';
 
 export class AuthController {
   async signIn(req: Request, res: Response) {
@@ -11,24 +13,23 @@ export class AuthController {
       password: Joi.string().required()
     });
     const { error, value } = valid.validate(req.body);
-    if (error) {
-      res.status(400).json(ApiRespone.error({ message: error.details[0].message, errorCode: 400 }));
-    }
+    if (error) return res.status(StatusCodes.BAD_REQUEST).json(ApiRespone.error(InvalidInput));
+
     try {
       const result = await App.make(AuthService).login(value);
-      res.json(ApiRespone.item(result));
+      return res.json(ApiRespone.item(result));
     } catch (err) {
-      res.status(err.errorCode).json(ApiRespone.error(err));
+      return res.status(err.errorCode || StatusCodes.INTERNAL_SERVER_ERROR).json(ApiRespone.error(err));
     }
   }
 
   async signUp(req: Request, res: Response) {
-    const data = Object.assign(req.body, { status: 1 });
+    const { body } = req;
     try {
-      const result = await new AuthService().register(data);
-      res.json(ApiRespone.item(result));
+      const result = await new AuthService().register({ ...body, ...{ status: 1 } });
+      return res.json(ApiRespone.item(result));
     } catch (err) {
-      res.status(err.errorCode).json(ApiRespone.error(err));
+      return res.status(err.errorCode || StatusCodes.INTERNAL_SERVER_ERROR).json(ApiRespone.error(err));
     }
   }
 
@@ -38,14 +39,13 @@ export class AuthController {
       token: Joi.string().required()
     });
     const { error, value } = valid.validate(req.body);
-    if (error) {
-      res.status(400).json(ApiRespone.error({ message: error.details[0].message, errorCode: 400 }));
-    }
+    if (error) return res.status(StatusCodes.BAD_REQUEST).json(ApiRespone.error(InvalidInput));
+
     try {
       const result = await App.make(AuthService).signInFacebook(value);
-      res.json(ApiRespone.item(result));
+      return res.json(ApiRespone.item(result));
     } catch (err) {
-      res.status(err.errorCode).json(ApiRespone.error(err));
+      return res.status(err.errorCode || StatusCodes.INTERNAL_SERVER_ERROR).json(ApiRespone.error(err));
     }
   }
 
@@ -54,14 +54,12 @@ export class AuthController {
       token: Joi.string().required()
     });
     const { error, value } = valid.validate(req.body);
-    if (error) {
-      res.status(400).json(ApiRespone.error({ message: error.details[0].message, errorCode: 400 }));
-    }
+    if (error) return res.status(StatusCodes.BAD_REQUEST).json(ApiRespone.error(InvalidInput));
     try {
       const result = await App.make(AuthService).signInGoogle(value.token);
-      res.json(ApiRespone.item(result));
+      return res.json(ApiRespone.item(result));
     } catch (err) {
-      res.status(err.errorCode).json(ApiRespone.error(err));
+      return res.status(err.errorCode || StatusCodes.INTERNAL_SERVER_ERROR).json(ApiRespone.error(err));
     }
   }
 
@@ -72,14 +70,12 @@ export class AuthController {
       oauth_verifier: Joi.string().required()
     });
     const { error, value } = valid.validate(req.body);
-    if (error) {
-      res.status(400).json(ApiRespone.error({ message: error.details[0].message, errorCode: 400 }));
-    }
+    if (error) return res.status(StatusCodes.BAD_REQUEST).json(ApiRespone.error(InvalidInput));
     try {
       const result = await App.make(AuthService).signInTwitter(value);
-      res.json(ApiRespone.item(result));
+      return res.json(ApiRespone.item(result));
     } catch (err) {
-      res.status(err.errorCode).json(ApiRespone.error(err));
+      return res.status(err.errorCode || StatusCodes.INTERNAL_SERVER_ERROR).json(ApiRespone.error(err));
     }
   }
 }

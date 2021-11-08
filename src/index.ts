@@ -3,13 +3,13 @@ import 'reflect-metadata';
 import { createConnection } from 'typeorm';
 import * as express from 'express';
 import * as path from 'path';
-import * as bodyParser from 'body-parser';
 import routes from './routes';
 import { socket } from '@util/Socket';
 import config from './app/config/app';
 import RequestLogger from '@util/Logger';
 import * as RateLimit from 'express-rate-limit';
 import * as methodOverride from 'method-override';
+import { StatusCodes } from 'http-status-codes';
 const cors = require('cors');
 
 const app = express();
@@ -19,13 +19,16 @@ createConnection()
     const limiter = RateLimit({
       windowMs: 15 * 60 * 1000,
       max: 100,
-      handler: (req, res) => res.status(429).json({ success: false, errorCode: 429, message: 'Too many requests!' }),
+      handler: (req, res) =>
+        res
+          .status(StatusCodes.TOO_MANY_REQUESTS)
+          .json({ success: false, errorCode: StatusCodes.TOO_MANY_REQUESTS, message: 'Too many requests!' }),
       skip: (req, res) => {
         if (req.ip === '::ffff:127.0.0.1') return true;
         return false;
       }
     });
-    app.use(bodyParser.json());
+    app.use(express.urlencoded({ extended: true }), express.json(), express.text());
     app.use(cors());
     app.use(methodOverride('_method'));
     app.use((req: Request, res: Response, next) => {
