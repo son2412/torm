@@ -42,7 +42,7 @@ export class UserRepository {
     if (await this.getByEmail(data.email)) {
       throw new Exception('Email is existing', 404);
     }
-    const user = data.password ? { ...data, ...{ password: Auth.hash(data.password) } } : data;
+    const user: User = data.password ? { ...data, ...{ password: Auth.hash(data.password) } } : data;
     const result = await User.create(user).save();
     await UserRole.create({ user_id: result.id, role_id: 2 }).save();
     return result;

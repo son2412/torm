@@ -3,7 +3,7 @@ import { TopicData } from 'types/types';
 import { ImageRepository } from './ImageRepository';
 
 export class TopicRepository {
-  async listTopic(params) {
+  async index(params) {
     const page_index = params.page_index || 1;
     const page_size = params.page_size || 10;
     const topics = await Topic.createQueryBuilder('topic')
@@ -24,7 +24,7 @@ export class TopicRepository {
     };
   }
 
-  async create(data: TopicData) {
+  async store(data: TopicData) {
     const images = data.images;
     delete data['images'];
     const topic = await Topic.create(data).save();

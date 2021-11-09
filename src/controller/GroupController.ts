@@ -2,7 +2,9 @@ import { Request, Response } from 'express';
 import { GroupService, MessageService } from '@service/index';
 import { ApiRespone } from '@util/ApiRespone';
 import { App } from '@provider/App';
-import * as Joi from '@hapi/joi';
+import * as Joi from 'joi';
+import { StatusCodes } from 'http-status-codes';
+import { InvalidInput } from '@const/error';
 
 export class GroupController {
   async index(req: Request, res: Response) {
@@ -12,14 +14,13 @@ export class GroupController {
       page_size: Joi.string()
     });
     const { error, value } = valid.validate(query);
-    if (error) {
-      res.status(400).json(ApiRespone.error({ message: error.details[0].message, errorCode: 400 }));
-    }
+    if (error) return res.status(StatusCodes.BAD_REQUEST).json(ApiRespone.error(InvalidInput));
+
     try {
       const result = await App.make(GroupService).index({ ...value, ...{ user_id } });
-      res.json(ApiRespone.paginate(result));
+      return res.json(ApiRespone.paginate(result));
     } catch (err) {
-      res.status(err.errorCode).json(ApiRespone.error(err));
+      return res.status(err.errorCode || StatusCodes.INTERNAL_SERVER_ERROR).json(ApiRespone.error(err));
     }
   }
 
@@ -27,9 +28,9 @@ export class GroupController {
     const { id } = req.params;
     try {
       const result = await App.make(GroupService).show(Number(id));
-      res.json(ApiRespone.item(result));
+      return res.json(ApiRespone.item(result));
     } catch (err) {
-      res.status(err.errorCode).json(ApiRespone.error(err));
+      return res.status(err.errorCode || StatusCodes.INTERNAL_SERVER_ERROR).json(ApiRespone.error(err));
     }
   }
 
@@ -40,14 +41,13 @@ export class GroupController {
       avatar: Joi.string()
     });
     const { error, value } = valid.validate(body);
-    if (error) {
-      res.status(400).json(ApiRespone.error({ message: error.details[0].message, errorCode: 400 }));
-    }
+    if (error) return res.status(StatusCodes.BAD_REQUEST).json(ApiRespone.error(InvalidInput));
+
     try {
       const result = await App.make(GroupService).store({ ...value, ...{ creator_id: user_id } });
-      res.json(ApiRespone.item(result));
+      return res.json(ApiRespone.item(result));
     } catch (err) {
-      res.status(err.errorCode).json(ApiRespone.error(err));
+      return res.status(err.errorCode || StatusCodes.INTERNAL_SERVER_ERROR).json(ApiRespone.error(err));
     }
   }
 
@@ -58,14 +58,13 @@ export class GroupController {
       avatar: Joi.string()
     });
     const { error, value } = valid.validate(body);
-    if (error) {
-      res.status(400).json(ApiRespone.error({ message: error.details[0].message, errorCode: 400 }));
-    }
+    if (error) return res.status(StatusCodes.BAD_REQUEST).json(ApiRespone.error(InvalidInput));
+
     try {
       const result = await App.make(GroupService).update(Number(req.params.id), value);
-      res.json(ApiRespone.item(result));
+      return res.json(ApiRespone.item(result));
     } catch (err) {
-      res.status(err.errorCode).json(ApiRespone.error(err));
+      return res.status(err.errorCode || StatusCodes.INTERNAL_SERVER_ERROR).json(ApiRespone.error(err));
     }
   }
 
@@ -73,9 +72,9 @@ export class GroupController {
     const { id } = req.params;
     try {
       await App.make(GroupService).destroy(id);
-      res.json(ApiRespone.success());
+      return res.json(ApiRespone.success());
     } catch (err) {
-      res.status(err.errorCode).json(ApiRespone.error(err));
+      return res.status(err.errorCode || StatusCodes.INTERNAL_SERVER_ERROR).json(ApiRespone.error(err));
     }
   }
 
@@ -83,9 +82,9 @@ export class GroupController {
     const { user_id } = req;
     try {
       const result = await App.make(GroupService).list(user_id);
-      res.json(ApiRespone.collection(result));
+      return res.json(ApiRespone.collection(result));
     } catch (err) {
-      res.status(err.errorCode).json(ApiRespone.error(err));
+      return res.status(err.errorCode || StatusCodes.INTERNAL_SERVER_ERROR).json(ApiRespone.error(err));
     }
   }
 
@@ -96,14 +95,13 @@ export class GroupController {
       page_size: Joi.string()
     });
     const { error, value } = valid.validate(query);
-    if (error) {
-      res.status(400).json(ApiRespone.error({ message: error.details[0].message, errorCode: 400 }));
-    }
+    if (error) return res.status(StatusCodes.BAD_REQUEST).json(ApiRespone.error(InvalidInput));
+
     try {
       const result = await App.make(MessageService).index({ ...value, ...{ user_id, group_id: params.id } });
-      res.json(ApiRespone.paginate(result));
+      return res.json(ApiRespone.paginate(result));
     } catch (err) {
-      res.status(err.errorCode).json(ApiRespone.error(err));
+      return res.status(err.errorCode || StatusCodes.INTERNAL_SERVER_ERROR).json(ApiRespone.error(err));
     }
   }
 }

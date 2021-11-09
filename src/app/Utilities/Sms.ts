@@ -3,6 +3,7 @@ import * as AWS from 'aws-sdk';
 // import { Twilio } from 'twilio';
 import * as _ from 'lodash';
 import { Exception } from './Exception';
+import { StatusCodes } from 'http-status-codes';
 
 export class SendSms {
   options: any;
@@ -12,10 +13,10 @@ export class SendSms {
     if ((process.env.SMS_ENABLED as any) === true || process.env.SMS_ENABLED === 'true') {
       this.enabled = true;
       if (_.isNil(process.env.SMS_ACCESS_KEY)) {
-        throw new Exception('Missing configuration for SMS_ACCESS_KEY', 500);
+        throw new Exception('Missing configuration for SMS_ACCESS_KEY', StatusCodes.SERVICE_UNAVAILABLE);
       }
       if (_.isNil(process.env.SMS_SECRET_KEY)) {
-        throw new Exception('Missing configuration for SMS_SECRET_KEY', 500);
+        throw new Exception('Missing configuration for SMS_SECRET_KEY', StatusCodes.SERVICE_UNAVAILABLE);
       }
       if (process.env.SERVICE_SMS === 'nexmo') {
         this.options = {

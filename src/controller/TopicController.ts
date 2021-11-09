@@ -1,24 +1,38 @@
 import { Request, Response } from 'express';
-import { TopicRepository } from '@repository/index';
+import { TopicService } from '@service/index';
 import { ApiRespone } from '@util/ApiRespone';
+import * as Joi from 'joi';
+import { StatusCodes } from 'http-status-codes';
+import { InvalidInput } from '@const/error';
+import { App } from '@provider/App';
 
 export class TopicController {
-  async all(req: Request, res: Response) {
+  async index(req: Request, res: Response) {
+    const { query, user_id } = req;
+    const valid = Joi.object({
+      page_index: Joi.string(),
+      page_size: Joi.string()
+    });
+    const { error, value } = valid.validate(query);
+    if (error) return res.status(StatusCodes.BAD_REQUEST).json(ApiRespone.error(InvalidInput));
     try {
-      const result = await new TopicRepository().listTopic(req.query);
-      res.json(ApiRespone.paginate(result));
+      const result = await App.make(TopicService).index(value);
+      return res.json(ApiRespone.paginate(result));
     } catch (err) {
-      res.status(err.errorCode).json(ApiRespone.error(err));
+      return res.status(err.errorCode || StatusCodes.INTERNAL_SERVER_ERROR).json(ApiRespone.error(err));
     }
   }
 
-  async create(req: Request, res: Response) {
-    Object.assign(req.body, { user_id: req.user_id });
+  async store(req: Request, res: Response) {
+    const { body, user_id } = req;
+    const valid = Joi.object({});
+    const { error, value } = valid.validate(body);
+    if (error) return res.status(StatusCodes.BAD_REQUEST).json(ApiRespone.error(InvalidInput));
     try {
-      const result = await new TopicRepository().create(req.body);
-      res.json(ApiRespone.item(result));
+      const result = await App.make(TopicService).store({ ...value, ...{ user_id } });
+      return res.json(ApiRespone.item(result));
     } catch (err) {
-      res.status(err.errorCode).json(ApiRespone.error(err));
+      return res.status(err.errorCode || StatusCodes.INTERNAL_SERVER_ERROR).json(ApiRespone.error(err));
     }
   }
 }

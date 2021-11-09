@@ -1,7 +1,9 @@
-import firebase from 'firebase';
+import {getApps, initializeApp} from 'firebase/app';
+import {getDatabase} from 'firebase/database';
 export class FirebaseService {
   dbRef: any;
   options: any;
+  app: any;
   constructor() {
     this.options = {
       apiKey: process.env.API_KEY,
@@ -12,10 +14,10 @@ export class FirebaseService {
       messagingSenderId: process.env.MESSAGE_SENDER_ID,
       appId: process.env.APP_ID
     };
-    if (!firebase.apps.length) {
-      firebase.initializeApp(this.options);
+    if (!getApps().length) {
+      this.app = initializeApp(this.options);
     }
-    this.dbRef = firebase.database().ref();
+    this.dbRef = getDatabase(this.app);
   }
 
   createChildConversation(conversationId: number) {

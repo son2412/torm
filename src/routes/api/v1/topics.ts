@@ -6,7 +6,7 @@ const controller = new TopicController();
 const router = Router();
 
 router.all('*', AuthMiddleware);
-router.get('/', controller.all);
-router.post('/', controller.create);
+router.get('/', controller.index);
+router.post('/', controller.store);
 
 export default router;

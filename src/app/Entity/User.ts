@@ -64,10 +64,7 @@ export class User extends BaseEntity {
   })
   roles: Role[];
 
-  @OneToOne(
-    () => Image,
-    image => image.user
-  )
+  @OneToOne(() => Image, (image) => image.user)
   image: Image;
 
   @ManyToMany(() => Group)
@@ -83,4 +80,10 @@ export class User extends BaseEntity {
     }
   })
   groups: Group[];
+
+  toJSON() {
+    delete this.password;
+    delete this.social_id;
+    return this;
+  }
 }
