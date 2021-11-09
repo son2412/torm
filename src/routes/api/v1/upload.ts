@@ -18,10 +18,9 @@ async function uploadS3(req: Request, res: Response) {
 
   upload(req, res, function(error) {
     if (error) {
-      res.status(500);
-      res.json({ data: error.message, error_code: 1000 });
+      return res.status(500).json({ data: error.message, error_code: 1000 });
     } else {
-      res.json(req.files);
+      return res.json(req.files);
     }
   });
 }
