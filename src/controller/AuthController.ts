@@ -5,20 +5,25 @@ import { App } from '@provider/index';
 import * as Joi from 'joi';
 import { StatusCodes } from 'http-status-codes';
 import { InvalidInput } from '@const/error';
+import { log } from '../app/config/logger';
+
+const logger = log('Auth Controller');
 
 export class AuthController {
   async signIn(req: Request, res: Response) {
+    const { body, originalUrl, method, headers } = req;
     const valid = Joi.object({
       email: Joi.string().required(),
       password: Joi.string().required()
     });
-    const { error, value } = valid.validate(req.body);
+    const { error, value } = valid.validate(body);
     if (error) return res.status(StatusCodes.BAD_REQUEST).json(ApiRespone.error(InvalidInput));
 
     try {
       const result = await App.make(AuthService).login(value);
       return res.json(ApiRespone.item(result));
     } catch (err) {
+      logger.error(`Method: ${method} | FullPath: ${originalUrl} | IP: ${headers['x-forwarded-for']}`, err);
       return res.status(err.errorCode || StatusCodes.INTERNAL_SERVER_ERROR).json(ApiRespone.error(err));
     }
   }
