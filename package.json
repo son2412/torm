@@ -75,11 +75,6 @@
     "@const": "build/app/Constant",
     "@util": "build/app/Utilities"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "yarn lint"
-    }
-  },
   "scripts": {
     "start": "tsc && nodemon --watch ./src --exec ts-node -r tsconfig-paths/register ./src/index.ts",
     "dev": "tsc-watch  --onSuccess \"nodemon ./build/index.js\"",
