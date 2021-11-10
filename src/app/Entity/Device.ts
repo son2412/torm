@@ -27,5 +27,4 @@ export class Device extends BaseEntity {
   @ManyToOne(() => User)
   @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
   user: User;
-
 }

@@ -2,7 +2,7 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    let items = [
+    const items = [
       {
         creator_id: 2
       }

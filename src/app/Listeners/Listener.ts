@@ -1,4 +1,4 @@
-import { Exception } from '@service/Exception';
+import { Exception } from '@util/Exception';
 import path from 'path';
 export class Listener {
   static getName() {

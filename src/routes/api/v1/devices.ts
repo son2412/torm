@@ -6,7 +6,7 @@ const controller = new DeviceController();
 const router = Router();
 
 router.all('*', AuthMiddleware);
-router.post('/', controller.create);
-router.delete('/:id', controller.deleteDevice);
+router.post('/', controller.store);
+router.delete('/:id', controller.destroy);
 
 export default router;

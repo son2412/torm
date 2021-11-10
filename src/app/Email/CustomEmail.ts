@@ -1,7 +1,7 @@
 import * as nodemailer from 'nodemailer';
 import Style from './Style';
 import * as _ from 'lodash';
-import { Exception } from '@service/Exception';
+import { Exception } from '@util/Exception';
 
 export default class CustomEmail {
   private content: string;
@@ -51,7 +51,9 @@ export default class CustomEmail {
   }
 
   line(text = '', customStyle = null) {
-    this.content += _.isNil(customStyle) ? `<p style="${Style.paragraph}">${text}</p>` : `<p style="${Style.paragraph} ${customStyle}">${text}</p>`;
+    this.content += _.isNil(customStyle)
+      ? `<p style="${Style.paragraph}">${text}</p>`
+      : `<p style="${Style.paragraph} ${customStyle}">${text}</p>`;
     return this;
   }
 
@@ -78,7 +80,9 @@ export default class CustomEmail {
                   <img style="${Style.logo_img}" src="https://v2projectelearningdev.s3.ap-southeast-1.amazonaws.com/4/logo-1570181790575.png">
                 </div>
               </div>`;
-    html += _.isNil(this.customSubjectStyle) ? `<h1 style="${Style.subject}">${this.subject_email}</h1>` : `<h1 style="${Style.subject} ${this.customSubjectStyle}">${this.subject_email}</h1>`;
+    html += _.isNil(this.customSubjectStyle)
+      ? `<h1 style="${Style.subject}">${this.subject_email}</h1>`
+      : `<h1 style="${Style.subject} ${this.customSubjectStyle}">${this.subject_email}</h1>`;
     html += _.isNil(this.customGreetingStyle)
       ? `<div style="${Style.greeting}">${this.greeting_email}</div>`
       : `<div style="${Style.greeting} ${this.customGreetingStyle}">${this.greeting_email}</div>`;

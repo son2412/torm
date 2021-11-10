@@ -3,6 +3,7 @@ import * as AWS from 'aws-sdk';
 // import { Twilio } from 'twilio';
 import * as _ from 'lodash';
 import { Exception } from './Exception';
+import { StatusCodes } from 'http-status-codes';
 
 export class SendSms {
   options: any;
@@ -12,10 +13,10 @@ export class SendSms {
     if ((process.env.SMS_ENABLED as any) === true || process.env.SMS_ENABLED === 'true') {
       this.enabled = true;
       if (_.isNil(process.env.SMS_ACCESS_KEY)) {
-        throw new Exception('Missing configuration for SMS_ACCESS_KEY', 500);
+        throw new Exception('Missing configuration for SMS_ACCESS_KEY', StatusCodes.SERVICE_UNAVAILABLE);
       }
       if (_.isNil(process.env.SMS_SECRET_KEY)) {
-        throw new Exception('Missing configuration for SMS_SECRET_KEY', 500);
+        throw new Exception('Missing configuration for SMS_SECRET_KEY', StatusCodes.SERVICE_UNAVAILABLE);
       }
       if (process.env.SERVICE_SMS === 'nexmo') {
         this.options = {
@@ -71,9 +72,9 @@ export class SendSms {
       case 'sns':
         this.executeSns(receiver, text);
         break;
-      case 'twilio':
-        this.executeTwilio(receiver, text);
-        break;
+      // case 'twilio':
+      //   this.executeTwilio(receiver, text);
+      //   break;
       default:
         break;
     }
@@ -84,7 +85,7 @@ export class SendSms {
       if (err) {
         console.log(err);
       } else {
-        if (data.messages[0]['status'] === '0') {
+        if (data.messages[0].status === '0') {
           console.log('Message sent successfully.');
         } else {
           console.log(`Message failed with error: ${data.messages[0]['error-text']}`);
@@ -94,22 +95,25 @@ export class SendSms {
   }
 
   executeSns(receiver: string, text: string) {
-    this.getInstance().publish({ Message: text, Subject: process.env.SMS_SENDER, PhoneNumber: receiver }, (error, result) => {
-      if (error) {
-        console.log(error);
-      } else {
-        console.log(result);
+    this.getInstance().publish(
+      { Message: text, Subject: process.env.SMS_SENDER, PhoneNumber: receiver },
+      (error, result) => {
+        if (error) {
+          console.log(error);
+        } else {
+          console.log(result);
+        }
       }
-    });
+    );
   }
 
-  executeTwilio(receiver: string, text: string) {
-    // this.getInstance()
-    //   .messages.create({
-    //     body: text,
-    //     to: receiver,
-    //     from: process.env.SMS_SENDER
-    //   })
-    //   .then(message => console.log(message));
-  }
+  // executeTwilio(receiver: string, text: string) {
+  //   this.getInstance()
+  //     .messages.create({
+  //       body: text,
+  //       to: receiver,
+  //       from: process.env.SMS_SENDER
+  //     })
+  //     .then(message => console.log(message));
+  // }
 }

@@ -5,6 +5,7 @@ export class Auth {
   static hash(password) {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
   }
+
   static check(password, hash) {
     return bcrypt.compareSync(password, hash);
   }

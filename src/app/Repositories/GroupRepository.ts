@@ -1,56 +1,53 @@
-import { Group, Message, MESSAGE_TYPE_TEXT, TYPE_GROUP, TYPE_SINGLE } from '@entity/index';
-import { Exception } from '@service/Exception';
+import { Group, Message } from '@entity/index';
+import { Exception } from '@util/Exception';
 import { UserGroup } from '@entity/UserGroup';
 import { In } from 'typeorm';
-import { FirebaseService } from '@service/Firebase';
+import { GroupType, MessageType } from '@const/enum';
+import { GroupData, paramGroup } from 'types/types';
 
 export class GroupRepository {
-  async listGroup(params) {
-    const page_index = params.page_index || 1;
-    const page_size = params.page_size || 10;
-    const user_group = await UserGroup.find({ where: { user_id: params.user_id }, select: ['group_id'] });
-    const groupIds = user_group.map((x) => x.group_id);
+  async getGroupByIds(params: paramGroup) {
+    const { page_size, page_index, groupIds } = params;
+    const pageIndex = page_index || 1;
+    const pageSize = page_size || 10;
     if (!groupIds.length) {
       return {
         data: [],
         totalRow: 0,
         totalPage: 0,
-        currentPage: page_index,
-        perPage: page_size
+        currentPage: pageIndex,
+        perPage: pageSize
       };
     }
     const groups = await Group.createQueryBuilder('group')
       .leftJoinAndSelect('group.users', 'users')
       .leftJoinAndSelect('users.image', 'image')
       .where('group.id IN(:...groupIds)', { groupIds: groupIds })
-      .take(page_size)
-      .skip((page_index - 1) * page_size)
+      .take(pageSize)
+      .skip((pageIndex - 1) * pageSize)
       .getManyAndCount();
     return {
       data: groups[0],
       totalRow: groups[1],
-      totalPage: Math.ceil(groups[1] / page_size),
-      currentPage: page_index,
-      perPage: page_size
+      totalPage: Math.ceil(groups[1] / pageSize),
+      currentPage: pageIndex,
+      perPage: pageSize
     };
   }
 
-  async create(data) {
-    Object.assign(data, { type: TYPE_GROUP });
-    const group = await Group.create(data).save();
-    await UserGroup.create({ user_id: data.creator_id, group_id: group.id }).save();
-    new FirebaseService().createChildConversation(group.id);
+  async store(data: GroupData) {
+    const group = await Group.create({ ...data, ...{ type: GroupType.GROUP } }).save();
     return group;
   }
 
-  async detail(group_id: number) {
+  async show(group_id: number) {
     const group = await Group.findOne({ where: { id: group_id }, relations: ['users', 'users.image'] });
     if (!group) throw new Exception('Group not found !', 404);
     return group;
   }
 
-  async update(group_id: number, data) {
-    const group = await Group.findOne({ where: { id: group_id } });
+  async update(id: number, data: GroupData) {
+    const group = await Group.findOne({ where: { id: id } });
     if (!group) throw new Exception('Group not found !', 404);
     Object.assign(group, data);
     await group.save();
@@ -70,30 +67,33 @@ export class GroupRepository {
     const user_group = await UserGroup.find({ where: { user_id: user_id }, select: ['group_id'] });
     const groupIds = user_group.map((x) => x.group_id);
     if (groupIds.length > 0) {
-      const groups = await Group.find({ where: { type: TYPE_SINGLE, id: In(groupIds) }, relations: ['users', 'users.image'] });
+      const groups = await Group.find({
+        where: { type: GroupType.SINGLE, id: In(groupIds) },
+        relations: ['users', 'users.image']
+      });
       const find = groups.filter((g) => g.users.find((u) => u.id === target_id));
       if (find.length > 0) {
         return find[0];
       }
     }
     const group = await Group.create({ creator_id: user_id }).save();
-    const [me, target, message] = await Promise.all([
+    await Promise.all([
       UserGroup.create({ user_id: user_id, group_id: group.id }).save(),
       UserGroup.create({ user_id: target_id, group_id: group.id }).save(),
       Message.create({
         sender_id: user_id,
         group_id: group.id,
         message: 'Hello !',
-        type: MESSAGE_TYPE_TEXT,
+        type: MessageType.TEXT,
         created_at: new Date()
       }).save()
     ]);
     // new FirebaseService().createChildMessage(group.id, Object.assign(message, { created_at: `${message.created_at}` }));
-    const result = await this.detail(group.id);
+    const result = await this.show(group.id);
     return result;
   }
 
-  async delete(id: number) {
+  async destroy(id: number) {
     const group = await Group.findOne({ where: { id: id } });
     if (!group) throw new Exception('Group Not Found !', 404);
     await group.remove();
@@ -109,9 +109,7 @@ export class GroupRepository {
     return true;
   }
 
-  async listAllGroup(user_id: number) {
-    const user_group = await UserGroup.find({ where: { user_id: user_id }, select: ['group_id'] });
-    const groupIds = user_group.map((x) => x.group_id);
+  async listGroupByIds(groupIds: number[]) {
     if (!groupIds.length) {
       return [];
     }

@@ -2,8 +2,8 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    let password = '$2a$08$KHJeGvYdcD0iCv4bkyLDh.lWrMZ1/ol3AXE9TAJUAq8OWiilR84cW';
-    let items = [
+    const password = '$2a$08$KHJeGvYdcD0iCv4bkyLDh.lWrMZ1/ol3AXE9TAJUAq8OWiilR84cW';
+    const items = [
       {
         first_name: 'super',
         last_name: 'admin',

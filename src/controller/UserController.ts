@@ -1,14 +1,15 @@
 import { Request, Response } from 'express';
 import { UserRepository } from '@repository/index';
-import { ApiRespone } from '@service/ApiRespone';
+import { ApiRespone } from '@util/ApiRespone';
+import { StatusCodes } from 'http-status-codes';
 
 export class UserController {
   async all(req: Request, res: Response) {
     try {
       const result = await new UserRepository().getAll(req.query);
-      res.json(ApiRespone.paginate(result));
+      return res.json(ApiRespone.paginate(result));
     } catch (err) {
-      res.status(err.errorCode).json(ApiRespone.error(err));
+      return res.status(err.errorCode || StatusCodes.INTERNAL_SERVER_ERROR).json(ApiRespone.error(err));
     }
   }
 

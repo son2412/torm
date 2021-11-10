@@ -8,6 +8,7 @@ export class SendWelcomeEmailNotification {
     this.via = this.via.bind(this);
     this.toMail = this.toMail.bind(this);
   }
+
   via() {
     return [MAIL];
   }

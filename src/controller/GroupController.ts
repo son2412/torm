@@ -1,89 +1,107 @@
 import { Request, Response } from 'express';
-import { GroupRepository } from '@repository/index';
-import { ApiRespone } from '@service/ApiRespone';
+import { GroupService, MessageService } from '@service/index';
+import { ApiRespone } from '@util/ApiRespone';
+import { App } from '@provider/App';
+import * as Joi from 'joi';
+import { StatusCodes } from 'http-status-codes';
+import { InvalidInput } from '@const/error';
 
 export class GroupController {
-  async all(req: Request, res: Response) {
-    Object.assign(req.query, { user_id: req.user_id });
+  async index(req: Request, res: Response) {
+    const { query, user_id } = req;
+    const valid = Joi.object({
+      page_index: Joi.string(),
+      page_size: Joi.string()
+    });
+    const { error, value } = valid.validate(query);
+    if (error) return res.status(StatusCodes.BAD_REQUEST).json(ApiRespone.error(InvalidInput));
+
     try {
-      const result = await new GroupRepository().listGroup(req.query);
-      res.json(ApiRespone.paginate(result));
+      const result = await App.make(GroupService).index({ ...value, ...{ user_id } });
+      return res.json(ApiRespone.paginate(result));
     } catch (err) {
-      res.status(err.errorCode).json(ApiRespone.error(err));
+      return res.status(err.errorCode || StatusCodes.INTERNAL_SERVER_ERROR).json(ApiRespone.error(err));
     }
   }
 
-  async detail(req: Request, res: Response) {
+  async show(req: Request, res: Response) {
+    const { id } = req.params;
     try {
-      const result = await new GroupRepository().detail(Number(req.params.id));
-      res.json(ApiRespone.item(result));
+      const result = await App.make(GroupService).show(Number(id));
+      return res.json(ApiRespone.item(result));
     } catch (err) {
-      res.status(err.errorCode).json(ApiRespone.error(err));
+      return res.status(err.errorCode || StatusCodes.INTERNAL_SERVER_ERROR).json(ApiRespone.error(err));
     }
   }
 
-  async create(req: Request, res: Response) {
-    Object.assign(req.body, { creator_id: req.user_id });
+  async store(req: Request, res: Response) {
+    const { body, user_id } = req;
+    const valid = Joi.object({
+      name: Joi.string(),
+      avatar: Joi.string()
+    });
+    const { error, value } = valid.validate(body);
+    if (error) return res.status(StatusCodes.BAD_REQUEST).json(ApiRespone.error(InvalidInput));
+
     try {
-      const result = await new GroupRepository().create(req.body);
-      res.json(ApiRespone.item(result));
+      const result = await App.make(GroupService).store({ ...value, ...{ creator_id: user_id } });
+      return res.json(ApiRespone.item(result));
     } catch (err) {
-      res.status(err.errorCode).json(ApiRespone.error(err));
+      return res.status(err.errorCode || StatusCodes.INTERNAL_SERVER_ERROR).json(ApiRespone.error(err));
     }
   }
 
   async update(req: Request, res: Response) {
+    const { body } = req;
+    const valid = Joi.object({
+      name: Joi.string(),
+      avatar: Joi.string()
+    });
+    const { error, value } = valid.validate(body);
+    if (error) return res.status(StatusCodes.BAD_REQUEST).json(ApiRespone.error(InvalidInput));
+
     try {
-      const result = await new GroupRepository().update(Number(req.params.id), req.body);
-      res.json(ApiRespone.item(result));
+      const result = await App.make(GroupService).update(Number(req.params.id), value);
+      return res.json(ApiRespone.item(result));
     } catch (err) {
-      res.status(err.errorCode).json(ApiRespone.error(err));
+      return res.status(err.errorCode || StatusCodes.INTERNAL_SERVER_ERROR).json(ApiRespone.error(err));
     }
   }
 
-  async leave(req: Request, res: Response) {
+  async destroy(req: Request, res: Response) {
+    const { id } = req.params;
     try {
-      await new GroupRepository().leave(Number(req.params.id), req.user_id);
-      res.json(ApiRespone.success());
+      await App.make(GroupService).destroy(id);
+      return res.json(ApiRespone.success());
     } catch (err) {
-      res.status(err.errorCode).json(ApiRespone.error(err));
+      return res.status(err.errorCode || StatusCodes.INTERNAL_SERVER_ERROR).json(ApiRespone.error(err));
     }
   }
 
-  async createChatWith(req: Request, res: Response) {
+  async list(req: Request, res: Response) {
+    const { user_id } = req;
     try {
-      const result = await new GroupRepository().createChatWith(req.user_id, req.body.target_id);
-      res.json(ApiRespone.item(result));
+      const result = await App.make(GroupService).list(user_id);
+      return res.json(ApiRespone.collection(result));
     } catch (err) {
-      res.status(err.errorCode).json(ApiRespone.error(err));
+      return res.status(err.errorCode || StatusCodes.INTERNAL_SERVER_ERROR).json(ApiRespone.error(err));
     }
   }
 
-  async deleteGroup(req: Request, res: Response) {
-    try {
-      const result = await new GroupRepository().delete(req.params.id);
-      res.json(ApiRespone.success());
-    } catch (err) {
-      res.status(err.errorCode).json(ApiRespone.error(err));
-    }
-  }
+  async messages(req: Request, res: Response) {
+    const { query, params, user_id } = req;
+    const valid = Joi.object({
+      page_index: Joi.string(),
+      page_size: Joi.string()
+    });
+    const { error, value } = valid.validate(query);
+    if (error) return res.status(StatusCodes.BAD_REQUEST).json(ApiRespone.error(InvalidInput));
 
-  async addUserToGroup(req: Request, res: Response) {
-    const user_id = req.body.user_id;
     try {
-      await new GroupRepository().addUserToGroup(req.params.id, user_id);
-      res.json(ApiRespone.success());
+      const result = await App.make(MessageService).index({ ...value, ...{ user_id, group_id: params.id } });
+      return res.json(ApiRespone.paginate(result));
     } catch (err) {
-      res.status(err.errorCode).json(ApiRespone.error(err));
-    }
-  }
-
-  async listAllGroup(req: Request, res: Response) {
-    try {
-      const result = await new GroupRepository().listAllGroup(req.user_id);
-      res.json(ApiRespone.collection(result));
-    } catch (err) {
-      res.status(err.errorCode).json(ApiRespone.error(err));
+      return res.status(err.errorCode || StatusCodes.INTERNAL_SERVER_ERROR).json(ApiRespone.error(err));
     }
   }
 }

@@ -2,7 +2,7 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    let items = [
+    const items = [
       {
         user_id: 1,
         role_id: 1
@@ -19,7 +19,7 @@ module.exports = {
 
     return queryInterface.bulkInsert(
       'user_role',
-      items.map(item => Object.assign(item, { created_at: new Date(), updated_at: new Date() }))
+      items.map((item) => Object.assign(item, { created_at: new Date(), updated_at: new Date() }))
     );
   },
 

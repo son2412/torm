@@ -1,34 +1,40 @@
 import { Request, Response } from 'express';
-import { AuthRepository } from '@repository/index';
-import { ApiRespone } from '@service/ApiRespone';
+import { AuthService } from '@service/index';
+import { ApiRespone } from '@util/ApiRespone';
 import { App } from '@provider/index';
-import * as Joi from '@hapi/joi';
+import * as Joi from 'joi';
+import { StatusCodes } from 'http-status-codes';
+import { InvalidInput } from '@const/error';
+import { log } from '../app/config/logger';
+
+const logger = log('Auth Controller');
 
 export class AuthController {
   async signIn(req: Request, res: Response) {
+    const { body, originalUrl, method, headers } = req;
     const valid = Joi.object({
       email: Joi.string().required(),
       password: Joi.string().required()
     });
-    const { error, value } = valid.validate(req.body);
-    if (error) {
-      res.status(400).json(ApiRespone.error({ message: error.details[0].message, errorCode: 400 }));
-    }
+    const { error, value } = valid.validate(body);
+    if (error) return res.status(StatusCodes.BAD_REQUEST).json(ApiRespone.error(InvalidInput));
+
     try {
-      const result = await App.make(AuthRepository).login(value);
-      res.json(ApiRespone.item(result));
+      const result = await App.make(AuthService).login(value);
+      return res.json(ApiRespone.item(result));
     } catch (err) {
-      res.status(err.errorCode || 500).json(ApiRespone.error(err));
+      logger.error(`Method: ${method} | FullPath: ${originalUrl} | IP: ${headers['x-forwarded-for']}`, err);
+      return res.status(err.errorCode || StatusCodes.INTERNAL_SERVER_ERROR).json(ApiRespone.error(err));
     }
   }
 
   async signUp(req: Request, res: Response) {
-    const data = Object.assign(req.body, { status: 1 });
+    const { body } = req;
     try {
-      const result = await new AuthRepository().register(data);
-      res.json(ApiRespone.item(result));
+      const result = await new AuthService().register({ ...body, ...{ status: 1 } });
+      return res.json(ApiRespone.item(result));
     } catch (err) {
-      res.status(err.errorCode || 500).json(ApiRespone.error(err));
+      return res.status(err.errorCode || StatusCodes.INTERNAL_SERVER_ERROR).json(ApiRespone.error(err));
     }
   }
 
@@ -38,14 +44,13 @@ export class AuthController {
       token: Joi.string().required()
     });
     const { error, value } = valid.validate(req.body);
-    if (error) {
-      res.status(400).json(ApiRespone.error({ message: error.details[0].message, errorCode: 400 }));
-    }
+    if (error) return res.status(StatusCodes.BAD_REQUEST).json(ApiRespone.error(InvalidInput));
+
     try {
-      const result = await App.make(AuthRepository).signInFacebook(value);
-      res.json(ApiRespone.item(result));
+      const result = await App.make(AuthService).signInFacebook(value);
+      return res.json(ApiRespone.item(result));
     } catch (err) {
-      res.status(err.errorCode || 500).json(ApiRespone.error(err));
+      return res.status(err.errorCode || StatusCodes.INTERNAL_SERVER_ERROR).json(ApiRespone.error(err));
     }
   }
 
@@ -54,14 +59,12 @@ export class AuthController {
       token: Joi.string().required()
     });
     const { error, value } = valid.validate(req.body);
-    if (error) {
-      res.status(400).json(ApiRespone.error({ message: error.details[0].message, errorCode: 400 }));
-    }
+    if (error) return res.status(StatusCodes.BAD_REQUEST).json(ApiRespone.error(InvalidInput));
     try {
-      const result = await App.make(AuthRepository).signInGoogle(value.token);
-      res.json(ApiRespone.item(result));
+      const result = await App.make(AuthService).signInGoogle(value.token);
+      return res.json(ApiRespone.item(result));
     } catch (err) {
-      res.status(err.errorCode || 500).json(ApiRespone.error(err));
+      return res.status(err.errorCode || StatusCodes.INTERNAL_SERVER_ERROR).json(ApiRespone.error(err));
     }
   }
 
@@ -72,14 +75,12 @@ export class AuthController {
       oauth_verifier: Joi.string().required()
     });
     const { error, value } = valid.validate(req.body);
-    if (error) {
-      res.status(400).json(ApiRespone.error({ message: error.details[0].message, errorCode: 400 }));
-    }
+    if (error) return res.status(StatusCodes.BAD_REQUEST).json(ApiRespone.error(InvalidInput));
     try {
-      const result = await App.make(AuthRepository).signInTwitter(value);
-      res.json(ApiRespone.item(result));
+      const result = await App.make(AuthService).signInTwitter(value);
+      return res.json(ApiRespone.item(result));
     } catch (err) {
-      res.status(err.errorCode || 500).json(ApiRespone.error(err));
+      return res.status(err.errorCode || StatusCodes.INTERNAL_SERVER_ERROR).json(ApiRespone.error(err));
     }
   }
 }

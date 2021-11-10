@@ -11,6 +11,7 @@ export class Notification {
     this.via = via;
     this.toMail = toMail;
   }
+
   setNotifiable(notifiable) {
     this.notifiable = notifiable;
   }
@@ -22,9 +23,10 @@ export class Notification {
       this.toMail(this.notifiable).send();
     }
   }
+
   execute() {
     const methods = this.via();
-    _.forEach(methods, method => {
+    _.forEach(methods, (method) => {
       switch (method) {
         case MAIL:
           this.executeEmailTask();

@@ -1,8 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, OneToOne, ManyToOne, BaseEntity } from 'typeorm';
 import { User } from '.';
 import { Group } from './Group';
-export const MESSAGE_TYPE_TEXT = 1;
-export const MESSAGE_TYPE_IMAGE = 2;
 
 @Entity('messages')
 export class Message extends BaseEntity {

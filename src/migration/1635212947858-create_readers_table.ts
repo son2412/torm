@@ -1,10 +1,10 @@
-import { MigrationInterface, QueryRunner, Table, TableForeignKey } from 'typeorm';
+import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class createGroupsTable1593358862534 implements MigrationInterface {
+export class createReadersTable1635212947858 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<any> {
     await queryRunner.createTable(
       new Table({
-        name: 'groups',
+        name: 'readers',
         columns: [
           {
             name: 'id',
@@ -14,28 +14,18 @@ export class createGroupsTable1593358862534 implements MigrationInterface {
             generationStrategy: 'increment'
           },
           {
-            name: 'creator_id',
+            name: 'user_id',
             type: 'int'
           },
           {
-            name: 'name',
-            type: 'text',
-            isNullable: true
-          },
-          {
-            name: 'avatar',
-            type: 'text',
-            isNullable: true
+            name: 'message_id',
+            type: 'int'
           },
           {
             name: 'type',
             type: 'int',
+            isNullable: true,
             default: 1
-          },
-          {
-            name: 'token',
-            type: 'text',
-            isNullable: true
           },
           {
             name: 'deleted_at',
@@ -56,18 +46,9 @@ export class createGroupsTable1593358862534 implements MigrationInterface {
       }),
       true
     );
-    await queryRunner.createForeignKey(
-      'groups',
-      new TableForeignKey({
-        columnNames: ['creator_id'],
-        referencedColumnNames: ['id'],
-        referencedTableName: 'users',
-        onDelete: 'CASCADE'
-      })
-    );
   }
 
   public async down(queryRunner: QueryRunner): Promise<any> {
-    await queryRunner.dropTable('groups');
+    await queryRunner.dropTable('readers');
   }
 }

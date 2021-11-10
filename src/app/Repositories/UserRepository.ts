@@ -1,6 +1,6 @@
-import { User, UserRole, IMAGEABLE_TYPE_USER, Image } from '@entity/index';
-import { Auth } from '@service/Auth';
-import { Exception } from '@service/Exception';
+import { User, UserRole } from '@entity/index';
+import { Auth } from '@util/Auth';
+import { Exception } from '@util/Exception';
 
 export class UserRepository {
   async getAll(params) {
@@ -8,9 +8,6 @@ export class UserRepository {
     const page_size = params.page_size || 10;
     const users = await User.createQueryBuilder('user')
       .leftJoinAndSelect('user.roles', 'roles')
-      // .leftJoinAndSelect('user.image', 'image', 'image.imageable_type = :imageable_type', {
-      //   imageable_type: IMAGEABLE_TYPE_USER
-      // })
       .orderBy('user.id', 'DESC')
       .take(page_size)
       .skip((page_index - 1) * page_size)
@@ -25,12 +22,7 @@ export class UserRepository {
   }
 
   async getById(id: number) {
-    const user = await User.createQueryBuilder('user')
-      // .leftJoinAndSelect('user.image', 'image', 'image.imageable_type = :imageable_type', {
-      //   imageable_type: IMAGEABLE_TYPE_USER
-      // })
-      .where('user.id = :id', { id: id })
-      .getOne();
+    const user = await User.createQueryBuilder('user').where('user.id = :id', { id: id }).getOne();
     return user;
   }
 
@@ -50,17 +42,9 @@ export class UserRepository {
     if (await this.getByEmail(data.email)) {
       throw new Exception('Email is existing', 404);
     }
-    const user = data.password ? { ...data, ...{ password: Auth.hash(data.password) } } : data;
+    const user: User = data.password ? { ...data, ...{ password: Auth.hash(data.password) } } : data;
     const result = await User.create(user).save();
     await UserRole.create({ user_id: result.id, role_id: 2 }).save();
-    // if (data.avatar) {
-    //   await Image.create({
-    //     imageable_id: result.id,
-    //     imageable_type: IMAGEABLE_TYPE_USER,
-    //     url: data.avatar,
-    //     type: 1
-    //   }).save();
-    // }
     return result;
   }
 
@@ -71,20 +55,6 @@ export class UserRepository {
     if (data.password) data.password = Auth.hash(data.password);
     Object.assign(user, data);
     await user.save();
-    // if (data.avatar) {
-    //   const avatar = await Image.findOne({ where: { imageable_id: user.id, imageable_type: IMAGEABLE_TYPE_USER } });
-    //   if (!avatar) {
-    //     await Image.create({
-    //       imageable_id: user.id,
-    //       imageable_type: IMAGEABLE_TYPE_USER,
-    //       url: data.avatar,
-    //       type: 1
-    //     }).save();
-    //   } else {
-    //     avatar.url = data.avatar;
-    //     await avatar.save();
-    //   }
-    // }
     return user;
   }
 
@@ -93,5 +63,14 @@ export class UserRepository {
     if (!user) throw new Exception('User Not Found !', 404);
     await user.remove();
     return true;
+  }
+
+  async show(id: number) {
+    const user = await User.createQueryBuilder('user')
+      .leftJoinAndSelect('user.roles', 'roles')
+      .where('user.deleted_at is null')
+      .andWhere('user.id = :id', { id: id })
+      .getOne();
+    return user;
   }
 }

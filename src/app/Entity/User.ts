@@ -1,9 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, OneToOne, BaseEntity } from 'typeorm';
 import { Role, Image } from '.';
-import * as _ from 'lodash';
 import { Group } from './Group';
-export const LOGIN_TYPE_FACEBOOK = 1;
-export const LOGIN_TYPE_GOOGLE = 2;
 
 @Entity('users')
 export class User extends BaseEntity {
@@ -66,10 +63,7 @@ export class User extends BaseEntity {
   })
   roles: Role[];
 
-  @OneToOne(
-    () => Image,
-    image => image.user
-  )
+  @OneToOne(() => Image, (image) => image.user)
   image: Image;
 
   @ManyToMany(() => Group)
@@ -85,4 +79,10 @@ export class User extends BaseEntity {
     }
   })
   groups: Group[];
+
+  toJSON() {
+    delete this.password;
+    delete this.social_id;
+    return this;
+  }
 }
