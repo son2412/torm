@@ -2,15 +2,14 @@ import { Group, Message } from '@entity/index';
 import { Exception } from '@util/Exception';
 import { UserGroup } from '@entity/UserGroup';
 import { In } from 'typeorm';
-import { FirebaseService } from '@util/Firebase';
 import { GroupType, MessageType } from '@const/enum';
 import { GroupData, paramGroup } from 'types/types';
 
 export class GroupRepository {
   async getGroupByIds(params: paramGroup) {
     const { page_size, page_index, groupIds } = params;
-    const pageIndex = params.page_index || 1;
-    const pageSize = params.page_size || 10;
+    const pageIndex = page_index || 1;
+    const pageSize = page_size || 10;
     if (!groupIds.length) {
       return {
         data: [],
@@ -78,7 +77,7 @@ export class GroupRepository {
       }
     }
     const group = await Group.create({ creator_id: user_id }).save();
-    const [me, target, message] = await Promise.all([
+    await Promise.all([
       UserGroup.create({ user_id: user_id, group_id: group.id }).save(),
       UserGroup.create({ user_id: target_id, group_id: group.id }).save(),
       Message.create({

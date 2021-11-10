@@ -1,7 +1,5 @@
 import { MessageRepository } from '@repository/index';
-import { FirebaseService } from '@util/Firebase';
 import { MessageData, messageGroup } from 'types/types';
-
 
 const repository = new MessageRepository();
 export class MessageService {

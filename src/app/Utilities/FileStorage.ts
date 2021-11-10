@@ -65,9 +65,9 @@ export class FileStorage {
         bucket: process.env.S3_BUCKET_NAME,
         acl: 'public-read',
         contentType: (req: Request, file, cb) => {
-          file.stream.once('data', function(firstChunk) {
-            var type = fileType(firstChunk);
-            var mime;
+          file.stream.once('data', function (firstChunk) {
+            const type = fileType(firstChunk);
+            let mime;
             if (isSvg(firstChunk)) {
               mime = 'image/svg+xml';
             } else if (header === true && isPdf(firstChunk)) {
@@ -79,7 +79,7 @@ export class FileStorage {
                 mime = 'application/octet-stream';
               }
             }
-            var outStream = new stream.PassThrough();
+            const outStream = new stream.PassThrough();
             outStream.write(firstChunk);
             file.stream.pipe(outStream);
 
@@ -87,19 +87,33 @@ export class FileStorage {
           });
         },
         cacheControl: 'max-age=31536000',
-        key: function(req: Request, file, cb) {
+        key: function (req: Request, file, cb) {
           if (req.user_id) {
-            cb(null, req.user_id + '/' + _.kebabCase(path.basename(file.originalname, path.extname(file.originalname)) + Date.now()) + path.extname(file.originalname));
+            cb(
+              null,
+              req.user_id +
+                '/' +
+                _.kebabCase(path.basename(file.originalname, path.extname(file.originalname)) + Date.now()) +
+                path.extname(file.originalname)
+            );
           } else {
-            cb(null, _.kebabCase(path.basename(file.originalname, path.extname(file.originalname)) + Date.now()) + path.extname(file.originalname));
+            cb(
+              null,
+              _.kebabCase(path.basename(file.originalname, path.extname(file.originalname)) + Date.now()) +
+                path.extname(file.originalname)
+            );
           }
         }
       });
     } else {
       storage = multer.diskStorage({
         destination: this.folder,
-        filename: function(res, file, cb) {
-          cb(null, _.kebabCase(path.basename(file.originalname, path.extname(file.originalname))) + path.extname(file.originalname));
+        filename: function (res, file, cb) {
+          cb(
+            null,
+            _.kebabCase(path.basename(file.originalname, path.extname(file.originalname))) +
+              path.extname(file.originalname)
+          );
         }
       });
     }

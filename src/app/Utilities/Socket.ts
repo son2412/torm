@@ -1,6 +1,6 @@
-const socketio = require('socket.io');
 import * as auth from '../Middleware/AuthMiddleware';
 import { User } from '@entity/index';
+const socketio = require('socket.io');
 export enum chanelName {
   REALTIME = '/realtime'
 }
@@ -18,7 +18,6 @@ export function socket(server) {
       io = socketio(server);
       const nsp = io.of(chanelName.REALTIME);
       nsp.on('connection', async function (socket: any) {
-        // console.log(`${socket.id} connected`);
         const token = socket.handshake.query.token;
         const [err, decode] = auth.decodeToken(token);
         if (err) {
@@ -35,7 +34,7 @@ export function socket(server) {
           if (!data) {
             return;
           }
-          const roomName = `any`;
+          const roomName = 'any';
           socket.join(roomName);
           const countMember = getRoomConnections(chanelName.REALTIME, roomName);
           createEvent(chanelName.REALTIME, roomName, {
@@ -47,7 +46,7 @@ export function socket(server) {
           if (!data) {
             return;
           }
-          const roomName = `any`;
+          const roomName = 'any';
           socket.leave(roomName);
 
           setTimeout(() => {
@@ -62,7 +61,7 @@ export function socket(server) {
           if (!data) {
             return;
           }
-          const roomName = `any`
+          const roomName = 'any';
           setTimeout(() => {
             createEvent(chanelName.REALTIME, roomName, {
               data: data,
@@ -96,7 +95,7 @@ function getRoomConnections(nameSpace, roomName) {
 }
 
 export function getLength(namespace, room) {
-  let roomVideo = io.of(namespace).to(room).adapter.rooms[room];
+  const roomVideo = io.of(namespace).to(room).adapter.rooms[room];
   if (!roomVideo) {
     return 0;
   }

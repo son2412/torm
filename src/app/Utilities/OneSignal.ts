@@ -8,6 +8,7 @@ export class OneSignalService {
     this.service = new Client(process.env.APP_ID, process.env.API_KEY);
     return this.service;
   }
+
   async pushNotification(ids: number[], params: { tag: string; title: string; content: string }, data: any) {
     const filters = [];
     ids.map((x) => {
@@ -17,6 +18,7 @@ export class OneSignalService {
       } else {
         filters.push({ field: 'tag', key: params.tag, relation: '=', value: x });
       }
+      return true;
     });
     const notification: CreateNotificationBody = {
       headings: { en: params.title, ja: params.title, vi: params.title },

@@ -8,5 +8,6 @@ export default class AppServiceProvider extends ServiceProvider {
     App.singleton('SMS', SendSms);
     App.singleton('Emit', Emit);
   }
+
   boot() {}
 }

@@ -9,6 +9,7 @@ export default class Container {
     this.bindings = [];
     this.parameters = [];
   }
+
   /**
    * Register a binding with the container.
    *
@@ -26,6 +27,7 @@ export default class Container {
     }
     this.bindings[resolved_abstract] = { abstract, concrete, isSingleton };
   }
+
   /**
    * Register a binding with value.
    *
@@ -42,6 +44,7 @@ export default class Container {
     }
     this.bindings[resolved_abstract] = { abstract, value, useValue: true };
   }
+
   /**
    * Resolve the given type from the container.
    *
@@ -62,15 +65,15 @@ export default class Container {
         return new abstract();
       }
     } else {
-      if (this.bindings[resolved_abstract]['useValue'] === true) {
-        return this.bindings[resolved_abstract]['value'];
-      } else if (this.bindings[resolved_abstract]['isSingleton'] === true) {
-        if (this.bindings[resolved_abstract]['instance'] === undefined) {
-          this.bindings[resolved_abstract]['instance'] = new this.bindings[resolved_abstract]['concrete']();
+      if (this.bindings[resolved_abstract].useValue === true) {
+        return this.bindings[resolved_abstract].value;
+      } else if (this.bindings[resolved_abstract].isSingleton === true) {
+        if (this.bindings[resolved_abstract].instance === undefined) {
+          this.bindings[resolved_abstract].instance = new this.bindings[resolved_abstract].concrete();
         }
-        return this.bindings[resolved_abstract]['instance'];
+        return this.bindings[resolved_abstract].instance;
       } else {
-        return new this.bindings[resolved_abstract]['concrete']();
+        return new this.bindings[resolved_abstract].concrete();
       }
     }
   }
@@ -94,7 +97,7 @@ export default class Container {
    * @return bool
    */
   check(abstract) {
-    let resolved_abstract = this.resolveAbstract(abstract);
+    const resolved_abstract = this.resolveAbstract(abstract);
     if (this.bindings[resolved_abstract] === undefined) {
       return false;
     } else {

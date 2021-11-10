@@ -1,6 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, OneToOne, BaseEntity } from 'typeorm';
 import { Role, Image } from '.';
-import * as _ from 'lodash';
 import { Group } from './Group';
 
 @Entity('users')

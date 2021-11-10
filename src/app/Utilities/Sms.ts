@@ -72,9 +72,9 @@ export class SendSms {
       case 'sns':
         this.executeSns(receiver, text);
         break;
-      case 'twilio':
-        this.executeTwilio(receiver, text);
-        break;
+      // case 'twilio':
+      //   this.executeTwilio(receiver, text);
+      //   break;
       default:
         break;
     }
@@ -85,7 +85,7 @@ export class SendSms {
       if (err) {
         console.log(err);
       } else {
-        if (data.messages[0]['status'] === '0') {
+        if (data.messages[0].status === '0') {
           console.log('Message sent successfully.');
         } else {
           console.log(`Message failed with error: ${data.messages[0]['error-text']}`);
@@ -95,22 +95,25 @@ export class SendSms {
   }
 
   executeSns(receiver: string, text: string) {
-    this.getInstance().publish({ Message: text, Subject: process.env.SMS_SENDER, PhoneNumber: receiver }, (error, result) => {
-      if (error) {
-        console.log(error);
-      } else {
-        console.log(result);
+    this.getInstance().publish(
+      { Message: text, Subject: process.env.SMS_SENDER, PhoneNumber: receiver },
+      (error, result) => {
+        if (error) {
+          console.log(error);
+        } else {
+          console.log(result);
+        }
       }
-    });
+    );
   }
 
-  executeTwilio(receiver: string, text: string) {
-    // this.getInstance()
-    //   .messages.create({
-    //     body: text,
-    //     to: receiver,
-    //     from: process.env.SMS_SENDER
-    //   })
-    //   .then(message => console.log(message));
-  }
+  // executeTwilio(receiver: string, text: string) {
+  //   this.getInstance()
+  //     .messages.create({
+  //       body: text,
+  //       to: receiver,
+  //       from: process.env.SMS_SENDER
+  //     })
+  //     .then(message => console.log(message));
+  // }
 }

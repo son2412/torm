@@ -3,6 +3,11 @@ import { OAuth2Client } from 'google-auth-library';
 import Twitter from 'node-twitter-api';
 import OAuth from 'oauth';
 
+export type OAuthTwitter = {
+  oauth_token: string;
+  oauth_token_secret: string;
+  oauth_verifier: string;
+};
 export class OAuthClient {
   static async getFacebookUser(id: string, token: string) {
     return new Promise((resolve, reject) => {
@@ -17,7 +22,7 @@ export class OAuthClient {
       };
       request(options, (err, res, body) => {
         if (err) reject(err);
-        if (res.statusCode != 200) {
+        if (res.statusCode !== 200) {
           body = JSON.parse(body);
           return reject(body.error.message);
         }
@@ -84,9 +89,3 @@ export class OAuthClient {
     });
   }
 }
-
-export type OAuthTwitter = {
-  oauth_token: string;
-  oauth_token_secret: string;
-  oauth_verifier: string;
-};

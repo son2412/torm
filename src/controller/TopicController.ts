@@ -8,7 +8,7 @@ import { App } from '@provider/App';
 
 export class TopicController {
   async index(req: Request, res: Response) {
-    const { query, user_id } = req;
+    const { query } = req;
     const valid = Joi.object({
       page_index: Joi.string(),
       page_size: Joi.string()

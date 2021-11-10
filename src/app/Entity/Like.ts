@@ -31,5 +31,4 @@ export class Like extends BaseEntity {
   @ManyToOne(() => User)
   @JoinColumn({ name: 'target_id', referencedColumnName: 'id' })
   target: User;
-
 }

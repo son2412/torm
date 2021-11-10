@@ -1,5 +1,5 @@
-import {getApps, initializeApp} from 'firebase/app';
-import {getDatabase} from 'firebase/database';
+import { getApps, initializeApp } from 'firebase/app';
+import { getDatabase } from 'firebase/database';
 export class FirebaseService {
   dbRef: any;
   options: any;

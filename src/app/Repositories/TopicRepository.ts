@@ -26,7 +26,7 @@ export class TopicRepository {
 
   async store(data: TopicData) {
     const images = data.images;
-    delete data['images'];
+    delete data.images;
     const topic = await Topic.create(data).save();
     if (images && images.length) {
       await Promise.all([

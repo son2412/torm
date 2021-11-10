@@ -1,5 +1,5 @@
 import { TopicRepository } from '@repository/index';
-import { MessageData, messageGroup, TopicData } from 'types/types';
+import { TopicData } from 'types/types';
 
 const repository = new TopicRepository();
 export class TopicService {

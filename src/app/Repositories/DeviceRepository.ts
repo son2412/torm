@@ -1,5 +1,4 @@
 import { Device } from '@entity/index';
-import { Exception } from '@util/Exception';
 import { paramDevice } from 'types/types';
 
 export class DeviceRepository {

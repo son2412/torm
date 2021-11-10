@@ -1,9 +1,7 @@
 import { Request, Response, Router } from 'express';
 import { FileStorage } from '@util/FileStorage';
-import { AuthMiddleware } from '@middleware/AuthMiddleware';
 const router = Router();
 
-// router.all('*', AuthMiddleware);
 router.post('/s3', uploadS3);
 router.post('/server', upload);
 async function uploadS3(req: Request, res: Response) {

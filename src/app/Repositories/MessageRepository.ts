@@ -1,5 +1,4 @@
 import { Message } from '@entity/index';
-import { Exception } from '@util/Exception';
 import { MessageData, messageGroup } from 'types/types';
 
 export class MessageRepository {

@@ -9,3 +9,4 @@ app/Data
 .server
 .vscode
 test
+src/__tests__

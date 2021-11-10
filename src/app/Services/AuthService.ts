@@ -1,4 +1,3 @@
-import { getRepository } from 'typeorm';
 import { Auth } from '@util/Auth';
 import { Exception } from '@util/Exception';
 import { UserRepository } from '@repository/index';
@@ -21,16 +20,18 @@ export class AuthService {
     const user = await repository.getByEmail(data.email);
     if (!user) throw new Exception(UserNotFound.message, UserNotFound.errorCode, UserNotFound.errorText);
     const isValidPassword = Auth.check(data.password, user.password);
-    if (isValidPassword === false)
+    if (isValidPassword === false) {
       throw new Exception(PasswordNotMatch.message, PasswordNotMatch.errorCode, PasswordNotMatch.errorText);
+    }
     App.make('Emit').fire(new WellcomeEvent(user));
     return { token: Auth.generateToken(user) };
   }
 
   async register(data: SignUpData) {
     const repository = new UserRepository();
-    if (await repository.getByEmail(data.email))
+    if (await repository.getByEmail(data.email)) {
       throw new Exception(EmailExited.message, EmailExited.errorCode, EmailExited.errorText);
+    }
 
     const user = await repository.create(data);
     return { token: Auth.generateToken(user) };
@@ -70,7 +71,6 @@ export class AuthService {
   }
 
   async signInTwitter(data: OAuthTwitter) {
-    const repository = new UserRepository();
     const twitterInfo = await OAuthClient.getTwitterUser(data);
 
     return twitterInfo;

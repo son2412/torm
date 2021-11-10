@@ -48,8 +48,6 @@ export abstract class Repository {
     return this;
   }
 
-  whereAlias(cb) {}
-
   whereIn(column, value) {
     if (!_.isArray(value)) {
       throw new Exception('Value must be array');

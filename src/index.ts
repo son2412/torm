@@ -2,6 +2,7 @@ import 'module-alias/register';
 import 'reflect-metadata';
 import { createConnection } from 'typeorm';
 import * as express from 'express';
+import { Request, Response } from 'express';
 import * as path from 'path';
 import routes from './routes';
 import { socket } from '@util/Socket';
@@ -23,7 +24,7 @@ createConnection()
         res
           .status(StatusCodes.TOO_MANY_REQUESTS)
           .json({ success: false, errorCode: StatusCodes.TOO_MANY_REQUESTS, message: 'Too many requests!' }),
-      skip: (req, res) => {
+      skip: (req: Request) => {
         if (req.ip === '::ffff:127.0.0.1') return true;
         return false;
       }
@@ -33,7 +34,7 @@ createConnection()
     app.use(methodOverride('_method'));
     app.use((req: Request, res: Response, next) => {
       if (req.body && typeof req.body === 'object' && '_method' in req.body) {
-        delete req.body['_method'];
+        delete req.body._method;
       }
       return RequestLogger(req, res, next);
     });
@@ -47,6 +48,7 @@ createConnection()
       if (instance.boot) {
         instance.boot();
       }
+      return true;
     });
     app.use('/upload', express.static(process.env.PORT === 'local' ? 'src/uploads' : 'build/uploads'));
     app.use('/', routes);

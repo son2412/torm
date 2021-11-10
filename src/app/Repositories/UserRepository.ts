@@ -1,4 +1,4 @@
-import { User, UserRole, IMAGEABLE_TYPE_USER, Image } from '@entity/index';
+import { User, UserRole } from '@entity/index';
 import { Auth } from '@util/Auth';
 import { Exception } from '@util/Exception';
 

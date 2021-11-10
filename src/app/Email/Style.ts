@@ -66,5 +66,5 @@ export default {
           text-align: center;
           font-size: 14px;
       `,
-  content: ``
+  content: ''
 };

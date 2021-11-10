@@ -1,6 +1,5 @@
 import { WellcomeEvent } from '@event/WellcomeEvent';
 import { WellcomeListener } from '@listener/WellcomeListener';
-import { Emit } from '@util/Emit';
 import * as _ from 'lodash';
 import { App } from './App';
 import { ServiceProvider } from './ServiceProvider';

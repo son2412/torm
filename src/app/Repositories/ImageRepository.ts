@@ -1,5 +1,4 @@
 import { Image } from '@entity/index';
-import { Exception } from '@util/Exception';
 import { ImageData } from 'types/types';
 
 export class ImageRepository {

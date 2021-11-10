@@ -2,7 +2,7 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    let items = [
+    const items = [
       {
         user_id: 2,
         group_id: 1

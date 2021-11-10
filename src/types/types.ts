@@ -13,16 +13,16 @@ export type SignUpData = {
   birth?: string;
 };
 
-export type TopicData = {
-  title?: string;
-  images?: ImageData[];
-};
-
 export type ImageData = {
   imageable_id: number;
   imageable_type: number;
   url: string;
   type?: number;
+};
+
+export type TopicData = {
+  title?: string;
+  images?: ImageData[];
 };
 
 export type LoginFacebook = {
