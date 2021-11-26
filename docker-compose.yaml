@@ -3,8 +3,27 @@ services:
   nodejs:
     build: 
       context: .
+    image: torm-app
+    networks:
+      - backend
     volumes:
       - ./:/usr/src/app/
     ports:
       - $PORT:3000
     container_name: torm-api
+    restart: always
+  mysql:
+    image: mysql:5.7
+    networks:
+      - backend
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_PASS:-secret}
+      - MYSQL_USER=remote
+      - MYSQL_PASSWORD=${DB_PASS:-secret}
+      - MYSQL_DATABASE=${DB_NAME:-torm}
+    container_name: torm-mysql
+    ports:
+      - $DB_PORT:3306
+    restart: always
+networks:
+  backend:
