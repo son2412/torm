@@ -1,6 +1,8 @@
 version: "3.2"
 services:
   nodejs:
+    env_file:
+      - .env
     build: 
       context: .
     image: torm-app
@@ -8,8 +10,9 @@ services:
       - backend
     volumes:
       - ./:/usr/src/app/
+      - /usr/src/app/node_modules
     ports:
-      - $PORT:3000
+      - $PORT:${PORT:-3000}
     container_name: torm-api
     restart: always
   mysql:
