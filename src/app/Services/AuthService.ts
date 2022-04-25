@@ -7,6 +7,7 @@ import { App } from '@provider/index';
 import { WellcomeEvent } from '@event/WellcomeEvent';
 import { LoginType } from '@const/enum';
 import { EmailExited, PasswordNotMatch, UserNotFound } from '@const/error';
+import { t } from 'i18next';
 
 interface OAuthResponse {
   email: string;
@@ -30,7 +31,7 @@ export class AuthService {
   async register(data: SignUpData) {
     const repository = new UserRepository();
     if (await repository.getByEmail(data.email)) {
-      throw new Exception(EmailExited.message, EmailExited.errorCode, EmailExited.errorText);
+      throw new Exception(t(EmailExited.errorText), EmailExited.errorCode, EmailExited.errorText);
     }
 
     const user = await repository.create(data);

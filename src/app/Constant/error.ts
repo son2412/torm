@@ -30,6 +30,6 @@ export const PasswordNotMatch = {
 
 export const EmailExited = {
   message: 'Email Existed!',
-  errorText: 'EmailExited',
+  errorText: 'emailExisted',
   errorCode: 404
 };

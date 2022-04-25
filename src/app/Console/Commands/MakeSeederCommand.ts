@@ -1,6 +1,6 @@
 import { Command } from './Command';
 import * as fse from 'fs-extra';
-import * as moment from 'moment';
+import moment from 'moment';
 import * as path from 'path';
 
 export default class MakeSeederCommand extends Command {

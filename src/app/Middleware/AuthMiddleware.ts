@@ -2,6 +2,7 @@ import { TokenInvalid, TokenNotFound } from '@const/error';
 import { App } from '@provider/App';
 import { UserRepository } from '@repository/UserRepository';
 import { Request, Response, NextFunction } from 'express';
+import i18next from 'i18next';
 import { verify } from 'jsonwebtoken';
 
 export function AuthMiddleware(req: Request, res: Response, next: NextFunction) {
@@ -55,4 +56,10 @@ export const decodeToken = (token) => {
   }
 
   return [err, decodeData];
+};
+
+export const changeLanguage = (req: Request, res: Response, next: NextFunction) => {
+  const lang = req?.language;
+  if (lang) i18next.changeLanguage(lang);
+  next();
 };

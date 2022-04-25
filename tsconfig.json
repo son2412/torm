@@ -10,8 +10,9 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "sourceMap": true,
+    "esModuleInterop": true,
     "types": ["node", "@types/jest"],
-    "typeRoots": ["./src/types"],
+    "typeRoots": ["./src/types", "./src/locales"],
     "baseUrl": "./src",
     "paths": {
       "@controller/*": ["controller/*"],
@@ -27,7 +28,7 @@
       "@util/*": ["app/Utilities/*"],
     }
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "src/locales/**/*.json"],
   "exclude": ["node_modules", "**/*.spec.ts"],
   "files": ["node_modules/typescript/lib/lib.es6.d.ts"]
 }

@@ -1,17 +1,20 @@
 import 'module-alias/register';
 import 'reflect-metadata';
 import { createConnection } from 'typeorm';
-import * as express from 'express';
-import { Request, Response } from 'express';
+import express, { Request, Response } from 'express';
 import * as path from 'path';
 import routes from './routes';
 import { socket } from '@util/Socket';
 import config from './app/config/app';
 import RequestLogger from '@util/Logger';
-import * as RateLimit from 'express-rate-limit';
-import * as methodOverride from 'method-override';
+import RateLimit from 'express-rate-limit';
+import methodOverride from 'method-override';
 import { StatusCodes } from 'http-status-codes';
+import i18next from 'i18next';
+import Backend from 'i18next-fs-backend';
+// import i18nextMiddleware from 'i18next-http-middleware';
 const cors = require('cors');
+const middleware = require('i18next-http-middleware');
 
 const app = express();
 const http = require('http').Server(app);
@@ -29,6 +32,17 @@ createConnection()
         return false;
       }
     });
+    i18next
+      .use(Backend)
+      .use(middleware.LanguageDetector)
+      .init({
+        backend: {
+          loadPath: path.join(__dirname, '/locales/{{lng}}/{{ns}}.json')
+        },
+        fallbackLng: 'en',
+        preload: ['en', 'ja']
+      });
+    app.use(middleware.handle(i18next));
     app.use(express.urlencoded({ extended: true }), express.json(), express.text());
     app.use(cors());
     app.use(methodOverride('_method'));
